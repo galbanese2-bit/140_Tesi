@@ -1,0 +1,119 @@
+\begin{tikzpicture}[
+    % Definizione degli stili grafici per il disegno
+    cable/.style={double=blue!50, double distance=2.5pt, thick, line cap=squared},
+    vector/.style={-{Stealth[scale=1.2]}, blue, thick},
+    dimline/.style={black, thin},
+    dot/.style={circle, fill=black, inner sep=1.5pt}
+]
+
+% ==================== CONFIGURAZIONE A) SLACK ELEMENT ====================
+\begin{scope}[shift={(0,0)}]
+    % Coordinate della configurazione di riferimento
+    \coordinate (Pibar) at (0,0);
+    \coordinate (Pjbar) at (5,0);
+    \coordinate (Pbar) at (2.8,0);
+    
+    % Disegno elemento di riferimento (barra inferiore)
+    \draw[cable] (Pibar) -- (Pjbar);
+    
+    % Coordinate della configurazione corrente (cavo allentato)
+    \coordinate (Pi) at (0.3,1.6);
+    \coordinate (Pj) at (4.3,2.2);
+    \coordinate (P) at (2.4,1.7);
+    
+    % Vettori di spostamento (frecce blu)
+    \draw[vector] (Pibar) -- (Pi) node[midway, right, yshift=2pt] {$\underline{u}_i$};
+    \draw[vector] (Pjbar) -- (Pj) node[midway, left] {$\underline{u}_j$};
+    \draw[vector] (Pbar) -- (P) node[midway, right] {$\underline{u}_P$};
+    
+    % Cavo in configurazione "Slack" (curve morbide di Bezier)
+    \draw[cable] (Pi) .. controls (1.0,2.0) and (1.5,2.7) .. (1.8,2.7)
+                      .. controls (2.1,2.7) and (1.6,1.3) .. (1.8,1.35)
+                      .. controls (1.9,1.4) and (2.2,1.7) .. (P)
+                      -- (Pj);
+                      
+    % Etichette di nodi e regioni
+    \node[left, xshift=-2pt] at (Pibar) {$\bar{P}_i$};
+    \node[right, xshift=2pt] at (Pjbar) {$\bar{P}_j$};
+    \node[above right, xshift=-2pt] at (Pbar) {$\bar{P}$};
+    \node[above, yshift=2pt] at ($(Pibar)!0.4!(Pjbar)$) {$\bar{\Omega}_e$};
+    
+    \node[above left] at (Pi) {$P_i$};
+    \node[above right] at (Pj) {$P_j$};
+    \node[above right, yshift=2pt] at (P) {$P$};
+    \node[above, xshift=-4pt] at (1.1,2.0) {$\Omega_e$};
+    
+    % Quota inferiore per \bar{l}_e
+    \draw[dimline] (0,0) -- (0,-1.2);
+    \draw[dimline] (5,0) -- (5,-1.2);
+    \draw[dimline] (0,-1.0) -- (5,-1.0) node[midway, fill=white] {$\bar{l}_e$};
+    \node[dot] at (0,-1.0) {};
+    \node[dot] at (5,-1.0) {};
+    
+    % Quota superiore parallela per l_e
+    \coordinate (L1) at ($(Pi) + (-0.4, 1.1)$);
+    \coordinate (L2) at ($(Pj) + (-0.4, 1.1)$);
+    \draw[dimline] (Pi) -- (L1);
+    \draw[dimline] (Pj) -- (L2);
+    \draw[dimline] (L1) -- (L2) node[midway, fill=white] {$l_e$};
+    \node[dot] at (L1) {};
+    \node[dot] at (L2) {};
+    
+    % Didascalia grafica a)
+    \node[below] at (2.5,-1.6) {(a) elemento lasco};
+\end{scope}
+
+% ==================== CONFIGURAZIONE B) TENSE ELEMENT ====================
+\begin{scope}[shift={(7.5,0)}] % Traslato a destra per affiancarlo a quello sopra
+    % Coordinate di riferimento
+    \coordinate (Pibar) at (0,0);
+    \coordinate (Pjbar) at (5,0);
+    \coordinate (Pbar) at (3.5,0);
+    
+    \draw[cable] (Pibar) -- (Pjbar);
+    
+    % Coordinate configurazione corrente (rettilineo teso)
+    \coordinate (Pi) at (0,2.2);
+    \coordinate (Pj) at (4.7,0.8);
+    \coordinate (P) at (3.2,1.25);
+    
+    % Vettori di spostamento (frecce blu)
+    \draw[vector] (Pibar) -- (Pi) node[midway, left] {$\underline{u}_i$};
+    \draw[vector] (Pjbar) -- (Pj) node[midway, left, xshift=-1pt] {$\underline{u}_j$};
+    \draw[vector] (Pbar) -- (P) node[midway, left] {$\underline{u}_P$};
+    
+    % Cavo teso (linea retta)
+    \draw[cable] (Pi) -- (Pj);
+    
+    % Etichette
+    \node[left, xshift=-2pt] at (Pibar) {$\bar{P}_i$};
+    \node[right, xshift=2pt] at (Pjbar) {$\bar{P}_j$};
+    \node[above right, xshift=-2pt] at (Pbar) {$\bar{P}$};
+    \node[above, yshift=2pt] at ($(Pibar)!0.3!(Pjbar)$) {$\bar{\Omega}_e$};
+    
+    \node[above left] at (Pi) {$P_i$};
+    \node[above right] at (Pj) {$P_j$};
+    \node[above right] at (P) {$P$};
+    \node[above] at ($(Pi)!0.3!(Pj)$) {$\Omega_e$};
+    
+    % Quota inferiore per \bar{l}_e
+    \draw[dimline] (0,0) -- (0,-1.2);
+    \draw[dimline] (5,0) -- (5,-1.2);
+    \draw[dimline] (0,-1.0) -- (5,-1.0) node[midway, fill=white] {$\bar{l}_e$};
+    \node[dot] at (0,-1.0) {};
+    \node[dot] at (5,-1.0) {};
+    
+    % Quota superiore parallela per l_e
+    \coordinate (L1) at ($(Pi) + (0.4, 1.1)$);
+    \coordinate (L2) at ($(Pj) + (0.4, 1.1)$);
+    \draw[dimline] (Pi) -- (L1);
+    \draw[dimline] (Pj) -- (L2);
+    \draw[dimline] (L1) -- (L2) node[midway, fill=white] {$l_e$};
+    \node[dot] at (L1) {};
+    \node[dot] at (L2) {};
+    
+    % Didascalia grafica b)
+    \node[below] at (2.5,-1.6) {(b) elemento teso};
+\end{scope}
+
+\end{tikzpicture}

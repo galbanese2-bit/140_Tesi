@@ -1,0 +1,201 @@
+\chapter{Funi e reti soggette al peso proprio}
+Il problema dell'equilibrio delle funi è un tema centrale della meccanica strutturale e ha attirato l'interesse degli studiosi sin dall'antichità, grazie alla vasta diffusione di queste strutture in ambito civile, marittimo e architettonico. Le funi, infatti, rappresentano uno degli elementi portanti più antichi e al tempo stesso più efficienti, caratterizzati dalla capacità di trasmettere esclusivamente sforzi di trazione e di assumere forme determinate unicamente dalle condizioni di carico e dai vincoli applicati.
+L'analisi dell'equilibrio delle funi ha portato, nel corso dei secoli, allo sviluppo di alcuni dei problemi classici della meccanica, tra cui la determinazione della forma della catenaria, lo studio delle funi soggette a carichi distribuiti e la comprensione del ruolo della pretensione. Questi risultati, nati in un contesto matematico e fisico, costituiscono ancora oggi la base teorica per la modellazione delle strutture flessibili moderne, dalle grandi tensostrutture alle reti di sicurezza e alle barriere paramassi.
+In questo capitolo si introduce la meccanica delle funi soggette al peso proprio, partendo dai modelli fondamentali e dai risultati storici, per arrivare alla descrizione delle reti di funi, sistemi discreti complessi in cui l'interazione tra gli elementi genera comportamenti non lineari di grande interesse ingegneristico.
+
+\section{La meccanica delle funi}
+
+\subsection{la fune soggetta ad una forza concentrata}
+
+\subsection{La fune soggetta ad un carico verticale distribuito}\label{sub: fune soggetta ad un carico verticale distribuito}
+Il problema della fune soggetta ad un carico verticale distribuito sulla luce ha rivestito storicamente un ruolo di fondamentale interesse, in quanto spesso è stato assunto come una buona approssimazione del problema della fune soggetta al solo peso proprio. Tale approssimazione, tuttavia, si fonda su ipotesi semplificative che ne limitano la validità e che possono introdurre scostamenti non trascurabili rispetto al comportamento reale. Per mettere in evidenza le differenze indotte da queste ipotesi, si analizzano le soluzioni del problema secondo diversi modelli. In particolare, si considerano tre formulazioni: il modello di cavo inestensibile, il modello di cavo estensibile e un modello “rigoroso”, nel quale le ipotesi semplificative vengono progressivamente rilassate. Nella figura successiva è riportata schematicamente la geometria del problema nella configurazione deformata. Essendo il problema simmetrico rispetto all'asse $y$, allora le reazioni vincolari $H$ e $V$ agli estremi $A$ e $B$ risultano anch'esse simmetriche.
+
+\begin{figure}[htbp]
+    \centering
+    \input{143_capitoli/capitolo2/immagini_capitolo_2/fune_carico_distr.tex}
+    \caption{configurazione deformata di una fune soggetta ad un carico distribuito uniforme.}
+    \label{fig:fune_carico_distr}
+\end{figure}
+
+\subsubsection{Soluzione con cavo inestensibile}
+Consideriamo una fune inestensibile, cioè con rigidezza assiale molto maggiore dello sforzo normale che supponiamo si potrà sviluppare, soggetta ad un carico verticale uniformemente distribuito $p$ sulla distanza tra gli appoggi $l$. 
+In configurazione deformata, l'equilibrio di un tratto di fune compreso tra l'estremo $A$ ed una sezione generica di ascissa $x$ porta alla relazione: 
+
+\begin{equation}
+   H y(x) -  p \frac{l}{2} \left( \frac{l}{2} + x \right) + p \left( \frac{l}{2} + x \right)^{2} = 0
+\end{equation}
+La soluzione dell'equazione fornisce la relazione:
+\begin{equation}
+   y(x) = \frac{p}{2H} \left( \frac{l^{2}}{4} - x^{2} \right) 
+\end{equation}
+La fune assume quindi la forma di una parabola simmetrica rispetto all'asse verticale. 
+La freccia massima risulta quindi:
+\begin{equation}
+   f = \frac{pl^{2}}{8H}
+   \label{equazione_freccia}
+\end{equation}
+Conoscendo $p$, $l$ ed $f$, la geometria della configurazione deformata, è immediato ricavare il tiro orizzontale $H$. 
+Imponendo il parallelismo dello sforzo normale all'asse della fune per ciascun punto ed esprimendo la componente verticale in funzione del tiro orizzontale $H$ otterremo la seguente relazione: 
+\begin{equation}
+   N(x) = H\sqrt{1 + (y'(x))^{2}}
+   \label{sforzo_normale_cavo}
+\end{equation}
+Definiamo la lunghezza di un tratto infinitesimo dell'ascissa curvilinea della fune in configurazione deformata come:
+\begin{equation}
+  ds = \sqrt{1 + (y'(x))^{2}} dx
+  \label{def_ds}
+\end{equation}
+Allora, la lunghezza geometrica della fune in configurazione deformata è: 
+\begin{equation}
+ L = \int_{-\frac{L}{2}}^{\frac{L}{2}} ds\ = \int_{-\frac{l}{2}}^{\frac{l}{2}} \sqrt{1 + (y'(x))^{2}} dx\
+ \label{lunghezza_fune_parabola}
+\end{equation}
+Se la lunghezza in configurazione iniziale della fune è $L_0$, l'ipotesi di inestensibilità impone: 
+\begin{equation}
+   L = L_0
+   \label{congruenza_inestensibile}
+\end{equation}
+da cui si ricava il valore del tiro orizzontale $H$. 
+Questo modello, pur utile e semplice, presenta limiti importanti:
+\begin{itemize}
+   \item non permette di trattare funi con lunghezza iniziale $L_0 < l$
+   \item non consente di definire deformazioni e quindi criteri di rottura basati sulle deformazioni
+   \item non permette di considerare stati di pretensione iniziale
+\end{itemize}
+
+\subsubsection{Soluzione con modello di Irvine}
+Per superare i limiti del modello inestensibile, si introduce un legame costitutivo elastico lineare tra sforzo e deformazione. Assumendo piccole deformazioni, l'allungamento assiale può essere scritto come segue:
+\begin{equation}
+   \varepsilon = \frac{ds - ds_0}{ds_0} 
+   \label{eps_geo}
+\end{equation}
+Dove:
+\begin{description}
+    \item[$ds$]   tratto di ascissa curvilinea della fune in configurazione deformata
+    \item[$ds_0$] tratto di ascissa curvilinea della fune in configurazione iniziale
+\end{description}
+Il legame costitutivo elastico lineare è: 
+\begin{equation}
+   \varepsilon(x) = \frac{N(x)}{EA} 
+   \label{def_eps}
+\end{equation}
+Dalla \eqref{eps_geo} otteniamo: 
+\begin{equation}
+   ds_0 = \frac{ds}{1 + \varepsilon} 
+   \label{def_ds0}
+\end{equation}
+La lunghezza del cavo in configurazione iniziale, che in questo caso coincide con quella di riferimento, ricordando l'espressione \eqref{def_ds}, sarà quindi: 
+\begin{equation}
+   L_0= \int_{-\frac{l}{2}}^{\frac{l}{2}} \frac{EA}{EA + N(x)} \sqrt{1 + (y'(x))^{2}} dx
+\end{equation}
+L'allungamento totale dovuto ai carichi è: 
+\begin{equation}
+  \Delta{L} = \int_{-\frac{l}{2}}^{\frac{l}{2}} \varepsilon(x) \sqrt{1 + (y'(x))^{2}} dx 
+\end{equation}
+e la congruenza sulla lunghezza impone: 
+\begin{equation}
+L - L_0 = \Delta{L}
+\end{equation}
+da cui si ricava il tiro orizzontale $H$.
+Per includere la pretensione, distingueremo: 
+\begin{itemize}
+   \item lunghezza naturale del cavo in configurazione iniziale $L_{nat}$ 
+   \item lunghezza in configurazione di riferimento, già pretensionata, $L_0$
+\end{itemize}
+Se la fune è soggetta ad una pre-deformazione $\varepsilon_0$, vale: 
+\begin{equation}
+   L_0 = (1 + \varepsilon_0)L_{nat}
+\end{equation}
+ovvero: 
+\begin{equation}
+   L_{nat} = (1 - \varepsilon_0)L_0
+\end{equation}
+La congruenza diventa: 
+\begin{equation}
+   L_{nat} - L_0 = \Delta{L}
+   \label{congruenza_estensibile}
+\end{equation}
+che permette di determinare il tiro orizzontale H in presenza di pretensione. 
+Questo modello noto come modello di Irvine, rappresenta un notevole miglioramento rispetto al modello inestensibile, poichè: 
+\begin{itemize}
+    \item tiene conto delle deformazioni del materiale 
+    \item consente di distinguere le lunghezze della fune tra le varie configurazioni
+    \item consente di trattare funi con $L_nat < l$
+    \item è coerente con il comportamento reale dei cavi strutturali
+\end{itemize}
+
+\subsubsection{Confronto tra modelli}
+di seguito riportiamo due grafici utili ad un confronto tra i risultati ottenuti con i due diversi modelli per una fune con le seguenti caratteristiche: 
+\begin{itemize}
+    \item distanza tra gli appoggi pari ad $l = 10m$
+    \item lunghezza del cavo in configurazione di riferimento $L_0 = 10.05m$
+    \item modulo elastico E, pari a $E = 2100GPa$
+    \item un area $A$ della sezione trasversale circolare della fune di diametro $\phi = 2cm$ 
+    \item un valore del carico distribuito sulla proiezione orizzontale della fune $p = 24.3N/m$
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{143_capitoli/capitolo2/immagini_capitolo_2/confronto_geometria_parabola_1.pdf} 
+    \caption{Deformate della fune soggetta ad un carico distribuito sulla distanza tra gli appoggi.}
+    \label{fig:confronto_deformate_fune}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{143_capitoli/capitolo2/immagini_capitolo_2/confronto_sforzo_normale_parabola_1.pdf} 
+    \caption{Sforzi normali nella fune soggetta ad un carico distribuito sulla distanza tra gli appoggi.}
+    \label{fig:confronto_sforzi_normali_fune}
+\end{figure}
+I risultati mostrano che la pre-deformazione impressa $\varepsilon_0$ produce un aumento modesto dello sforzo normale (da $\sim 700\,\text{N}$ a $\sim 900\,\text{N}$), molto distante dai valori di pretensionamento che avremmo in elementi rettilinei ($\Delta N = EA\,\varepsilon \approx 132\,\text{kN}$).Poichè la lunghezza iniziale del cavo supera la distanza tra gli appoggi ($L_0 > l$), l'accorciamento imposto viene assorbito quasi interamente dalla rigidezza geometrica del sistema. Questo si traduce in una riduzione della freccia in mezzeria, piuttosto che in una deformazione elastica del materiale. L'aumento sensibile di tiro orizzontale osservato deriva esclusivamente dalla minor freccia indotta dalla deformazione iniziale come descritto dalla relazione \eqref{equazione_freccia}.
+
+\subsection{La fune soggetta al peso proprio - il problema della catenaria}
+
+\begin{figure}[htbp]
+    \centering
+    \input{143_capitoli/capitolo2/immagini_capitolo_2/fune_catenaria.tex}
+    \caption{Fune soggetta al peso proprio.}
+    \label{fig:fune_catenaria}
+\end{figure}
+Consideriamo ora la stessa fune analizzata in precedenza, modificando però la natura del carico a cui è soggetta. Invece di distribuire la forza in senso orizzontale sulla luce della fune, ipotizziamo che il carico verticale agisca per unità di lunghezza lungo lo sviluppo effettivo del cavo stesso. Si tratta, a tutti gli effetti, del problema di una fune soggetta al proprio peso proprio. Vediamo quindi, seguendo lo stesso approccio adottato per il carico distribuito sulla luce, quali sono i diversi modelli matematici che possiamo utilizzare per valutare la risposta meccanica del cavo in questa nuova configurazione.
+
+\subsubsection{Soluzione con cavo inestensibile}
+Sia $\gamma$ il peso specifico lineare in $N/m$ della fune. Considerando l'equilibrio di un tratto di cavo di lunghezza infinitesima della configurazione finale $ds$ abbiamo: 
+
+\begin{equation}
+   V(s_2)-V(s_1) + \gamma(s_2 - s_1) = 0
+\end{equation}
+da cui otteniamo l'espressione dell'equazione indefinita di equilibrio: 
+
+\begin{equation}
+   \frac{dV}{ds} + \gamma = 0 
+   \label{indefinita_equilibrio}
+\end{equation}
+Imponendo la condizione di parallelismo tra lo sforzo normale e la tangente al cavo mediante l'espressione: 
+\begin{equation}
+   V(s) = H\frac{dy}{dx}
+\end{equation}
+e sostituendola nell'espressione \eqref{indefinita_equilibrio} assieme alla definizione di $ds$ in accordo con l'equazione \eqref{def_ds}, otteniamo l'equazione differenzale da risolvere per ottenere la soluzione generale del problema: 
+\begin{equation}
+   \frac{d^{2}y}{dx^{2}} = - \frac{\gamma}{H} \sqrt{1 + \left( \frac{dy}{dx} \right)^{2}}
+\end{equation}
+Risolvendo l'equazione troviamo la soluzione generale del problema differenziale: 
+\begin{equation}
+   y(x) = - \frac{H}{\gamma}cosh \left[ \frac{\gamma}{H} (x - x_0)\right] + y_0
+   \label{equazione_generale_della_catenaria}
+\end{equation}
+che prende il nome di "Equazione della catenaria". Osserviamo da subito che la soluzione del problema del cavo soggetto al peso proprio appartiene all'insieme delle funzioni del coseno iperbolico e non più alla famiglia di funzioni della parabola, perciò le soluzioni alle due condizioni di carico hanno due forme diverse.  Imponendo anche il rispetto delle condizioni di bordo del problema, è possibile valutare la soluzione particolare al problema differenziale, che nel nostro caso sarà: 
+\begin{equation}
+   y(x) =  \frac{H}{\gamma} \left( cosh(\frac{\gamma l}{2H}) - cosh(\frac{\gamma x}{H})\right)
+   \label{equazione_particolare_della_catenaria}
+\end{equation}
+Notando che la relazione \eqref{sforzo_normale_cavo} è ancora valida ed imponendo la congruenza attraverso l'equazione \eqref{congruenza_inestensibile}, ipotizzando di conoscere la lunghezza $L_0$ del cavo in configurazione di riferimento, la distanza tra gli appoggi $l$ ed il peso lineare $\gamma$, l'incognita del problema rimane il tiro orizzontale sugli appoggi $H$. 
+Valutando $H$, il problema è risolto, tuttavia, come nel problema affrontato al capitolo ~\ref{sub: fune soggetta ad un carico verticale distribuito}, le ipotesi seppur semplificando di molto la soluzione ne limitano l'applicazione e quindi la validità dei risultati. 
+
+\subsubsection{Soluzione con modello di Irvine}
+Rimanendo valide le equazioni relative all'equilibrio della fune in configurazione deformata ed introducendo le relazioni sulla deformabilità, imponendo la congruenza come visto nella relazione \eqref{congruenza_estensibile}, otteniamo il tiro orizzontale $H$. 
+Come nella soluzione con modello di Irvine al problema del cavo soggetto ad un carico verticale distribuito sulla distanza tra gli appoggi, anche in questo caso è possibile tener conto dell'applicazione di una deformazione iniziale $\varepsilon_0$.
+
+
+
+

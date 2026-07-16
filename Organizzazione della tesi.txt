@@ -1,0 +1,119 @@
+Come organizzo la tesi? 
+
+Con il professore, avevamo tirato giù una bozza di tesi: 
+
+- CAPITOLO 1 - introduzione 
+
+
+- CAPITOLO 1.1 - PREGRESSI DELLA TESI, DA COSA PARTIAMO ( come posso chiamarlo? )
+  computazionalmente cosa introduciamo? questo potrebbe essere sostituito tramite un abstract 
+
+Riferimento alla tesi Fisicaro, riferimento su cui si basa la mia tesi, un applicazione alle reti in ingegneria civile - edile (come posso chiamarlo questo capitolo? alla fine 
+
+- CAPITOLO 1.2 - le reti in ingegneria civile/edile 
+ 
+ CAP 1.2.1. Reti di sicurezza - Safety nets  
+ CAP 1.2.2. Reti anticalcinacci
+ CAP 1.2.3. Falling Rock kit 
+ CAP 1.2.4. Applicazioni architettoniche - coperture famose + vedi Carl Stahl Architektur
+ CAP 1.2.5. Altre applicazioni (parchi avventura, reti sportive ) 
+
+- CAPITOLO 2 - Funi e reti soggette al peso proprio 
+
+- CAPITOLO 2.1 - La meccanica delle funi 
+  
+ CAP 2.1.1 Il cavo soggetto ad una forza concentrata 
+ CAP 2.1.2 Il cavo soggetto ad un carico distribuito verticale 
+ CAP 2.1.3 la fune soggetta al peso proprio - il problema della catenaria
+ CAP 2.1.4 funi molto tese - Catenaria vs parabola 
+
+  CAPITOLO 2.2 - il Position-based Finite Element Formulation
+ CAP 2.2.1. Differenze con la formulazione FEM 
+ CAP 2.2.2. Soluzione del problema della catenaria 
+ CAP 2.2.3. Confronto tra le soluzioni ottenute 
+
+- CAPITOLO 2.3 - Reti di funi 
+ CAP 2.3.1. Le reti di funi soggette al peso proprio - casi
+ (tra questi casi potremmo portare dei casi relativi a: 
+ - configurazioni di riferimento 
+ - vincoli differenti 
+ - configurazioni della maglia 
+ CAP 2.3.2. Le reti di funi soggette ad un carico concentrato
+ 
+ -CAPITOLO 3 - La prova quasi-statica di assorbimento dell'energia 
+ descrizione de "La prova di assorbimento di energia secondo la UNI 1263-1" 
+ - CAPITOLO 3.1 - La formulazione Lagrangiana del problema di contatto 
+ CAP 3.1.1. Modellazione del contatto mediante l'introduzione delle slack variables 
+ CAP 3.1.2. La formulazione del contatto con gestione dell'active set  
+ 
+ - CAPITOLO 3.2 - la prova di carico in controllo di spostamento
+ CAP 3.2.1  Il solver quasi statico 
+ CAP 3.2.2  Criterio di arresto della simulazione 
+
+-CAPITOLO 4 - Risultati
+CAPITOLO 4.1 - Simulazione della prova di assorbimento dell'energia 
+CAPITOLO 4.2 - Validazione dei risultati con altri modelli 
+CAPITOLO 4.3 - Confronto con prove sperimentali 
+
+-CAPITOLO 5 - CONCLUSIONI 
+possibilità di utilizzo del codice ed integrazioni future, ad esempio, si potrebbe pensare allo sviluppo dinamico del problema. 
+
+campagna sperimentale per poter ottenere le caratteristiche meccaniche degli elementi per poi calibrare il modello su tali risultati. 
+
+altro… 
+
+APPENDICE 
+
+Qui metteremo i codici impiegati per tirare fuori i risultati 
+
+BIBLIOGRAFIA 
+
+qui metteremo tutti i riferimenti bibliografici. 
+
+--05-06-- 
+Ho pensato di modificare in questa maniera l'indice sul capitolo relativo alla meccanica delle funi perché era pieno di ripetizioni e poteva essere migliorato: 
+
+Capitolo 2 - Meccanica di funi e reti
+Capitolo 2.1 - Meccanica delle funi 
+Voglio spiegare che in questo capitolo trattiamo secondo diverse modellazioni due problemi che caratterizzano lo studio della meccanica delle funi: il problema della fune soggetta al peso proprio e l'altro il problema della fune soggetta ad un carico distribuito. I due problemi vedremo che hanno secondo la teoria due soluzioni differenti che però in alcuni modelli fem semplificati assumono dei risultati simili.
+Capitolo 2.1.1 - Il modello di fune inestensibile
+Equilibrio della fune soggetta ad un carico verticale distribuito 
+Equilibrio della fune soggetta al peso proprio
+limiti del modello inestensibile
+Capitolo 2.1.2 - Il modello di fune di Irvine 
+Cosa introduce ed elimina il modello di fune di Irvine.
+Soluzioni  secondo il modello di Irvine 
+Limiti del modello 
+Capitolo 2.1.3 - Il modello alle differenze finite 
+Trattazione dell'equazione indefinita di equilibrio rigorosa 
+Applicazione delle  condizioni di bordo per la soluzione particolare dell'equazione differenziale
+Risultati e confronti con il modello di Irvine sulle funi lasche e sulle funi tese 
+pregi e difetti del modello creato. 
+
+Capitolo 2.2 - Le funi attraverso modelli ad elementi finiti 
+Capitolo 2.2.2 - La fune attraverso il P.F.E.F. 
+
+- CAPITOLO 2.3 - Reti di funi 
+ CAP 2.3.1. Le reti di funi soggette al peso proprio - casi
+ (tra questi casi potremmo portare dei casi relativi a: 
+ - configurazioni di riferimento 
+ - vincoli differenti 
+ - configurazioni della maglia 
+ CAP 2.3.2. Le reti di funi soggette ad un carico concentrato
+
+Ho riscritto fino alle conclusioni sulla fune secondo il modello Inestensibile. Domani dobbiamo scrivere le conclusioni su questo modello ed iniziare il modello estensibile secondo Irvine. 
+
+
+
+
+
+
+ 
+ 
+
+
+
+  
+ 
+
+

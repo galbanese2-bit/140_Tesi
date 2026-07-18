@@ -888,7 +888,6 @@ Oltre alla natura cinematica del vincolo applicato, il solutore offre una strutt
 \end{itemize}
 
 La risposta strutturale del sistema è investigata assumendo come riferimento una rete a maglia quadrata (Q) con le caratteristiche geometriche e meccaniche riportate in \cref{tab:caratteristiche_vincoli_rete}.
-
 \begin{table}[htbp]
     \centering
     \caption{Proprietà geometriche e meccaniche della rete per riportare i risultati relativi alla varie condizioni di vincolo.}
@@ -897,15 +896,45 @@ La risposta strutturale del sistema è investigata assumendo come riferimento un
     \begin{tabularx}{\textwidth}{l c X}
         \hline
         \textbf{Parametro} & \textbf{Simbolo} & \textbf{Valore nominale} \\ \hline
-        Dimensione totale della rete & $L_x \times L_y$ & $3.00 \times 3.00$ $[\text{m}]$ \\
+        Dimensione totale della rete & $L_x \times L_y$ & Vedi l'immagine $[\text{m}]$ \\
         Dimensione della singola maglia & $l_{m_x} \times l_{m_y}$ & $10 \times 10$ $[\text{cm}]$ \\
-        Diametro nominale delle funi & $\phi$ & $5.0$ $[\text{mm}]$ \\
+        Diametro nominale delle funi di maglia & $\phi$ & $5.0$ $[\text{mm}]$ \\
+        Diametro nominale delle funi di bordo & $\phi$ & $5.0$ $[\text{mm}]$ \\
         Modulo di elasticità longitudinale fune & $E$ & 2.1e9 $[\text{Pa}]$ \\
-        Area della sezione trasversale fune & $A$ & 19.63 $[\text{mm}^2]$ \\
-        Bando iniziale cinematico - x (Slackness) & $L_x/l_x$ & 0 $[\text{\%}]$ \\
-        Bando iniziale cinematico - y (Slackness) & $L_y/l_y$ & 0 $[\text{\%}]$ \\ \hline
+        Area sezione trasversale fune di maglia & $A$ & 19.63 $[\text{mm}^2]$ \\
+        Area sezione trasversale fune di bordo & $A_2$ & 78.54 $[\text{mm}^2]$ \\
+        Bando iniziale cinematico - x (Slackness) & $L_x/l_x$ & 3.33 $[\text{\%}]$ \\
+        Bando iniziale cinematico - y (Slackness) & $L_y/l_y$ & 3.33 $[\text{\%}]$ \\ \hline
     \end{tabularx}
 \end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{143_capitoli/capitolo2/immagini_capitolo_2/immagini_vincoli/rete_vincolata_4lati.png}
+    \caption{Rete vincolata su 4 lati con cerniere mobili}
+    \label{fig:rete_vincolata_4lati}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{143_capitoli/capitolo2/immagini_capitolo_2/immagini_vincoli/rete_vincolata_x.png}
+    \caption{Rete vincolata lungo i lati paralleli alla direzione 'x'}
+    \label{fig:rete_vincolata_x}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{143_capitoli/capitolo2/immagini_capitolo_2/immagini_vincoli/rete_vincolata_y.png}
+    \caption{Rete vincolata lungo i lati paralleli alla direzione 'y'}
+    \label{fig:rete_vincolata_y}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{143_capitoli/capitolo2/immagini_capitolo_2/immagini_vincoli/rete_vincolata_corners.png}
+    \caption{Rete vincolata ai nodi d'angolo}
+    \label{fig:rete_vincolata_corners}
+\end{figure}
 
 \subsection{Area dei cavi}
 Come noto dalla Scienza delle Costruzioni, la distribuzione delle forze all'interno di un sistema iperstatico è influenzata dalla ripartizione della rigidezza elastica tra gli elementi strutturali partecipanti. 
@@ -984,7 +1013,7 @@ dove:
    \item $\beta$ è un parametro di regolarizzazione adimensionale che governa la transizione tra il comportamento lasco e quello teso.
 \end{itemize}
 
-La scelta del parametro $\beta$ rappresenta un compromesso di fondamentale importanza: l'impiego di valori di $\beta$ elevati consentono di approssimare con estrema fedeltà la legge bilineare ideale, ma introducono gradienti elevati che penalizzano la stabilità dell'algoritmo di soluzione. Al contrario, valori di $\beta$ contenuti migliorano significativamente la convergenza a discapito, però, della rispondenza fisica del modello nell'intorno del punto in cui $e_{11} \approx 0$.
+La scelta del parametro $\beta$ rappresenta un compromesso di fondamentale importanza: l'impiego di valori di $\beta$ elevati consentono di approssimare con estrema fedeltà la legge bilineare ideale, ma introducono gradienti che penalizzano la stabilità dell'algoritmo di soluzione. Al contrario, valori di $\beta$ contenuti migliorano significativamente la convergenza a discapito, però, della rispondenza fisica del modello nell'intorno del punto in cui $e_{11} \approx 0$.
 
 Come mostrato in (mettiamo il riferimento del grafico con i due legami costitutivi smooth e bilineare puro), la formulazione regolarizzata descritta dall'\cref{eq:bilinear_smooth} riprende fedelmente l'andamento della legge \textit{tension-only} classica, garantendo al contempo la continuità della derivata prima su tutto il dominio di definizione. 
 

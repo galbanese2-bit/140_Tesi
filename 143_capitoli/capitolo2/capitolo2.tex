@@ -1,4 +1,5 @@
 \chapter{Funi e reti soggette al peso proprio}
+\section{Introduzione}
 Le funi e le reti di funi rappresentano una classe di strutture leggere e flessibili di grande rilevanza nell'ingegneria moderna, impiegate in ambiti che spaziano dalle tensostrutture all'ingegneria civile, fino ai sistemi di protezione e alle barriere paramassi. La loro peculiarità risiede nella capacità di trasmettere esclusivamente sforzi di trazione e di assumere forme determinate dalle condizioni di carico e dai vincoli, rendendo necessaria una modellazione specifica e non riconducibile ai tradizionali elementi strutturali rigidi flessionalmente.
 
 In questo capitolo vengono presentati i principali modelli teorici e numerici utilizzati per descrivere il comportamento delle funi e, successivamente, delle reti di funi. La prima parte è dedicata alla meccanica delle funi, analizzata attraverso tre approcci di complessità crescente: il modello inestensibile, il modello di Irvine e un modello alle differenze finite basato sull'equazione rigorosa di equilibrio. Questi modelli permettono di affrontare i due problemi classici della meccanica delle funi — la fune soggetta al peso proprio e la fune soggetta a un carico verticale distribuito — evidenziando analogie, differenze e limiti delle diverse formulazioni.
@@ -1080,7 +1081,7 @@ I risultati di tale analisi, relativi sia alla configurazione con rete a maglia 
     \label{fig:diagramma_sag_D}
 \end{figure}
 
-\subsection{Forze esterne}
+\subsection{Carichi concentrati}
 Fino ad ora l'analisi numerica si è concentrata esclusivamente sulla configurazione di equilibrio della rete soggetta al solo peso proprio; nello specifico, nell'\cref{eq:problema_statico} si è assunto che il vettore dei carichi esterni fosse pari a: 
 \begin{equation}
    \underline{f}_{ext} = \underline{f}_{g,e}

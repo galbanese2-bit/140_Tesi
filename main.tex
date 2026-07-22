@@ -4,17 +4,14 @@
 % IMMAGINI ()
 % -------------------------
 \usepackage{tikz}
-\usetikzlibrary{calc}
-\usetikzlibrary{calc, arrows.meta}
-\usetikzlibrary{intersections}
-\usetikzlibrary{decorations.markings}
+\usetikzlibrary{calc, arrows.meta, intersections, decorations.markings}
 
 % --------------------------------------------------
 % FONT & LINGUA (compatibili con pdflatex)
 % --------------------------------------------------
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{lmodern}      % Font simile a Libertinus, compatibile pdflatex
+\usepackage{lmodern}    
 \usepackage[italian]{babel}
 \usepackage{microtype}
 \usepackage{csquotes}
@@ -30,7 +27,6 @@
 % --------------------------------------------------
 % PACCHETTI UTILI
 % --------------------------------------------------
-\usepackage{graphicx}
 \usepackage{amsmath,amssymb}
 \usepackage{siunitx}
 \usepackage{booktabs}
@@ -130,6 +126,18 @@
 
 \end{titlepage}
 
+% --------------------------------------------------
+% Pagina bianca dopo il frontespizio
+% --------------------------------------------------
+
+\clearpage
+\thispagestyle{empty}
+\null
+\clearpage
+
+% --------------------------------------------------
+% Indice ed introduzione
+% --------------------------------------------------
 \tableofcontents
 \clearpage
 

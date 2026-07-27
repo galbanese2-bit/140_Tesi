@@ -1,6 +1,10 @@
 \chapter{Risultati}
 
 \section{Reti soggette al peso proprio}
+In \cref{chap:reti_di_funi}, è stata affrontata la formulazione matematica del metodo agli elementi finiti per le reti di funi, nonché la definizione della matrice di connettività, la quale consente di sviluppare topologie più complesse rispetto a quelle delle semplici funi. 
+
+Successivamente, è emersa la necessità di introdurre specifici strumenti di supporto alla progettazione. Nella presente sezione vengono illustrati gli strumenti sviluppati, concepiti sia per affrontare problematiche progettuali, sia per superare le criticità tipiche del \textit{form-finding} delle reti in bando.
+
 \subsection{Analisi dell'effetto delle condizioni di vincolo al bordo}
 Le reti di sicurezza conformi alla normativa \cite{EN1263-1} possono essere soggette a molteplici configurazioni di vincolamento esterno. Al fine di poter ripordurre fedelmente tali condizioni all'interno del modello, si rende necessaria una formulazione cinematica versatile che consenta di accoppiare i nodi di bordo della rete con l'ambiente circostante, tenendo conto dei reali gradi di libertà concessi dai sistemi di ancoraggio.
 
@@ -28,26 +32,6 @@ Oltre alla natura cinematica del vincolo applicato, il solutore offre una strutt
 \end{itemize}
 
 La risposta strutturale del sistema è investigata assumendo come riferimento una rete a maglia quadrata (Q) con le caratteristiche geometriche e meccaniche riportate in \cref{tab:caratteristiche_vincoli_rete}.
-\begin{table}[htbp]
-    \centering
-    \caption{Proprietà geometriche e meccaniche della rete per riportare i risultati relativi alla varie condizioni di vincolo.}
-    \vspace{5pt}
-    \label{tab:caratteristiche_vincoli_rete}
-    \begin{tabularx}{\textwidth}{l c X}
-        \hline
-        \textbf{Parametro} & \textbf{Simbolo} & \textbf{Valore nominale} \\ \hline
-        Dimensione totale della rete & $L_x \times L_y$ & Vedi l'immagine $[\text{m}]$ \\
-        Dimensione della singola maglia & $l_{m_x} \times l_{m_y}$ & $10 \times 10$ $[\text{cm}]$ \\
-        Diametro nominale delle funi di maglia & $\phi_1$ & $5.0$ $[\text{mm}]$ \\
-        Diametro nominale delle funi di bordo & $\phi_2$ & $10.0$ $[\text{mm}]$ \\
-        Modulo di elasticità longitudinale fune & $E$ & 2.1e9 $[\text{Pa}]$ \\
-        Area sezione trasversale fune di maglia & $A$ & 19.63 $[\text{mm}^2]$ \\
-        Area sezione trasversale fune di bordo & $A_2$ & 78.54 $[\text{mm}^2]$ \\
-        Bando iniziale cinematico - x (Slackness) & $L_x/l_x$ & 3.33 $[\text{\%}]$ \\
-        Bando iniziale cinematico - y (Slackness) & $L_y/l_y$ & 3.33 $[\text{\%}]$ \\ \hline
-    \end{tabularx}
-\end{table}
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{143_capitoli/capitolo4/immagini_capitolo_4/immagini_vincoli/rete_vincolata_4lati.png}
@@ -76,6 +60,26 @@ La risposta strutturale del sistema è investigata assumendo come riferimento un
     \label{fig:rete_vincolata_corners}
 \end{figure}
 
+\begin{table}[htbp]
+    \centering
+    \caption{Proprietà geometriche e meccaniche delle reti in \cref{fig:rete_vincolata_4lati,fig:rete_vincolata_x,fig:rete_vincolata_y,fig:rete_vincolata_corners}}
+    \vspace{5pt}
+    \label{tab:caratteristiche_vincoli_rete}
+    \begin{tabularx}{\textwidth}{l c X}
+        \hline
+        \textbf{Parametro} & \textbf{Simbolo} & \textbf{Valore nominale} \\ \hline
+        Dimensione totale della rete & $L_x \times L_y$ & Vedi l'immagine $[\text{m}]$ \\
+        Dimensione della singola maglia & $l_{m_x} \times l_{m_y}$ & $10 \times 10$ $[\text{cm}]$ \\
+        Diametro nominale delle funi di maglia & $\phi_1$ & $5.0$ $[\text{mm}]$ \\
+        Diametro nominale delle funi di bordo & $\phi_2$ & $10.0$ $[\text{mm}]$ \\
+        Area sezione trasversale fune di maglia & $A_1$ & 19.63 $[\text{mm}^2]$ \\
+        Area sezione trasversale fune di bordo & $A_2$ & 78.54 $[\text{mm}^2]$ \\
+        Modulo di elasticità longitudinale fune & $E$ & 2.1e9 $[\text{Pa}]$ \\
+        Regolarizzazione del legame costitutivo & $\beta$ & 1e9 $[-]$\\       
+        Rapporto di laschezza in entrambe le direzioni & $\xi$& 3.33 $[\text{\%}]$\\ \hline
+    \end{tabularx}
+\end{table}
+
 \subsection{Influenza della rigidezza assiale delle funi}
 La distribuzione delle forze all'interno di un sistema iperstatico è influenzata dalla ripartizione della rigidezza elastica tra gli elementi strutturali partecipanti. 
 
@@ -91,9 +95,31 @@ Il solutore consente di modellare diverse distribuzioni di area trasversale:
    \item Configurazione differenziata a due vie: distinzione di proèprietà tra le funi costituenti la maglia interna e le funi di bordo (\textit{border rope});
    \item Configurazione differenziata a tre vie: si ha una caratterizzazione indipendendente per le funi di maglia, le funi di bordo e le funi poste sulle diagonali principali, ove presenti. 
 \end{itemize}
-Sulla base dello scenario voluto, l'algoritmo genera un vettore che associa a ciascun elemento strutturale, sfruttando l'ordinamento degli elementi visto in \cref{chap:connettività}, l'area corretta. Sviluppi futuri del codice potranno includere mappature ancor più flessibili a supporto della pregettazione. 
+Sulla base dello scenario voluto l'algoritmo genera un vettore che associa a ciascun elemento strutturale l'area della sezione trasversale, sfruttando l'ordinamento degli elementi visto in \cref{chap:connettività}. Sviluppi futuri del codice potranno includere mappature ancor più flessibili a supporto della pregettazione. 
 
-Di seguito si riportano i risultati ottenuti per una rete a maglia quadrata con funi di controvento, le cui caratteristiche geometriche e meccaniche sono riassunte in \cref{tab:caratteristiche_area_rete}.
+I risultati relativi ad una rete a maglia quadrata con funi di controvento, le cui caratteristiche geometriche e meccaniche sono riassunte in \cref{tab:caratteristiche_area_rete}, sono riportati nelle \cref{fig:rete_aree_uguali,fig:rete_aree_diffenti1,fig:rete_aree_differenti2}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{143_capitoli/capitolo4/immagini_capitolo_4/immagini_area/rete_aree_uguali.png}
+    \caption{Rete con configurazione omogenea}
+    \label{fig:rete_aree_uguali}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{143_capitoli/capitolo4/immagini_capitolo_4/immagini_area/rete_aree_differenti1.png}
+    \caption{Rete con configurazione differenziata a due vie}
+    \label{fig:rete_aree_diffenti1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{143_capitoli/capitolo4/immagini_capitolo_4/immagini_area/rete_aree_differenti2.png}
+    \caption{Rete con configurazione differenziata a tre vie}
+    \label{fig:rete_aree_differenti2}
+\end{figure}
+
 \begin{table}[htbp]
     \centering
     \caption{Proprietà geometriche e meccaniche della rete a maglia quadrata con funi di controvento - analisi di sensibilità alla rigidezza.}
@@ -109,31 +135,10 @@ Di seguito si riportano i risultati ottenuti per una rete a maglia quadrata con 
         Modulo di elasticità longitudinale fune & $E$ & 2.1e9 $[\text{Pa}]$ \\
         Area della sezione trasversale fune & $A_1$ & 19.63 $[\text{mm}^2]$ \\
         Area della sezione trasversale fune & $A_2$ & 78.54 $[\text{mm}^2]$ \\
-        Bando iniziale cinematico - x (Slackness) & $L_x/l_x$ & 0 $[\text{\%}]$ \\
-        Bando iniziale cinematico - y (Slackness) & $L_y/l_y$ & 0 $[\text{\%}]$ \\ \hline
+        Regolarizzazione del legame costitutivo & $\beta$ & 1e9 $[-]$\\
+        Rapporto di laschezza in entrambe le direzioni & $\xi$ & 0 $[\text{\%}]$ \\ \hline
     \end{tabularx}
 \end{table}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{143_capitoli/capitolo4/immagini_capitolo_4/immagini_area/rete_aree_uguali.png}
-    \caption{Rete con configurazione omogenea delle aree degli elementi fune}
-    \label{fig:rete_aree_uguali}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{143_capitoli/capitolo4/immagini_capitolo_4/immagini_area/rete_aree_differenti1.png}
-    \caption{Rete con configurazione differenziata a due vie delle aree degli elementi fune}
-    \label{fig:rete_aree_diffenti1}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{143_capitoli/capitolo4/immagini_capitolo_4/immagini_area/rete_aree_differenti2.png}
-    \caption{Rete con configurazione differenziata a tre vie delle aree degli elementi fune}
-    \label{fig:rete_aree_differenti2}
-\end{figure}
 
 \subsection{Il fenomeno dello \textit{slack} nelle reti di cavi}
 Nella trattazione della fune monodimensionale soggetta al peso proprio, qualora la lunghezza del suo sviluppo risulti superiore alla distanza lineare tra i vincoli di estremità, si definisce la condizione di fune \textit{lasca} o di \textit{slack}. In tale configurazione, la fune si trova in bando ed è caratterizzata da un tiro orizzontale poco significativo. 
@@ -159,6 +164,28 @@ Il fenomeno dello \textit{slack} si verifica in maniera differenziata in funzion
     \caption{Rete a maglia romboidale in condizione di slack}
     \label{fig:rete_D_slack}
 \end{figure}
+
+\begin{table}[htbp]
+    \centering
+    \caption{Proprietà geometriche e meccaniche delle reti di funi di \cref{fig:rete_Q_slack,fig:rete_D_slack}}
+    \vspace{5pt}
+    \label{tab:caratteristiche_reti_cap_slack}
+    \begin{tabularx}{\textwidth}{l c X}
+        \hline
+        \textbf{Parametro} & \textbf{Simbolo} & \textbf{Valore nominale} \\ \hline
+        Dimensione totale della rete & $L_x \times L_y$ & $3.00 \times 3.00$ $[\text{m}]$ \\
+        Dimensione della singola maglia (Q) & $l_{m_x} \times l_{m_y}$ & $10 \times 10$ $[\text{cm}]$ \\
+        Dimensione della singola maglia (D) & $l_{m_x} \times l_{m_y}$ & $9.64 \times 9.64$ $[\text{cm}]$ \\
+        Diametro nominale delle funi di maglia & $\phi _1$ & $5.0$ $[\text{mm}]$ \\
+        Diametro nominale delle funi di bordo & $\phi _2$ & $10.0$ $[\text{mm}]$ \\
+        Area sezione trasversale fune di maglia & $A_1$ & 19.63 $[\text{mm}^2]$ \\
+        Area sezione trasversale fune di bordo & $A_2$ & 78.54 $[\text{mm}^2]$ \\
+        Modulo di elasticità longitudinale fune & $E$ & 2.1e9 $[\text{Pa}]$ \\
+        Regolarizzazione del legame costitutivo & $\beta$ & 1e9 $[-]$\\
+        Rapporto di laschezza (Q) in entrambe le direzioni & $\xi_Q$ & 10 $[\%]$\\
+        Rapporto di laschezza (D) in entrambe le direzioni & $\xi_D$ & 10 $[\%]$\\ \hline
+    \end{tabularx}
+\end{table}
 
 Questo comportamento discreto trova un parallelo continuo nel campo delle membrane e delle piastre sottili, dove l'insorgere della compressione diagonale provoca un instabilità flessionale fuori dal piano che si manifesta con la formazione di "rughe" parallele alla direzione di trazione principale. In entrambe i sistemi, la struttura modifica la propria topologia tridimensionale attraverso spostamenti fuori dal piano al fine di annullare la compressione interna e minimizzare l'energia potenziale totale del sistema.
 
@@ -190,23 +217,31 @@ dove:
    \item $\beta$ è un parametro di regolarizzazione adimensionale che governa la transizione tra il comportamento lasco e quello teso.
 \end{itemize}
 
-La scelta del parametro $\beta$ rappresenta un compromesso di fondamentale importanza: l'impiego di valori di $\beta$ elevati consentono di approssimare con estrema fedeltà la legge bilineare ideale, ma introducono gradienti che penalizzano la stabilità dell'algoritmo di soluzione. Al contrario, valori di $\beta$ contenuti migliorano significativamente la convergenza a discapito, però, della rispondenza fisica del modello nell'intorno del punto in cui $e_{11} \approx 0$.
+La scelta del parametro $\beta$ rappresenta un compromesso di fondamentale importanza: l'impiego di valori di $\beta$ elevati consente di approssimare con estrema fedeltà la legge bilineare ideale, ma introduce gradienti che penalizzano la stabilità dell'algoritmo di soluzione. Al contrario, valori di $\beta$ contenuti migliorano significativamente la convergenza a discapito, però, della rispondenza fisica del modello nell'intorno del punto in cui $e_{11} \approx 0$. Per tali ragioni, unitamente alle soluzioni presentate, vengono fornite le informazioni riguardanti il legame costitutivo adottato (\textit{tension-only} puro o regolarizzato) e, nel secondo caso, il valore del parametro $\beta$ impiegato.
 
-Come mostrato in (mettiamo il riferimento del grafico con i due legami costitutivi smooth e bilineare puro), la formulazione regolarizzata descritta dall'\cref{eq:bilinear_smooth} riprende fedelmente l'andamento della legge \textit{tension-only} classica, garantendo al contempo la continuità della derivata prima su tutto il dominio di definizione. 
+Come mostrato in \cref{fig:legame_regolarizzato_sigma,fig:legame_regolarizzato_E}, la formulazione regolarizzata descritta dall'\cref{eq:bilinear_smooth} riprende fedelmente l'andamento della legge \textit{tension-only} classica, garantendo al contempo la continuità della derivata prima su tutto il dominio di definizione. 
 \begin{figure}[H]
    \centering
-    \includegraphics[width=\textwidth]{143_capitoli/capitolo4/immagini_capitolo_4/immagini_slack/Legame_regolarizzato2.pdf}
-    \caption{(a) Legame Costitutivo Regolarizzato $\sigma - \varepsilon$ -  (b) Modulo Elastico $E_{\mathrm{eff}} - \varepsilon$}
-    \label{fig:legame_costitutivo_regolarizzato}
+    \includegraphics[width=\textwidth]{143_capitoli/capitolo4/immagini_capitolo_4/immagini_slack/Legame_regolarizzato_sigma.pdf}
+    \caption{Legame costitutivo regolarizzato $\sigma - \varepsilon$}
+    \label{fig:legame_regolarizzato_sigma}
+\end{figure}
+
+\begin{figure}[H]
+   \centering
+    \includegraphics[width=\textwidth]{143_capitoli/capitolo4/immagini_capitolo_4/immagini_slack/Legame_regolarizzato_E.pdf}
+    \caption{Legame costitutivo regolarizzato $E_{\mathrm{eff}} - \varepsilon$}
+    \label{fig:legame_regolarizzato_E}
 \end{figure}
 
 \subsubsection{Laschezza della rete}
-La valutazione della freccia massima (\textit{sag}) al variare dello sviluppo lineare della rete rispetto alla distanza tra i vincoli può essere espressa quantitativamente attraverso un parametro adimensionale che prende il nome di \textit{rapporto di laschezza} o \textit{slackness ratio}.
+La valutazione della freccia massima (\textit{sag}) al variare dello sviluppo lineare della rete rispetto alla distanza tra i vincoli può essere espressa quantitativamente tramite i valori del \textit{rapporto di laschezza} (o \textit{slackness ratio}) lungo le due direzioni principali della rete $\xi_x$ e $\xi_y$, definiti coerentemente con l'\cref{eq:rapporto_laschezza} espressa in pecentuale. 
 
-Al fine di stimare l'entità della freccia iniziale della rete e garantire il rispetto delle prescrizioni geometriche imposte dalla normativa \cite{EN1263-1} per la prova statica di assorbimento di energia della rete, si è condotta un analisi parametrica su una rete di dimensioni nominali pari a $3\, \text{m} \times 3\,\text{m}$ (come previsto dalla norma circa la stessa prova), ipotizzando un medesimo valore di \textit{rapporto di laschezza} lungo entrambe le direzioni principali. Nello specifico, è stata determinata la curva caratteristica che correla il rapporto di laschezza al valore della freccia massima risultante.
+Al fine di stimare l'entità della freccia iniziale e garantire il rispetto delle prescrizioni geometriche imposte dalla normativa \cite{EN1263-1} per la prova statica di assorbimento di energia, si è condotta un'analisi parametrica su una rete di dimensioni nominali pari a $3\, \text{m} \times 3\,\text{m}$ (come previsto dalla norma per la stessa prova), ipotizzando un medesimo valore di \textit{rapporto di laschezza} lungo entrambe le direzioni principali ($\xi_x = \xi_y = \xi$). Nello specifico, è stata determinata la curva caratteristica che correla $\xi$ al valore della freccia massima $f$ risultante.
 
-I risultati di tale analisi, relativi sia alla configurazione con rete a maglia quadrata (Q) sia a quella con maglia a geometria romboidale (D), sono illustrati rispettivamente in \cref{fig:diagramma_sag_Q} e in \cref{fig:diagramma_sag_D}. Dall'esame degli andamenti dei grafici si evince che la tolleranza sulla lunghezza dei lati della rete quadrata in esame dovrà essere confinata entro i limiti individuati per le due differenti geometrie, al fine di scongiurare un eccessiva deformabilità o, al contrario, uno stato di coazione iniziale indesiderato.
+I risultati dell'analisi parametrica per la configurazione a maglia quadrata (Q) e per quella romboidale (D) sono illustrati rispettivamente in \cref{fig:diagramma_sag_Q} e in \cref{fig:diagramma_sag_D}.
 
+I parametri geometrici e meccanici adottati nei modelli numerici per la generazione delle curve $f - \xi$ sono riassunti in \cref{tab:caratteristiche_reti_slack_ratio}.
 \begin{figure}[H]
    \centering
     \includegraphics[width=\textwidth]{143_capitoli/capitolo4/immagini_capitolo_4/immagini_slack/grafico_Q.pdf}
@@ -221,6 +256,30 @@ I risultati di tale analisi, relativi sia alla configurazione con rete a maglia 
     \label{fig:diagramma_sag_D}
 \end{figure}
 
+\begin{table}[htbp]
+    \centering
+    \caption{Proprietà geometriche e meccaniche delle reti impiegate per la determinazione dei diagrammi di \cref{fig:diagramma_sag_Q,fig:diagramma_sag_D}}
+    \vspace{5pt}
+    \label{tab:caratteristiche_reti_slack_ratio}
+    \begin{tabularx}{\textwidth}{l c X}
+        \hline
+        \textbf{Parametro} & \textbf{Simbolo} & \textbf{Valore nominale} \\ \hline
+        Dimensione totale della rete & $L_x \times L_y$ & $3.00 \times 3.00$ $[\text{m}]$ \\
+        Dimensione della singola maglia (Q) & $l_{m_x} \times l_{m_y}$ & $10 \times 10$ $[\text{cm}]$ \\
+        Dimensione della singola maglia (D) & $l_{m_x} \times l_{m_y}$ & $9.64 \times 9.64$ $[\text{cm}]$ \\
+        Diametro nominale delle funi di maglia & $\phi _1$ & $5.0$ $[\text{mm}]$ \\
+        Area della sezione trasversale fune & $A_1$ & 19.63 $[\text{mm}^2]$ \\ 
+        Modulo di elasticità longitudinale fune & $E$ & 2.1e9 $[\text{Pa}]$ \\
+        Regolarizzazione del legame costitutivo & $\beta$ & 1e9 $[-]$\\ \hline
+    \end{tabularx}
+\end{table}
+
+È importante sottolineare come i due grafici non risultino direttamente confrontabili in termini di rigidezza nei confronti dei carichi verticali. Infatti, per garantire le medesime dimensioni complessive della rete, la dimensione della singola maglia nella configurazione romboidale differisce da quella della maglia quadrata per un fattore pari a $\sqrt{2}$, comportando di conseguenza un diverso numero complessivo di elementi costitutivi nei due modelli.
+
+Dai grafici è possibile quindi risalire ai valori del rapporto di laschezza $\xi$ (e, di conseguenza, alle tolleranze sulla lunghezza), affinchè la freccia della rete in configurazione di prova rispetti i limiti imposti dalla normativa ($f = 5 \pm 1\, \text{cm}$). In particolare, per i casi analizzati, il rapporto di laschezza dovrà essere compreso tra $ 0.08\% < \xi_{Q} < 0.12\%$ per la geometria quadrata e tra $ 0.04\% < \xi_{D} < 0.07\%$ per quella romboidale.    
+
+Dall'esame degli andamenti si evince che la tolleranza teorica sulla lunghezza dei lati della rete in esame dovrebbe essere confinata entro limiti estremamente stringenti al fine di scongiurare un'eccessiva deformabilità o, al contrario, uno stato di coazione iniziale indesiderato. Tuttavia, considerando le ordinarie tolleranze di fabbricazione e posa delle reti di sicurezza, risulta nella pratica industriale pressoché impossibile garantire uno scarto dimensionale contenuto entro frazioni di punto percentuale. Di conseguenza, nel contesto operativo reale, la conformità geometrica della rete non viene valutata tramite il controllo dimensionale preventivo dello sviluppo dei cavi, bensì verificando direttamente il valore della freccia residua $f$ mediante prove prestazionali di tipo passa / non passa.
+
 \subsection{Comportamento sotto carichi concentrati}
 Fino ad ora l'analisi numerica si è concentrata esclusivamente sulla configurazione di equilibrio della rete soggetta al solo peso proprio; nello specifico, nell'\cref{eq:problema_statico} si è assunto che il vettore dei carichi esterni fosse pari a: 
 \begin{equation}
@@ -234,8 +293,60 @@ Tuttavia, l'algoritmo implementato consente di estendere la trattazione includen
 
 Ulteriori sviluppi e applicazioni del codice potranno prevedere l'implementazione di combinazioni lineari di vettori di forze concentrate. Tale approccio consentirà di simulare, in forma discretizzata, distribuizioni di carico continue in funzione delle esigenze dell'utente.
 
-A scopo dimostrativo, in (metto riferimento della figura con rete soggetta a fune concentrata), viene illustrata la configurazione deformata e lo stato tensionale della rete ottenuti applicando una forza concentrata in corrispondenza del nodo di mezzeria. 
+A scopo dimostrativo, nelle \cref{fig:forza_concentrata_verticale,fig:forza_concentrata_inclinata} viene illustrata la configurazione deformata e lo stato tensionale della rete ottenuti applicando una forza concentrata in corrispondenza del nodo di mezzeria. 
 
+Le caratteristiche della rete analizzata e delle forze applicate sono riportate in 
+
+\begin{figure}[H]
+   \centering
+    \includegraphics[width=\textwidth]{143_capitoli/capitolo4/immagini_capitolo_4/immagini_forza_concentrata/rete_forza_concentrata2.png}
+    \caption{Rete soggetta all'azione del peso proprio e di una forza verticale applicata in mezzeria}
+    \label{fig:forza_concentrata_verticale}
+\end{figure}
+
+\begin{figure}[H]
+   \centering
+    \includegraphics[width=\textwidth]{143_capitoli/capitolo4/immagini_capitolo_4/immagini_forza_concentrata/rete_forza_concentrata.png}
+    \caption{Rete soggetta all'azione del peso proprio e di una forza inclinata applicata in mezzeria}
+    \label{fig:forza_concentrata_inclinata}
+\end{figure}
+
+\begin{table}[htbp]
+    \centering
+    \caption{Proprietà geometriche e meccaniche delle reti soggette a carichi concentrati di \cref{fig:forza_concentrata_verticale,fig:forza_concentrata_inclinata}}
+    \vspace{5pt}
+    \label{tab:caratteristiche_reti_forze_concentrate}
+    \begin{tabularx}{\textwidth}{l c X}
+        \hline
+        \textbf{Parametro} & \textbf{Simbolo} & \textbf{Valore nominale} \\ \hline
+        Dimensione totale della rete & $L_x \times L_y$ & $3.00 \times 3.00$ $[\text{m}]$ \\
+        Dimensione della singola maglia (Q) & $l_{m_x} \times l_{m_y}$ & $10 \times 10$ $[\text{cm}]$ \\
+        Diametro nominale delle funi di maglia & $\phi _1$ & $5.0$ $[\text{mm}]$ \\       
+        Diametro nominale delle funi di maglia & $\phi _2$ & $10.0$ $[\text{mm}]$ \\
+        Modulo di elasticità longitudinale fune & $E$ & 2.1e9 $[\text{Pa}]$ \\
+        Area della sezione trasversale fune & $A_1$ & 19.63 $[\text{mm}^2]$ \\
+        Area sezione trasversale fune di bordo & $A_2$ & 78.54 $[\text{mm}^2]$ \\
+        Regolarizzazione del legame costitutivo & $\beta$ & 1e6 $[-]$\\  
+        Rapporto di laschezza \cref{fig:forza_concentrata_verticale} (entrambe le direzioni) & $\xi$ & 3.33 $[\%]$\\
+        Rapporto di laschezza \cref{fig:forza_concentrata_inclinata} (entrambe le direzioni) & $\xi$ & 1 $[\%]$\\ \hline
+    \end{tabularx}
+\end{table}
+
+\begin{table}[htbp]
+    \centering
+    \caption{Proprietà delle forze concentrate applicate nelle \cref{fig:forza_concentrata_verticale,fig:forza_concentrata_inclinata}}
+    \vspace{5pt}
+    \label{tab:caratteristiche_forze_concentrate}
+    \begin{tabularx}{\textwidth}{l c X X}
+        \hline
+        \textbf{Parametro} & \textbf{Simbolo} & \textbf{Caso Verticale} \small{(\cref{fig:forza_concentrata_verticale})} & \textbf{Caso Inclinato} \small{(\cref{fig:forza_concentrata_inclinata})} \\ \hline
+        Nodo di applicazione & - & Mezzeria  & Mezzeria  \\
+        Componente $x$ & $F_x$ & $0.0$ $[\text{N}]$ & $-1000$ $[\text{N}]$ \\
+        Componente $y$ & $F_y$ & $0.0$ $[\text{N}]$ & $1000$ $[\text{N}]$  \\
+        Componente $z$ & $F_z$ & $1000$ $[\text{N}]$ & $100$ $[\text{N}]$ \\
+        Modulo del vettore forza & $|\underline{F}|$ & $1000$ $[\text{N}]$ & $1417.14$ $[\text{N}]$ \\ \hline
+    \end{tabularx}
+\end{table}
 
 \section{Reti soggette alla prova quasi statica}
 

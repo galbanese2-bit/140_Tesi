@@ -1,10 +1,277 @@
 \chapter{Prova quasi statica di assorbimento dell'energia}
 
 \section{Introduzione}
+L'impiego delle reti nell'ingegneria civile ed edile è prevalentemente finalizzato all'intercettazione e all'arresto di corpi in movimento. Le applicazioni variano significativamente in base al contesto operativo: si passa dalle reti di sicurezza anticaduta per operatori e materiali nei cantieri (\textit{Safety Nets} \cite{EN1263-1,EN1263-2}), alle reti anticalcinacci per la protezione dal distacco di elementi strutturali \cite{UNI11808-3,UNI11808-4}, fino ai sistemi di ritenuta massi per la difesa dai dissesti sui versanti rocciosi (\textit{Falling rock kit} \cite{EAD-FRK}) e ai sistemi di protezione in cavi d'acciaio tipo \textit{X-Tend} \cite{EAD-XTEND,ETA-XTEND} impiegati in sostituzione dei parapetti tradizionali.
 
-\section{Modellazione del contatto}
-\subsection{Slack variables}
-\subsection{Active set method}
+In tutte queste applicazioni, la funzione primaria del sistema di protezione consiste nell'assorbire e dissipare l'energia cinetica posseduta dal corpo impattante. Tuttavia, la risposta meccanica globale nasce dalla complessa interazione tra l'elemento di intercettazione (la rete) e le strutture di supporto o vincolo. Questo capitolo affronta il passaggio metodologico dalla caratterizzazione dinamica dell'intero sistema alla risposta quasi-statica del solo componente "rete". 
 
-\section{Prova quasi statica}
+La trattazione si articola come segue:
+\begin{itemize}
+    \item La \cref{sec:prova_dinamica} descrive il contesto delle prove d'impatto dinamiche previste dalla normativa per i diversi sistemi di protezione e il ruolo chiave svolto dalla rete nella trasmissione delle sollecitazioni.
+    \item La \cref{sec:prova_quasi_statica} introduce la prova quasi-statica e la formulazione del modello numerico di contatto (PFEF) basato su \textit{Slack variables} e metodo \textit{Active Set}.
+    \item La \cref{sec:risultati_quasi_statici} presenta i risultati ottenuti in termini di curve forza-spostamento ($P-\delta$) e capacità di assorbimento energetico $E_0$.
+    \item La \cref{sec:bilancio_energetico} fornisce la giustificazione teorica di questo approccio, dimostrando a quali condizioni il bilancio energetico quasi-statico può ritenersi una condizione sufficiente a garantire il superamento della prova di impatto.
+\end{itemize}
+
+\section{La prova di impatto dinamica}\label{sec:prova_dinamica}
+Sebbene la rete sia l'elemento a contatto con l'impattatore, la risposta meccanica globale del sistema di protezione non è affidata esclusivamente ad essa, bensì all'interazione di tutti gli elementi costitutivi(funi di bordo, elementi di ancoraggio, dispositivi di dissipazione di energia, eventuali pali di supporto).
+
+A tal proposito, i documenti di valutazione europea (\textit{European Assessment Document - EAD}) formulati per i sistemi di ritenuta massi prevedono l'esecuzione di prove dinamiche sia allo Stato Limite di Esercizio (\textit{Service Energy Level}) sia allo Stato Limite Ultimo (\textit{Maximum Energy Level}) sull'intero insieme strutturale, comprendendo - oltre alle strutture di intercettazione - anche i supporti, gli elementi di connessione e i device di dissipazione. Analogalmente, per le reti di sicurezza appartenenti alle tipologie di Sistema T, U e V della norma EN 1263-1, il test d'impatto dinamico prevede che venga sottoposto a prova l'intero sistema di sicurezza montato nella sua configurazione operativa. 
+
+Diversamente, per la caratterizzazione dinamica delle reti di sicurezza in Sistema S, la norma EN 1263-1 prevede una procedura di prova che presenta la particolarità di disaccoppiare la risposta del sistema dalle strutture esterne di vincolo. La prova consiste nel rilascio in caduta libera di una massa sferica con geometria e peso normati da un'altezza tale da imprimere l'energia d'impatto prescritta. Il sistema - composto dalla rete di dimensioni $ 5 \text{m} \times 7 \text{m}$, dalla fune di bordo (\textit{border rope}) e dalle funi di attacco alla struttura esterna (\textit{tie ropes}) - deve arrestare la massa soddisfacendo un criterio di tipo \textit{passa/non passa}, verificando in particolare che la freccia massima di inflessione non superi il $75\%$ del lato minore della rete (come illustrato nelle \cref{fig:prova_dinamica1,fig:prova_dinamica2}). \'E interessante notare come lo stesso EAD di riferimento per i sistemi sostitutivi dei parapetti \textit{X-Tend} rimandi esplicitamente alla metodologia di prova prescritta per il Sistema S, introdocendo opportuni accorgimenti riguardanti il numero e la disposizione dei collegamenti con il supporto esterno in funzione delle dimensioni del provino.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width = 0.85\textwidth]{143_capitoli/capitolo3/test_dinamico_sistema_S_1.png}
+    \caption{Prova dinamica per reti di sicurezza in sistema S - vista frontale}
+  \label{fig:prova_dinamica1}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width = 0.85\textwidth]{143_capitoli/capitolo3/test_dinamico_sistema_S_2.png}
+    \caption{Prova dinamica per reti di sicurezza in sistema S - vista in pianta}
+  \label{fig:prova_dinamica2}
+\end{figure}
+Sebbene la prestazione dinamica sia una proprietà dell'intero insieme strutturale, la rete costituisce l'interfaccia primaria di contatto e il mezzo fondamentale attraverso cui le sollecitazioni vengono raccolte e trasmesse ai vincoli. Di conseguenza, la capacità della sola rete di assorbire lavoro di deformazione senza giungere a rottura rappresenta un requisito essenziale. Ai fini della caratterizzazione del materiale e della geometria della maglia, le normative tecniche prescrivono l'esecuzione di prove quasi-statiche su campioni di porzioni di rete di dimensioni standardizzate.
+
+\section{La prova quasi-statica e modellazione numerica del contatto}\label{sec:prova_quasi_statica}
+Nell'ambito della meccanica delle strutture, una prova quasi-statica è una metodologia impiegata per valutare la capacità di accumulare energia di deformazione elastoplastica di una sistema meccanico. Nell'ambito scientifico, l'idea principale è quella di incrementare l'intensità di una variabile di sistema di incrementi infinitesimi con lo scopo di procedere per successivi stati di equilibrio al fine di isolareall'interno del percorso di carico, i contributi conservativi da quelli non conservativi (è giusto?).
+
+La variazione prodotta sulla varibile controllata sarà tale per cui sia i fenomeni inerziali che quelli dissipativi prodotti dalla derivata prima della variabile controllata siano considerabili trascurabili. Tale discorso riprende perfettamente quando scritto nell'\cref{eq:problema_quasi_statico}, dove il vettore $\underline{p}(\text{t})$ non è altro che un vettore delle forze esterne generico. 
+
+Tale prova consente di caratterizzare la risposta meccanica pura del componente "rete" indipendentemente dai fenomeni d'impatto e dalle oscillazioni proprie dell'intero sistema.
+
+\subsection{La prova quasi-statica secondo la EN 1263-1}
+La norma relativa ai sistemi di protezione anticaduta, per caratterizzare la resistenza statica della rete prevede l'applicazione di una prova quasi-statica (nominata anche come \textit{Static energy absorption test for nets}) su una rete di dimensioni $3\text{m} \times 3\text{m}$  per mezzo di una massa di prova dalle caratteristiche geometriche definite che viene spinta con una velocità non superiore ad $(1 \pm 0,1) \text{m/min}$ per mezzo di un gancio di trazione a contatto con il centro della rete provocandone l'entrata in carico, come mostrato in \cref{fig:prova_statica1}.
+
+La sfera sale spinta per mezzo del paranco, nel mentre per mezzo del dinamometro interposto tra il gancio e la sfera la forza impiegata, così come lo spostamento verticale compiuto, viene misurata e registrata. L'area $A$ sottesa dal grafico riportato in \cref{fig:prova_statica2} rappresenta il lavoro fatto dalla forza per spostare la sfera della quantità $\Delta v$. Il lavoro compiuto è pari alla somma tra la variazione di energia potenziale elastica accumulata dalla rete tra lo stato iniziale e quello finale $E_0$, più il lavoro fatto per spostare la massa della sfera e quella della rete posta in trazione dalla configurazione iniziale a quella finale $(m_{sfera}+m_{rete})g \Delta v$. Allora, supponendo valga la condizione per cui $m_{sfera} \gg m_{rete}$, vale la relazione: 
+\begin{equation}
+  E_{tot} \approx E_0 + m_{sfera} g \Delta v 
+\end{equation}
+Dai risultati della prova perciò è possibile ricavare l'energia potenziale elastica accumulabile dalla rete $E_0$ che come vedremo successivamente è necessaria, sotto talune ipotesi, a valutare l'esito della prova di impatto dinamico.
+
+In ultima istanza è necessario sottolineare come la prova quasi-statica descritta in \cite{EN1263-1} non riguardi le reti impiegate nei sistemi di protezione e quindi non ci permette di conoscere il valore di $E_0$ legato all'elemento elastico rete impiegata nel sistema oggetto di valutazione, bensì, caratterizza in maniera standard la rete che è montata sul sistema per mezzo del valore $E_0$ relativo ad un provino di dimensioni standard. Di fatto, questa prova caratterizza, non tanto la resistenza statica della rete in termini di forza, quanto l'energia potenziale elastica che un provino di dimensioni standard di una rete può assorbire.
+
+Il risultato della prova sulla è impiegato per classificare la rete facente parte del sistema di protezione in questione. Secondo \cite{EN1263-1}, le reti impiegate nei 4 sistemi di protezione (S, T, U, V), possono essere di quattro classi in funzione dell'energia che può agire su di esse e della dimensione $l_M$ delle maglie, perciò le reti sono classificate come segue: 
+\begin{itemize}
+  \item -- \textbf{Classe A1}: $E_A$ = 2,3\text{kJ}; $l_M$ = 60\text{mm}
+  \item -- \textbf{Classe A2}: $E_A$ = 2,3\text{kJ}; $l_M$ = 100\text{mm}
+  \item -- \textbf{Classe B1}: $E_B$ = 4,4\text{kJ}; $l_M$ = 60\text{mm}
+  \item -- \textbf{Classe B2}: $E_B$ = 4,4\text{kJ}; $l_M$ = 100\text{mm}
+\end{itemize}
+Va comunque precisato che i valori di energia $E_A$ e $E_B$ non sono quelli da confrontare direttamente col valore $E_0$ ottenuto. Infatti, per tener conto della variabilità statistica dei valori e dell'effetto dell'invecchiamento del materiale, la norma impone che:
+\begin{equation}
+  E_0 >  \gamma_1 \times \gamma_2 \times E_N
+\end{equation} 
+Dove: 
+\begin{itemize}
+  \item $E_N$ è il valore di progetto dell'energia che può agire sulla rete (\textit{N = A} se la rete è dichiarata essere di classe \textit{A1} o \textit{A2}, \textit{N = B} se la rete è dichiarata essere di classe \textit{B1} o \textit{B2})
+  \item $\gamma_1$ è il fattore di sicurezza generale (contiene all'interno tutte le variabilità del valore: di modello, statistiche, del materiale, ... ). Può essere assunto pari ad \textit{1,5}.
+  \item $\gamma_2$ è un coefficiente che tiene conto il deterioramento delle caratteristiche meccaniche della rete imputabile all'invecchiamento.
+\end{itemize}
+Nel nostro caso, riferendoci a reti nuove per cui gli effetti dovuti all'invecchiamento si possano considerare trascurabili, il valore di energia assorbita dalla rete $E_0$ sarà confrontato con la quantità $1,5E_N$.
+La prova di norma, perciò, non sarà simulata con l'obiettivo di caratterizzare l'energia potenziale elastica che potrà essere assorbita dalla rete. Considerando che la prova dinamica che abbiamo visto nella sezione precedente, è una prova del tipo passa/non passa non abbiamo dei risultati sperimentali con cui confrontarci, cosa che invece succede nel caso della prova quasi-statica. Perciò, utilizzeremo la simulazione della prova quasi-statica per validare il solutore nei confronti della riproduzione di una prova quasi-statica, in caso di esito positivo, successivamente sarà sufficiente condurre la prova quasi-statica sulla rete nelle condizioni di applicazione nel sistema di protezione per valutare la sua capacità di assorbire energia potenziale elastica. 
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width = 0.85\textwidth]{143_capitoli/capitolo3/test_statico_sistema_S_1.png}
+    \caption{Prova di assorbimento statico dell'energia - vista frontale 
+    Legenda: 1 -- rack; 2 -- telaio di prova; 3 -- trasduttore di spostamento; 
+    4 -- rete non sollecitata; 5 -- massa di prova (sfera Ø 500 mm); 
+    6 -- rete in prova; 7 -- dinamometro; 8 -- paranco; 
+    9 -- spostamento verticale della massa.}
+  \label{fig:prova_statica1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.6\textwidth]{143_capitoli/capitolo3/test_statico_sistema_S_2.png}
+    \caption{Prova di assorbimento statico dell'energia - grafico \textit{F - v}}
+  \label{fig:prova_statica2}
+\end{figure}
+Nei confronti dell'elaborazione dei risultati derivanti dalla prova di carico come definita da norma, è importante notare che la condizione per cui la rete si considera arrivata a rottura non è indicata, perciò la norma lascia discrezionalità su quando fermare il test. Quello che si osserva alla rottura delle prime funi è una forte discontinuità del diagramma $F-v$ perciò molto spesso, la pratica comune, porta a fermarsi prima di questo fenomeno.
+
+\subsection{Modellazione numerica del contatto}
+Come presentato in precedenza la prova di assorbimento di energia per le reti non consiste in nient'altro che spingere una sfera al centro di una rete fino a quando la rete non si considera rotta. All'interno del solver FEM, presentato in \cref{chap:capitolo2}, è stato dunque introdotto il problema del contatto meccanico tra una sfera ed una rete di funi. 
+
+La sfera considerata infinitamente rigida, rappresenta per la rete un vincolo di tipo reonomo, con cui avvengono molteplici contatti. Le equazioni che descrivono l'interazione tra la rete e la sfera in fase di prova possono essere ottenute mediante il metodo dei moltiplicatori di Lagrange. 
+In particolare, le equazioni di vincolo possono essere poste come disuguaglianze da imporre ai nodi della rete, attraverso la definizione della funzione vettoriale:
+\begin{equation}
+  \underline{g}\left( \underline{x}, t \right) \geq \underline{0},
+\end{equation}
+dove $\underline{g} : \mathbb{R}^{3n+1} \rightarrow \mathbb{R}^n$ descrive la distanza delle coordinate dei nodi della rete dalla superficie esterna della sfera. Al fine di conoscere in ciascun istante di tempo in cui il problema del contatto viene risolto, la posizione della superficie della sfera che costituisce il vincolo imposto alla rete, è necessario conoscerne il moto, e nel nostro caso questo è imposto nel rispetto di quanto previsto da normativa, ovvero centrato nel mezzo del provino e soggetto ad uno spostamento prodotto mantenendo una velocità inferiore a quella prescritta in \cite{EN1263-1}.
+
+Introduciamo il vettore delle variabili ausiliarie $\underline{s} \in \mathbb{R}^n$, allora possiamo definire la funzione vettoriale $\underline{f}(\underline{s}, \underline{x}, t)$ una funzione vettoriale per cui ciascuna componente è pari alla differenza tra la funzione di gap ed il valore della variabile ausiliaria relativa a tale nodo: 
+\begin{equation}
+  f_i( \underline{x}, s_i, t) = g_i(\underline{x}, t) - s_{i}^2 
+\end{equation}
+dove $f_i : \mathbb{R}^{4n + 1} \rightarrow \mathbb{R}$. 
+
+Se la funzione di gap è nota, essendo note la posizione della superficie della sfera e la posizione della rete, il vettore delle variabili ausiliarie costituisce il vettore delle incognite.
+
+Applicando il metodo dei moltiplicatori di Lagrange, la funzione lagrangiana del sistema è aumentata di un contributo di penalità dovuto alle forze di contatto, che assumerà il valore nullo al raggiungimento dell'equilibrio. Il contributo di penalità consiste in due fattori:  le equazioni di vincolo ed i moltiplicatori. I moltiplicatori vengono inclusi anch'essi tra le variabili di sistema. Perciò la funzione Lagrangiana del sistema è definita come segue: 
+\begin{equation}
+  \mathcal{L}(\underline{q}, \underline{\dot{q}}, t) = \mathcal{K} - \mathcal{V} + \underline{\lambda}^{T}\underline{f}(\underline{x}, \underline{s}, t)
+  \label{eq:funzione_lagrangiana_contatto1}
+\end{equation}
+dove $\underline{q}$ sono le coordinate lagrangiane generalizzate che chiariremo successivamente e $\underline{\lambda}$ sono i moltiplicatori di lagrange. 
+
+Considerando l'equilibrio del sistema meccanico come visto in precedenza, allora possiamo concludere che le espressioni dell'energia cinetica, dell'energia potenziale elastica e la funzione di dissipazione di Rayleigh siano le stesse delle \cref{eq:energia_cinetica,eq:potenziale_elastica,eq:dissipazione}. Allora le equazioni di Lagrange vengono modificate come segue: 
+\begin{equation}
+  \frac{d}{dt} \left( \frac{\partial \mathcal{L}}{\partial \dot{q}_h}\right) - \frac{\partial \mathcal{L}}{\partial  q_h} = \frac{\partial \mathcal{R}}{\partial \dot{q}_h} + p_h
+  \label{eq:equazione_lagrangiana_contatto}
+\end{equation}
+Perciò il vettore delle coordinate lagrangiane generalizzate $\underline{q}$, contiene sia il vettore delle posizioni nodali $\underline{x}$, il vettore dei moltiplicatori di lagrange $\underline{\lambda}$ ed il vettore delle variabili ausiliarie $\underline{s}$, come segue: 
+\begin{equation} 
+  q = \left\{
+  \begin{array}{c}
+    \underline{x}\\
+    \underline{\lambda}\\
+    \underline{s}\\
+  \end{array}
+  \right\} \in \mathbb{R}^{5n}
+\end{equation}
+Di conseguenza la funzione di Lagrange risulta una funzione $\mathcal{L} : \mathbb{R}^{10n+1} \rightarrow \mathbb{R}$.
+
+Sostituendo l'espressione della funzione Lagrangiana \cref{eq:funzione_lagrangiana} nell'equazione Lagrangiana \cref{eq:equazione_lagrangiana_contatto}, otteniamo un set di equazioni differenziali che governano il problema dinamico non lineare che descrive l'interazione tra la rete e la sfera in fase di contatto: 
+\begin{equation}
+  \begin{cases}
+    M\underline{\ddot{x}} + D\underline{\dot{x}} + S(\underline{x})\underline{x} - J^{T}\underline{\lambda} = \underline{p}\\
+    \underline{f} = \underline{0}\\
+    \underline{\lambda}^T\underline{s} = 0
+  \end{cases}
+  \label{eq:formulazione_dinamica_contatto}
+\end{equation}
+dove $J = \frac{\partial \underline{f}}{\partial \underline{x}} \in \mathbb{R}^{n\times3n}$ è la matrice Jacobiana relativa alla funzione vettoriale $\underline{f}$. 
+
+Nel caso del problema quasi-statico dall'espressione della funzione lagrangiana il contributo dovuto alle forze d'inerzia ed alle forze dissipative è nullo e perciò il sistema di equazioni \eqref{eq:formulazione_dinamica_contatto} assume la forma: 
+\begin{equation}
+  S(\underline{x})\underline{x} - - J^{T}\underline{\lambda} = \underline{p}
+\end{equation}
+In questo caso il vettore delle forze esterne nodali $\underline{p}$, ipotizzando che durante la prova quasi-statica non intervengano altre forze esterne se non quelle dovute al peso proprio e quelle prodotte dai vincoli esterni, può essere scritto come: 
+\begin{equation}
+  \underline{p} = - \underline{f}_g + \underline{f}_{ext}(t)
+\end{equation}
+
+
+
+
+\subsubsection{Slack variables}
+\subsubsection{Active set method}
+
+\section{Risultati della prova quasi statica}\label{sec:risultati_quasi_statici}
+
+\section{Dal bilancio dinamico al bilancio energetico quasi-statico}\label{sec:bilancio_energetico}
+
+Per comprendere il legame formale tra la prova quasi-statica di laboratorio e la risposta ad un impatto dinamico, è possibile ricavare il bilancio energetico del sistema partendo dal modello teorico e dalle equazioni di governo del moto ricavate nel Capitolo 2.
+
+Si consideri il sistema meccanico globale composto dal corpo impattante (sfera di massa $m_{\text{sfera}}$) e dalla rete di sicurezza. Il vettore dei gradi di libertà cinematici del sistema $\underline{x}(t)$ in questo caso viene definito a blocchi come:
+\begin{equation}
+    \underline{x}(t) = \begin{bmatrix} \underline{x}_{\text{massa}}(t) \\ \underline{x}_{\text{rete}}(t) \end{bmatrix}
+    \label{eq:vettore_esteso}
+\end{equation}
+dove $\underline{x}_{\text{massa}}(t) \in \mathbb{R}^3$ descrive la posizione del centro di massa dell'impattatore e $\underline{x}_{\text{rete}}(t) \in \mathbb{R}^{3n}$ racchiude le coordinate dei nodi $n$ della rete.
+
+Assumendo per il corpo impattante l'ipotesi di corpo perfettamente rigido, esso non accumula energia potenziale elastica interna ($\mathcal{U}_{\text{massa}} = 0$) né contribuisce alla dissipazione di energia ($D_{\text{massa}} = \mathbf{0}$). 
+
+Tenendo conto di tali ipotesi, la matrice di massa globale $M$, la matrice di smorzamento $D$ e la matrice di rigidezza secante $S(\underline{x})$ dell'intero sistema esteso vengono definiti in forma matriciale a blocchi come:
+\begin{equation}
+  M = \begin{bmatrix} M_{\text{massa}} & \mathbf{0} \\ \mathbf{0} & M_{\text{rete}} \end{bmatrix}, \quad
+  D = \begin{bmatrix} \mathbf{0} & \mathbf{0} \\ \mathbf{0} & D_{\text{rete}}\end{bmatrix}, \quad
+  S(\underline{x}) = \begin{bmatrix} \mathbf{0} & \mathbf{0} \\ \mathbf{0} & S_{\text{rete}}(\underline{x}_{\text{rete}}) \end{bmatrix}
+  \label{eq:definizione_matrici_globali}
+\end{equation}
+in cui $M_{\text{massa}} = m_{\text{sfera}} \cdot \mathbf{I}_{3 \times 3}$ rappresenta la matrice di massa concentrata della sfera rigida, mentre $M_{\text{rete}}$, $D_{\text{rete}}$ e $S_{\text{rete}}$ sono gli operatori propri della sola rete definiti nel Capitolo 2. 
+
+Richiamando l'equazione differenziale di equilibrio dinamico non lineare \cref{eq:equilibrio_dinamico_problema}:
+\begin{equation}
+  M \ddot{\underline{x}} + D \dot{\underline{x}} + S(\underline{x})\underline{x} = \underline{p}
+  \label{eq:governo_cap3}
+\end{equation}
+
+Moltiplicando a sinistra l'\cref{eq:governo_cap3} per il trasposto del vettore velocità $\underline{\dot{x}}^T$ ed integrando nel tempo nell'intervallo dell'impatto $[0, t_{\text{arr}}]$ (dove $t_{\text{arr}}$ rappresenta l'istante per cui si ha il massimo affondamento e in cui la velocità dell massa impattante si azzera, $\underline{\dot{x}}(t_{\text{arr}}) = \underline{0}$), si ottiene l'equazione del lavoro e dell'energia in forma integrale: 
+\begin{equation}
+    \int_{0}^{t_{\text{arr}}} \underline{\dot{x}}^T M \ddot{\underline{x}} \, dt + \int_{0}^{t_{\text{arr}}} \underline{\dot{x}}^T D \dot{\underline{x}} \, dt + \int_{0}^{t_{\text{arr}}} \underline{\dot{x}}^T S(\underline{x}) \underline{x} \, dt = \int_{0}^{t_{\text{arr}}} \underline{\dot{x}}^T \underline{p}(t) \, dt
+    \label{eq:bilancio_integrale}
+\end{equation}
+
+Analizzando i singoli termini dell'equazione \eqref{eq:bilancio_integrale}:
+\begin{enumerate}
+  \item \text{Lavoro delle forze d'inerzia (Variazione di energia cinetica):}\\
+  Ricordando la definizione di energia cinetica $\mathcal{K}$ data dall'equazione \eqref{eq:energia_cinetica}, il primo integrale esprime la variazione dell'energia cinetica totale del sistema:
+  \begin{equation}
+        \int_{0}^{t_{\text{arr}}} \underline{\dot{x}}^T M \ddot{\underline{x}} \, dt = \left[ \frac{1}{2} \underline{\dot{x}}^T M \underline{\dot{x}} \right]_{0}^{t_{\text{arr}}} = \mathcal{K}(t_{\text{arr}}) - \mathcal{K}(0) = \mathcal{K}_{\text{res}} -\mathcal{K}_0
+    \end{equation}
+  dove $\mathcal{K}_0 = \frac{1}{2} M_{\text{massa}} v_0^2$ rappresenta l'energia cinetica iniziale della massa impattante al momento del contatto ($t=0$), mentre $\mathcal{K}(t_{\text{arr}}) = \mathcal{K}_{\text{res}}$ indica l'eventuale energia cinetica residua associata alle sole oscillazioni proprie della rete all'istante di arresto della massa (per cui si ha la condizione $\mathcal{K}_{\text{massa}}(t_{\text{arr}}) = 0$, valendo la relazione $\dot{x}_{massa}(t_{arr}) = 0$).
+   
+  \item \text{Energia dissipata per smorzamento ed attrito:}\\
+    Sfruttando la funzione di dissipazione di Rayleigh $\mathcal{R}$ definita nell'equazione \eqref{eq:dissipazione}, il secondo termine rappresenta il lavoro totale dissipato $W_{\text{diss}}$ dal sistema durante l'impatto (attriti nei nodi, scorrimenti e smorzamento del materiale):
+    \begin{equation}
+        W_{\text{diss}} = \int_{0}^{t_{\text{arr}}} \underline{\dot{x}}^T D \dot{\underline{x}} \, dt = 2 \int_{0}^{t_{\text{arr}}} \mathcal{R} \, dt
+    \end{equation}
+
+  \item \text{Lavoro delle forze interne (Energia Potenziale Elastica):}\\
+  Poichè il gradiente dell'energia potenziale elastica corrisponde al vettore delle forze interne elastiche ($S(\underline{x})\underline{x} = \frac{\partial \mathcal{U}}{\partial \underline{x}}$), il terzo termine rappresenta l'energia potenziale elastica di deformazione accumulata dalla rete $\mathcal{U}$ fino allo spostamento massimo $\underline{x}_{\text{max}} = \underline{x}(t_{\text{arr}})$:
+  \begin{equation}
+    \int_{0}^{t_{\text{arr}}} \underline{\dot{x}}^T S(\underline{x}) \underline{x} \, dt = \int_{\underline{0}}^{\underline{x}_{\text{max}}} \left( \frac{\partial \mathcal{U}}{\partial \underline{x}} \right) ^T d\underline{x} = \mathcal{U}(\underline{x}_{\text{max}}) - \mathcal{U}(\underline{x}_0)
+  \end{equation}
+  dove $\mathcal{U}(\underline{x}_0)$ è l'energia potenziale elastica accumulata nella rete quando è in equilibrio soggetta al solo peso proprio.
+
+  \item \text{Lavoro delle forze esterne:}\\
+    Ipotizzando che le uniche forze esterne agenti siano le forze di gravità costanti $\underline{p}(t) = \underline{p}$, il lavoro compiuto dai carichi esterni risulta:
+    \begin{equation}
+        W_{\text{ext}} = \int_{0}^{t_{\text{arr}}} \underline{\dot{x}}^T \underline{p} \, dt = \underline{p}^T \left[ \underline{x}(t_{\text{arr}}) - \underline{x}(0) \right] = \underline{p}_{\text{massa}}^T \Delta \underline{x}_{\text{massa}} + \underline{p}_{\text{rete}}^T \Delta \underline{x}_{\text{rete}}
+    \end{equation}
+    dove $\underline{p}_{\text{massa}}^T \Delta \underline{x}_{\text{massa}} = m_{\text{sfera}} g \cdot \Delta z_{\text{massa}}$ rappresenta il lavoro motore compiuto dalla forza peso della sfera durante l'affondamento verticale $\Delta z_{\text{massa}}$.
+\end{enumerate}
+Raggruppando i singoli contributi nell'equazione di bilancio globale \eqref{eq:bilancio_integrale}, si ottiene:
+\begin{equation}
+    \mathcal{K}_0 + W_{\text{ext}} + \mathcal{U}(\underline{x}_0) = \mathcal{U}(\underline{x}_{\text{max}}) + W_{\text{diss}} + \mathcal{K}_{\text{res}}
+    \label{eq:bilancio_completo}
+\end{equation}
+
+\subsection{Ipotesi di massa della rete trascurabile}
+Separando dalla matrice di massa globale $M$ i contributi inerziali della massa impattatante $M_{\text{massa}}$ da quelli della rete $M_{\text{rete}}$, e considerando che nella maggior parte delle applicazioni reali la massa della rete risulta di ordini di grandezza inferiore rispetto al corpo impattante ($M_{\text{rete}} \ll M_{\text{massa}}$), l'energia cinetica propria associata al moto della sola rete $\mathcal{K_{\text{res}}}$ può essere trascurata. Di conseguenza anche i termini $\mathcal{U}(\underline{x}_0) \approx 0$ e $\underline{p}_{\text{rete}}^T \Delta \underline{x}_{\text{rete}} \approx 0$, diventano trascurabili.
+
+Il bilancio energetico globale dell'impatto espresso dalla \eqref{eq:bilancio_integrale} si riduce alla seguente equazione di conservazione:
+\begin{equation}
+   \mathcal{K}_0 + m_{\text{sfera}} g \cdot \Delta z_{\text{massa}} \approx \mathcal{U}(\underline{x}_{\text{max}}) + W_{\text{diss}}    \label{eq:bilancio_semplificato}
+\end{equation}
+Raggruppando il termine relativo all'energia cinetica iniziale dell'impattatore $\mathcal{K}_0$ e la variazione di energia potenziale della sfera successiva all'impatto $m_{\text{sfera}} g \cdot \Delta z_{\text{massa}}$, in un termine relativo all'energia meccanica posseduta dalla sfera $E_{sfera}$, vediamo come tale energia viene dunque interamente convertita in lavoro interno di deformazione della rete $\mathcal{U}(\underline{x}_{\text{max}})$ ed in quota dissipata per attrito $W_{\text{diss}}$.
+
+\subsection{Riduzione al regime quasi-statico}
+Nel caso di una prova quasi-statica condotta sperimentalmente, la forza viene applicata - per mezzo dello spostamento di una sfera delle stesse caratteristiche di quella impiegata nella prova dinamica - con una velocità estremamente ridotta, tale per cui i termini inerziali e viscosi risultano trascurabili ($\ddot{\underline{x}} \approx \underline{0}$ e $\dot{\underline{x}} \approx \underline{0}$). L'equazione di equilibrio dinamico \eqref{eq:governo_cap3} si riduce alla forma vista nell'\cref{eq:problema_quasi_statico}.
+
+L'energia totale assorbibile fino a rottura dal provino di rete, indicata con $E_0$ come proposto in \cite{EN1263-1}, è determinata integrando la forza applicata $\underline{p}(t)$ lungo il percorso di spostamento sino alla configurazione di rottura $\underline{x}_{\text{rottura}}$:
+\begin{equation}
+  E_0 = \int_{\underline{0}}^{\underline{x}_{\text{rottura}}} \underline{p}_{\text{stat}}^T d\underline{x} = \int_{\underline{0}}^{\underline{x}_{\text{rottura}}} \left( S(\underline{x}) \underline{x} \right)^T d\underline{x} = \mathcal{U}(\underline{x}_{\text{rottura}}) 
+  \label{eq:energia_E0_statica}
+\end{equation}
+
+Geometricamente, l'integrale dell'equazione \eqref{eq:energia_E0_statica} corrisponde all'area sottesa dalla curva Forza-Spostamento registrata sperimentalmente durante la prova quasi-statica. In un'ottica di verifica cautelativa, se la rete possiede una capacità di deformazione elastoplastica $E_0$ superiore all'energia meccanica dell'impatto di progetto ($E_{sfera}$), essa sarà in grado di assorbire l'urto garantendo la condizione limite:
+\begin{equation}
+  E_0 \ge E_{sfera}
+\end{equation} 
+
+\subsection{Limiti di validità dell'approccio quasi-statico}
+DA APPROFONDIRE MEGLIO
+La validità dell'equivalenza energetica tra prova quasi-statica e risposta dinamica trova un limite fisico nella risposta in frequenza della rete. Quando il carico viene applicato quasi-staticamente, la frequenza della sollecitazione esterna tende a zero ($f \to 0$, quindi il periodo relativo $T \to \infty$), corrispondente ad un periodo d'azione virtualmente infinito. In questo regime, il Fattore di Amplificazione Dinamica (d'ora in poi indicato per mezzo dell'acronimo $DAF$) tende all'unità: 
+\begin{equation}
+  DAF = \frac{1}{\sqrt{\left(1 - \left(\frac{f}{f_n}\right)^2\right)^2 + \left(2\zeta \frac{f}{f_n}\right)^2}} \xrightarrow{f \to 0} 1
+\end{equation}
+
+In tali condizioni, l'onda di sollecitazione ha il tempo di propagarsi uniformemente lungo tutte le funi della rete, permettendo l'attivazione dei modi propri di vibrare a bassa frequenza (modi globali). La rete risponde quindi sviluppando la sua massima capacità di deformazione globale. 
+
+Diversamente, quando l'impatto reale si verifica ad un'elevata velocità iniziale $v_0$ o agisce su un'impronta di contatto ridotta, la sollecitazione attiva i modi propri di vibrare ad alta frequenza (modi locali). In questo regime, l'ipotesi di inerzia trascurabile della sola rete cessa di essere valida localmente: i cavi direttamente a contatto con la massa devono accelerare in tempi brevissimi, e le forze d'inerzia locali si oppongono al movimento garantendovi un picco di tensione estremamente elevato. L'energia d'impatto non riesce a propagarsi verso la restante parte della struttura e la rottura si manifesta per un fenomeno di localizzazione della deformazione analogo al punzonamento, portando a rottura le singole maglie colpite ad un livello di energia cinetica globale inferiore ad $E_0$.
+
+\subsection{Obiettivi del capitolo}
+Sulla base del quadro teorico delineato, il presente capitolo è dedicato alla determinazione sperimentale e al calcolo teorico delle capacità di assorbimento dell'energia di deformazione statica $E_0$ su provini di rete, in accordo con i criteri prescritti dalla normativa UNI EN 1263-1 per le reti di sicurezza.
+
+Sebbene la prova quasi-statica non possa cogliere i fenomeni transitori ad alta frequenza tipici degli impatti ad alta velocità la determinazione dell'area di deformazione $E_0$ e dfella curva Forza-Spostamento rappresenta il parametro costitutivo fondamentale indispensabile per la calibrazione di qualsiasi modello numerico. In quest'ottica, uno dei naturali sviluppi futuri proprosti nel presente lavoro di tesi risiede nella modellazione dinamica a piena scala del Sistema S, al fine di simulare la prova di impatto normata, valutando simultaneamente la capacità di dissipazione energetica globale dell'insieme ed il rispetto dei vincoli cinematici di deformazione masisma imposti dalla norma. 
+
+
+
+
+
 

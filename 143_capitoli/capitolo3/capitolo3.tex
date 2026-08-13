@@ -9,8 +9,8 @@ La trattazione si articola come segue:
 \begin{itemize}
     \item La \cref{sec:prova_dinamica} descrive il contesto delle prove d'impatto dinamiche previste dalla normativa per i diversi sistemi di protezione e il ruolo chiave svolto dalla rete nella trasmissione delle sollecitazioni.
     \item La \cref{sec:prova_quasi_statica} introduce la prova quasi-statica e la formulazione del modello numerico di contatto (PFEF) basato su \textit{Slack variables} e metodo \textit{Active Set}.
-    \item La \cref{sec:risultati_quasi_statici} presenta i risultati ottenuti in termini di curve forza-spostamento ($P-\delta$) e capacità di assorbimento energetico $E_0$.
-    \item La \cref{sec:bilancio_energetico} fornisce la giustificazione teorica di questo approccio, dimostrando a quali condizioni il bilancio energetico quasi-statico può ritenersi una condizione sufficiente a garantire il superamento della prova di impatto.
+    \item La \cref{sec:bilancio_energetico} mette in luce il ruolo dell'energia elastica accumulata dalla rete nella prova quasi-statica nel determinare l'esito della prova dinamica.
+    \item La \cref{sec:sintesi_e_prospettive} ricapitola la metodologia adottata e sviluppa le prospettive future.  
 \end{itemize}
 
 \section{La prova di impatto dinamica}\label{sec:prova_dinamica}
@@ -92,37 +92,36 @@ La prova di norma, perciò, non sarà simulata con l'obiettivo di caratterizzare
 \end{figure}
 Nei confronti dell'elaborazione dei risultati derivanti dalla prova di carico come definita da norma, è importante notare che la condizione per cui la rete si considera arrivata a rottura non è indicata, perciò la norma lascia discrezionalità su quando fermare il test. Quello che si osserva alla rottura delle prime funi è una forte discontinuità del diagramma $F-v$ perciò molto spesso, la pratica comune, porta a fermarsi prima di questo fenomeno.
 
-\subsection{Modellazione numerica del contatto}
-Come presentato in precedenza la prova di assorbimento di energia per le reti non consiste in nient'altro che spingere una sfera al centro di una rete fino a quando la rete non si considera rotta. All'interno del solver FEM, presentato in \cref{chap:capitolo2}, è stato dunque introdotto il problema del contatto meccanico tra una sfera ed una rete di funi. 
+\subsection{Modellazione numerica del contatto statico}
+La caratterizzazione sperimentale della capacità di assorbimento dell'energia delle reti di protezione prevede la sollecitazione della struttura mediante un corpo sferico spinto contro il centro del provino. Nel modello ad elementi finiti, tale fenomeno è formulato come un problema di contatto meccanico monolatero tra la rete ed una superficie sferica rigida. 
 
-La sfera considerata infinitamente rigida, rappresenta per la rete un vincolo di tipo reonomo, con cui avvengono molteplici contatti. Le equazioni che descrivono l'interazione tra la rete e la sfera in fase di prova possono essere ottenute mediante il metodo dei moltiplicatori di Lagrange. 
-In particolare, le equazioni di vincolo possono essere poste come disuguaglianze da imporre ai nodi della rete, attraverso la definizione della funzione vettoriale:
+Sebbene il movimento continuo della sfera renda l'interazione cinematicamente dipendente dal tempo, nella risoluzione quasi-statica del problema il tempo viene discretizzato. All'interno di ogni singolo incremento di carico, la posizione della superficie sferica viene considerata fissa e il tempo trattato come un semplice parametro. Di conseguenza, per la risoluzione dell'equilibrio in un dato istante, l'ostacolo si configura a tutti gli effetti come un vincolo cinematico scleronomo ed unilaterale. 
+
+In continuità concettuale e notazionale con quanto formulato per i vincoli esterni al bordo, la condizione cinematica di non compenetrazione tra i nodi della rete e la superficie della sfera viene espressa tramite una funzione di vincolo $\underline{g}$. A differenza dei vincoli bilateri, l'interazione di contatto richiede tuttavia l'imposizione di un disuguaglianza: 
 \begin{equation}
-  \underline{g}\left( \underline{x}, t \right) \geq \underline{0},
+  \underline{g}(\underline{x}) \geq \underline{0}
 \end{equation}
-dove $\underline{g} : \mathbb{R}^{3n+1} \rightarrow \mathbb{R}^n$ descrive la distanza delle coordinate dei nodi della rete dalla superficie esterna della sfera. Al fine di conoscere in ciascun istante di tempo in cui il problema del contatto viene risolto, la posizione della superficie della sfera che costituisce il vincolo imposto alla rete, è necessario conoscerne il moto, e nel nostro caso questo è imposto nel rispetto di quanto previsto da normativa, ovvero centrato nel mezzo del provino e soggetto ad uno spostamento prodotto mantenendo una velocità inferiore a quella prescritta in \cite{EN1263-1}.
-
-Introduciamo il vettore delle variabili ausiliarie $\underline{s} \in \mathbb{R}^n$, allora possiamo definire la funzione vettoriale $\underline{f}(\underline{s}, \underline{x}, t)$ una funzione vettoriale per cui ciascuna componente è pari alla differenza tra la funzione di gap ed il valore della variabile ausiliaria relativa a tale nodo: 
+dove $\underline{g} : \mathbb{R}^{3n} \to \mathbb{R}^n$ è una funzione vettoriale che valuta la distanza radiale degli $n$ nodi della rete dalla superificie esterna della sfera. Indicando con $\underline{x}_i \in \mathbb{R}^3$ le coordinate spaziali del generico \textit{i}-esimo nodo nella configurazione corrente $\underline{x}$, con $r_s$ il raggio della sfera e con $\underline{x}_s(\overline{t}) \in \mathbb{R}^{3}$ le coordinate spaziali del suo centro geometrico valutate all'istante $\overline{t}$, l'espressione analitica della generica componente $g_i$ risulta: 
 \begin{equation}
-  f_i( \underline{x}, s_i, t) = g_i(\underline{x}, t) - s_{i}^2 
+  g_i(\underline{x}) = || \underline{x}_i - \underline{x}_s||^2 - r_s^2 \geq 0, \quad i = 1, \dots, n
 \end{equation}
-dove $f_i : \mathbb{R}^{4n + 1} \rightarrow \mathbb{R}$. 
+La formulazione quadratica del vincolo risulta computazionalmente vantaggiosa in quanto evita l'estrazione della radice positiva, garantendo una maggior regolarità numerica in fase di differenziazione. 
 
-Se la funzione di gap è nota, essendo note la posizione della superficie della sfera e la posizione della rete, il vettore delle variabili ausiliarie costituisce il vettore delle incognite.
-
-Applicando il metodo dei moltiplicatori di Lagrange, la funzione lagrangiana del sistema è aumentata di un contributo di penalità dovuto alle forze di contatto, che assumerà il valore nullo al raggiungimento dell'equilibrio. Il contributo di penalità consiste in due fattori:  le equazioni di vincolo ed i moltiplicatori. I moltiplicatori vengono inclusi anch'essi tra le variabili di sistema. Perciò la funzione Lagrangiana del sistema è definita come segue: 
+Per convertire tale disuguaglianza in un condizione di uguaglianza continua e differenziabile - anche per garantire successivamente l'applicabilità del metodo di Newton-Raphson, si introduce il vettore delle variabili ausiliarie (\textit{slack variables}) $\underline{s} \in \mathbb{R}^{n}$. Si definisce quindi la funzione vettoriale di vincolo regolarizzata $\underline{f}(\underline{x}, \underline{s}) : \mathbb{R}^{4n} \to \mathbb{R}^n$, la cui \textit{i}-esima componente è espressa da: 
 \begin{equation}
-  \mathcal{L}(\underline{q}, \underline{\dot{q}}, t) = \mathcal{K} - \mathcal{V} + \underline{\lambda}^{T}\underline{f}(\underline{x}, \underline{s}, t)
-  \label{eq:funzione_lagrangiana_contatto1}
+  f_i(\underline{x}, s_i) = g_i(\underline{x}) - s_i^2 = 0, \quad i = 1, \dots, n
 \end{equation}
-dove $\underline{q}$ sono le coordinate lagrangiane generalizzate che chiariremo successivamente e $\underline{\lambda}$ sono i moltiplicatori di lagrange. 
-
-Considerando l'equilibrio del sistema meccanico come visto in precedenza, allora possiamo concludere che le espressioni dell'energia cinetica, dell'energia potenziale elastica e la funzione di dissipazione di Rayleigh siano le stesse delle \cref{eq:energia_cinetica,eq:potenziale_elastica,eq:dissipazione}. Allora le equazioni di Lagrange vengono modificate come segue: 
+L'espressione della funzione Lagrangiana di un sistema meccanico soggetto a vincoli data in \eqref{eq:equazione_lagrangiana}, nel caso statico assume la forma: 
 \begin{equation}
-  \frac{d}{dt} \left( \frac{\partial \mathcal{L}}{\partial \dot{q}_h}\right) - \frac{\partial \mathcal{L}}{\partial  q_h} = \frac{\partial \mathcal{R}}{\partial \dot{q}_h} + p_h
-  \label{eq:equazione_lagrangiana_contatto}
+  \mathcal{L}(\underline{q}) = - \mathcal{V} + \underline{\lambda}^{T}\underline{f}(\underline{x}, \underline{s})
+  \label{eq:funzione_lagrangiana_contatto_statico}
 \end{equation}
-Perciò il vettore delle coordinate lagrangiane generalizzate $\underline{q}$, contiene sia il vettore delle posizioni nodali $\underline{x}$, il vettore dei moltiplicatori di lagrange $\underline{\lambda}$ ed il vettore delle variabili ausiliarie $\underline{s}$, come segue: 
+dove $\underline{q}$ è il vettore delle coordinate generalizzate e $\underline{\lambda}$ è il vettore dei moltiplicatori di Lagrange. L'espressione dell'energia potenziale totale rimane inalterata, mentre le espressioni dell'energia cinetica e della funzione di dissipazione di Rayleigh assumono valori nulli a causa dell'indipendenza dal tempo. Tenendo conto dell'indipendenza dal tempo anche del vettore delle coordinate generalizzate $\underline{q}$, l'espressione dell'equazione di Lagrange assume la seguente forma modificato: 
+\begin{equation}
+   - \frac{\partial \mathcal{L}}{\partial  q_h} = p_h
+  \label{eq:equazione_lagrangiana_contatto_statico}
+\end{equation}
+Perciò il vettore delle coordinate Lagrangiana generalizzate $\underline{q}$, contiene sia il vettore delle posizioni nodali $\underline{x}$, il vettore dei moltiplicatori di Lagrange $\underline{\lambda}$ che il vettore delle variabili ausiliarie $\underline{s}$, come segue:
 \begin{equation} 
   q = \left\{
   \begin{array}{c}
@@ -132,35 +131,278 @@ Perciò il vettore delle coordinate lagrangiane generalizzate $\underline{q}$, c
   \end{array}
   \right\} \in \mathbb{R}^{5n}
 \end{equation}
-Di conseguenza la funzione di Lagrange risulta una funzione $\mathcal{L} : \mathbb{R}^{10n+1} \rightarrow \mathbb{R}$.
+Di conseguenza la funzione di Lagrange risulta una funzione $\mathcal{L} : \mathbb{R}^{5n} \to \mathbb{R}$.
 
-Sostituendo l'espressione della funzione Lagrangiana \cref{eq:funzione_lagrangiana} nell'equazione Lagrangiana \cref{eq:equazione_lagrangiana_contatto}, otteniamo un set di equazioni differenziali che governano il problema dinamico non lineare che descrive l'interazione tra la rete e la sfera in fase di contatto: 
+Sostituendo l'espressione della funzione Lagrangiana \eqref{eq:funzione_lagrangiana_contatto_statico} nell'equazione Lagrangiana \eqref{eq:equazione_lagrangiana_contatto_statico}, otteniamo il set di equazioni differenziali che governano il problema statico dell'interazione tra la rete e la sfera in fase di contatto: 
 \begin{equation}
   \begin{cases}
-    M\underline{\ddot{x}} + D\underline{\dot{x}} + S(\underline{x})\underline{x} - J^{T}\underline{\lambda} = \underline{p}\\
+    S(\underline{x})\underline{x} - J^{T}\underline{\lambda} = \underline{f}_g\\
     \underline{f} = \underline{0}\\
     \underline{\lambda}^T\underline{s} = 0
   \end{cases}
-  \label{eq:formulazione_dinamica_contatto}
+  \label{eq:formulazione_statica_contatto}
 \end{equation}
-dove $J = \frac{\partial \underline{f}}{\partial \underline{x}} \in \mathbb{R}^{n\times3n}$ è la matrice Jacobiana relativa alla funzione vettoriale $\underline{f}$. 
+La matrice $J = \frac{\partial \underline{f}}{\partial \underline{x}} \in \mathbb{R}^{n \times 3n}$ è la Jacobiana della funzione di vincolo rispetto alle posizioni nodali. Nel sistema di equilibrio compare la sua trasposta $J^T$, che proietta le rezioni di contatto sui gradi di libertà della rete.
 
-Nel caso del problema quasi-statico dall'espressione della funzione lagrangiana il contributo dovuto alle forze d'inerzia ed alle forze dissipative è nullo e perciò il sistema di equazioni \eqref{eq:formulazione_dinamica_contatto} assume la forma: 
+In questo caso il vettore delle forze esterne nodali $\underline{p}$, ipotizzando che durante la prova quasi-statica non intervengano altre forze esterne se non quelle dovute al peso proprio, può essere scritto come: 
 \begin{equation}
-  S(\underline{x})\underline{x} - - J^{T}\underline{\lambda} = \underline{p}
+  \underline{p} = \underline{f}_g 
 \end{equation}
-In questo caso il vettore delle forze esterne nodali $\underline{p}$, ipotizzando che durante la prova quasi-statica non intervengano altre forze esterne se non quelle dovute al peso proprio e quelle prodotte dai vincoli esterni, può essere scritto come: 
+
+\subsubsection{Linearizzazione mediante Metodo di Newton-Raphson}
+A partire dal sistema non lineare \eqref{eq:formulazione_statica_contatto}, la soluzione al problema di contatto statico si riduce alla ricerca dello zero del vettore residuo $R(\underline{q}) = \underline{0}$, definito come: 
+\begin{equation} 
+  \underline{R}(\underline{q}) = \left\{
+  \begin{array}{c}
+    S(\underline{x})\underline{x} - J^T\underline{\lambda} - \underline{f}_g\\
+    \underline{f}\\
+    \underline{\lambda}^T\underline{s}\\
+  \end{array}\right\} = \left\{
+  \begin{array}{c}
+    \underline{0}\\
+    \underline{0}\\
+    \underline{0}\\
+  \end{array}\right\}
+\end{equation}
+Trattandosi di un sistema di equazioni algebriche non lineari, la soluzione viene perseguita per via iterativa mediante l'algoritmo di Newton-Raphson. Linearizzando il vettore residuo $R(\underline{q})$ attorno alla configurazione generica $\underline{q}^{(k)}$ all'iterazione \textit{k}-esima, si ottiene il sistema algebrico incrementale: 
 \begin{equation}
-  \underline{p} = - \underline{f}_g + \underline{f}_{ext}(t)
+  K_{aug}(\underline{q}^{(k)})\Delta\underline{q}^{(k)} = - \underline{R}(\underline{q}^{(k)})
+  \label{eq:sistema_lineare_aumentato}
+\end{equation}
+dove $\Delta\underline{q}^{(k)} = \left[ \Delta\underline{x}^T, \Delta\underline{\lambda}^T, \Delta\underline{s}^T\right]^T$ rappresenta l'incremento del vettore delle variabili generalizzate, mentre $K_{aug} \in \mathbb{R}^{5n \times 5n}$ è la matrice di rigidezza aumentata ottenuta dallo Jacobiano del sistema: 
+\begin{equation}
+  K_{aug} = \frac{\partial \underline{R}}{\partial \underline{q}} = \begin{bmatrix}
+    K_T & -J^T & 0\\
+    -J  &   0  & 2\,\operatorname{diag}(\mathbf{s})\\
+    0   &   \operatorname{diag}(\mathbf{s})  & \operatorname{diag}(\mathbf{\lambda})\\  
+  \end{bmatrix}
+  \label{eq:matrice_rigidezza_aumentata}
+\end{equation}
+Dove la matrice $J$ è la stessa che abbiamo definito in \eqref{eq:formulazione_statica_contatto}, $\operatorname{diag}(\underline{s}) \in \mathbb{R}^{n \times n}$ e $\operatorname{diag}(\underline{\lambda}) \in \mathbb{R}^{n \times n}$ sono due matrici diagonali semidefinite positive le cui componenti sono i valori delle componenti dei vettori $\underline{s}$ e $\underline{\lambda}$. La sottomatrice $K_T \in \mathbb{R}^{3n\times3n}$ rappresenta la matrice di rigidezza tangente globale della rete e si ottiene dalla derivata del blocco delle prime $3n$ equazioni del residuo rispetto al vettore delle coordinate generalizzate $\underline{q}$, ed è definita come:
+\begin{equation}
+  K_{T} = T(\underline{x}) - K_{cont} 
+  \label{eq:matrice_rigidezza_aumentata_sottoblocco}
+\end{equation}
+Dove $T(\underline{x})$ è la matrice di rigidezza tangente della rete definita in \eqref{eq:matrice_tangente}, mentre $K_{cont}$ è definita come:
+\begin{equation}
+  K_{cont} = \left(\frac{\partial J(\underline{x})}{\partial \underline{x}}\right)^T \underline{\lambda} = \sum_{i=1}^{n} \lambda_i H_i(\underline{x})
+  \label{eq:matrice_rigidezza_contatto}
+\end{equation}
+dove $H_i(\underline{x}) = \frac{\partial^2 f_i}{\partial \underline{x}^2}$ è la matrice Hessiana relativa alla funzione di vincolo per il nodo \textit{i}-esimo. 
+
+\'E importante osservare che la matrice aumentata $K_{aug}$ può essere riscritta in forma simmetrica mediante operazioni lineari elementari che non alterano la soluzione del sistema, quali la permutazione delle equazioni e la moltiplicazione di una riga per un fattore costante. In particolare, moltiplicando per $2$ l'ultima equazione del sistema (quella di complementarità $\operatorname{diag}(\underline{\lambda})\underline{s} = \underline{0})$, il blocco inferiore sinistro $\operatorname{diag}(\underline{s})$ diventa $2\operatorname{diag}(\underline{s})$, risultano così il trasposto del blocco superiore destro. Analogalmente, permutando opportunamente le equazioni di equilibrio e di contatto, il blocco $J$ può essere ricollocato in modo da comparire come trasposto del blocco $-J^T$, eliminando l'asimmetria dovuta al segno. Poiché tali trasformazioni non modificano la soluzione del sistema incrementale, e considerando che i blocchi diagonali $K_T$, $\operatorname{diag}(\underline{s})$ e $\operatorname{diag}(\underline{\lambda})$ sono simmetrici per costruzione, l'intera matrice aumentata può essere espressa come matrice simmetrica. Questa riformulazione preserva la coerenza del sistema di partenza migliorando la stabilità numerica del metodo di Newton-Raphson, inoltre, una volta ottenuta simmetrica semidefinita-positiva, il sistema lineare può essere risolto ricorrendo alla fattorizzazione $LDL^T$ impiegata dal solver \textit{PyPardiso}, molto più efficiente della fattorizzazione \textit{LU} solitamente utilizzata per matrici non simmetriche. Cio comporta una significativa riduzione del costo computazionale della fase di risoluzione.
+
+\subsubsection{Integrazione con i vincoli esterni al bordo}
+Per garantire la coerenza con la trattazione dei vincoli esterni (cerniere fisse o carrelli scorrevoli introdotti nel Capitolo 2), il vettore degli spostamenti nodali $\underline{x}$ viene partizionato nei gradi di libertà liberi $\underline{x}_f$ e in quelli vincolati al bordo $\underline{x}_c$, come fatto in \eqref{eq:vettore_x_partizionato}.
+
+In modo del tutto analogo alla formulazione elastica, anche nel caso del sistema aumentato si procede estraendo le sole equazioni associate ai gradi di libertà liberi della variabile $\underline{x}$, ottenendo il sistema ridotto:
+\begin{equation}
+  K_{aug,red}\left\{
+  \begin{array}{c}
+    \Delta\underline{x}_f\\
+    \Delta\underline{\lambda}\\
+    \Delta\underline{s}\\
+  \end{array}\right\} = - \left\{
+  \begin{array}{c}
+    \underline{R}_{x,f}\\
+    \underline{R}_f\\
+    \underline{R}_{\lambda s}\\
+  \end{array}\right\}
+\end{equation}
+dove $K_{aug,red}$ è ottenuta selezionando le righe e le colonne della matrice aumentata corrispondenti ai \textit{gdl} liberi della variabile $\underline{x}$, mentre le variabili di contatto $\underline{\lambda}$ e $\underline{s}$ non richiedono alcuna partizione in quanto non possiedono gradi di libertà vincolati. Sebbene nel codice esse siano definite per tutti i nodi della rete, il contatto è fisicamente attivo esclusivamente sui nodi liberi: i nodi vincolati, infatti, non possono muoversi nello spazio e quindi non possono generare penetrazione né attivare la funzione di gap. Di conseguenza, sui nodi vincolati le corrispondenti componenti di $\underline{\lambda}$ e $\underline{s}$ associate ai nodi vincolati rimangono automaticamente nulle e non intervengono nella formulazione, consentendo di mantenere tali variabili integralmente nel sistema aumentato senza necessità di ulteriori partizioni. Inoltre, l'estrazione del sistema ridotto preserva la simmetria della matrice aumentata, precedentemente ottenuta mediante le operazioni lineari descritte nel paragrafo precedente.   
+
+\subsubsection{Assemblaggio delle matrici ed efficienza computazionale}
+Nella realizzazione del codice di calcolo, la principale criticità dal punto di vista dell'onere computazionale è rappresentata dalla costruzione e dal continuo aggiornamento, a ogni iterazione del metodo di Newton-Raphson, della matrice di rigidezza aumentata $K_{\text{aug}}$. Rispetto al problema statico di una rete soggetta al solo peso proprio, l'introduzione delle condizioni di contatto richiede l'assemblaggio di ulteriori sottomatrici: la matrice di contatto ${K}_{\text{cont}} \in \mathbb{R}^{3n \times 3n}$, la matrice Jacobiana dei vincoli $J \in \mathbb{R}^{n \times 3n}$, e le matrici diagonali $\operatorname{diag}(\underline{s}) \in \mathbb{R}^{n\times n}$ e $\operatorname{diag}(\underline{\lambda}) \in \mathbb{R}^{n\times n}$ .
+
+Nel caso di reti caratterizzate da un elevato numero di nodi ed elementi, le matrici di blocco che compongono $K_{\text{aug}}$ sono fortemente sparse. Per azzerare l'impatto computazionale legato alla memorizzazione e al calcolo degli elementi nulli, l'implementazione sfrutta le strutture dati sparse fornite dalla libreria \textit{SciPy}, con particolare riferimento ai formati \textit{COOrdinate} (COO) e \textit{Compressed Sparse Row} (CSR).
+
+Il formato COO — definito dai tre vettori coordinati dei valori e dei relativi indici di riga e colonna — risulta particolarmente vantaggioso nella fase iniziale di assemblaggio elemento per elemento, in quanto consente l'inserimento flessibile dei contributi senza vincoli di ordinamento. Tuttavia, i solutori di sistemi lineari integrati in \textit{SciPy} e \textit{PyPardiso} (\textit{spsolve}) richiedono matrici memorizzate nel formato CSR per eseguire in modo efficiente le operazioni algebriche basate sull'accesso rapido per riga. 
+
+Poiché la conversione dinamica da COO a CSR a ogni iterazione non lineare introdurrebbe un pesante costo computazionale, l'assemblaggio di tutte le sottomatrici di contatto — a eccezione della matrice di rigidezza tangente della struttura $T$ — è stato compilato direttamente nel formato CSR (aggiornando i soli vettori dei dati a topologia di sparsità invariata). Tale accorgimento ha consentito di ridurre drasticamente il tempo di esecuzione assorbito dalla fase di assemblaggio durante la risoluzione numerica.
+
+\subsection{Active set method}
+L'introduzione delle variabili ausiliarie consente di riformulare le condizioni di vincolo in equazioni continue del tipo $\underline{g}(\underline{x}) - \underline{s}^2 = \underline{0}$ e $\underline{\lambda}^T \underline{s} = 0$. Sebbene tale approccio regolarizzi la formulazione numerica, esso introduce un'ulteriore non linearità ed un forte accoppiamento tra le variabili $\underline{x}$, $\underline{\lambda}$ e $\underline{s}$. Di conseguenza, nella simulazione di prove quasi-statiche con contatto, l'applicazione del metodo di Newton-Raphson al sistema aumentato richiede un numero elevato di iterazioni prima di giungere a convergenza.
+
+Siano $N_{iter}$ il numero di iterazioni di Newton-Raphson necessarie alla convergenza del problema e $t_{iter}$ il tempo di calcolo associato alla singola iterazione. Poichè $t_{iter}$ è dominato dal tempo di assemblaggio della matrice di rigidezza aumentata ($t_{iter} \approx t_{ass}$) - il quale è stato ridotto al minimo come illustrato nel paragrafo precedente - l'onerosità computazionale complessiva risulta direttamente proporzionale a $N_{iter}$. 
+
+Per contenere i tempi di calcolo della prova quasi-statica si è adottato quindi il metodo \textit{Active Set}. Il principio fondamentale di tale approccio consiste nel trattare esplicitamente la complementarità delle condizioni di vincolo aggiornando iterativamente l'insieme dei nodi effettivamente in contatto, denotato con $\mathcal{A}$ (\textit{active set}). A ogni iterazione viene risolto un problema lineare a vincoli attivi fissati, riducendo la non linearità del sistema e contraendo il numero di iterazioni $N_{iter}$ necessarie al solutore.
+
+Nel seguito viene dettagliata la metodologia algoritmica adottata:
+\begin{enumerate}
+  \item \textbf{Identificazione dei nodi candidati al contatto:}
+  Prima di poter valutare l'attivazione dei vincoli, l'algoritmo deve identificare l'insieme dei nodi candidati al contatto $\mathcal{C}$. Nelle simulazioni di contatto tra rete e sfera, calcolare la distanza esatta per ogni nodo della griglia ad ogni iterazione sarebbe inefficiente. L'algoritmo adotta quindi una strategia a due livelli: 
+  \begin{enumerate}[label=\alph*)]
+    \item \textbf{Filtro spaziale:}
+    Il primo screening elimina tutti i nodi che si trovano palesemente fuori dall'influenza del vincolo. Definita la posizione del centro della sfera $\underline{x}_s$ e il suo raggio $r_s$, si definisce una tolleranza di prossimità $\epsilon_{on} > 0$:
+    \begin{equation}
+      \mathcal{C}_{init} = \left\{ i \in \left\{ 1, \dots, n \right\} \quad | \quad ||\underline{x}_i - \underline{x}_s|| \leq r_s + \epsilon_{on} \right\}
+    \end{equation}
+    \item \textbf{Calcolo geometrico e proiezione:}
+    Solo sui nodi sopravvissuti al primo filtro si calcola l'effettiva funzione di gap $g_i(\underline{x}_i)$ ed il versore normale uscente dalla superficie della sfera $\underline{n}_i$:
+    \begin{equation}
+      \begin{aligned}
+        g_i(\underline{x}) = || \underline{x}_i -   \underline{x}_s || - r_s \\
+        \underline{n}_i = \frac{\underline{x}_i - \underline{x}_s}{|| \underline{x}_i - \underline{x}_s ||}
+      \end{aligned}
+    \end{equation}
+    \item \textbf{Filtro orientamento:}
+    Per evitare falsi contatti (ad esempio cavi che avvolgono la metà inferiore della sfera), si applica una restrizione sulla direzione normale. Vengono promossi a nodi candidati effettivi $\mathcal{C}$ solo quelli per cui la componente normale rispetta la direzione attesa dal contatto (ad esempio spinta dal basso verso l'alto):
+    \begin{equation}
+      \mathcal{C} = \left\{ i \in \mathcal{C}_{init} \quad | \quad \left( \underline{n}_i\cdot\underline{e}_z\right) \geq \eta_z \right\}
+    \end{equation}
+  \end{enumerate}
+  L'insieme $\mathcal{C}$ costituisce il dominio di ricerca su cui l'algoritmo \textit{Active set} andrà a definire e aggiornare gli insiemi dei nodi attivi $\left( \mathcal{A} \subset \mathcal{C} \right)$ e inattivi $\left( \mathcal{I} = \mathcal{C} \backslash \mathcal{A} \right)$.
+  \item \textbf{Condizioni di vincolo:}
+  Per ogni nodo \textit{i} candidato al contatto, imponiamo le condizioni del vincolo monolatero:
+  \begin{equation}
+    \begin{aligned}
+      g_i(\underline{x}) \geq 0, \\
+      \lambda_i \geq 0, \\
+      g_i(\underline{x}) \cdot \lambda_i = 0;
+    \end{aligned}
+  \end{equation}
+  dove $\lambda_i$ rappresenta la reazione vincolare normale (l'intensità della forza di contatto in direzione del versore $\underline{n}_i$). Dalle condizioni ne deriva che: se il nodo è staccato dalla superficie ($g_i>0$), la forza di contatto deve risultare nulla ($\lambda_i = 0$). 
+  \item \textbf{Partizione del dominio}
+  A ogni iterazione del solutore non lineare, l'algoritmo suddivide l'insieme dei nodi candidati ($\mathcal{C}$) in due sottoinsiemi disgiunti:
+  \begin{itemize}
+    \item Insieme attivo ($\mathcal{A}$): insieme dei nodi ipotizzati a contatto, per i quali viene imposto il vincolo cinematico rigido $g_i(\underline{x}) = 0$. 
+    \item Insieme inattivo ($\mathcal{I}$): insieme dei nodi ipotizzati liberi, per i quali viene annullata la forza di contatto $\lambda_i = 0$.
+  \end{itemize}
+  \item \textbf{Formulazione del sistema aumentato:}
+  Sulla base della partizione dell'insieme dei nodi candidati, la risposta strutturale viene calcolata risolvendo il sistema linearizzato mediante i moltiplicatori di Lagrange: 
+  \begin{equation}
+    \left[\begin{matrix}
+     K_{T} & J_{\mathcal{A}}^T \\
+     J_{\mathcal{A}} & 0 
+    \end{matrix}\right] 
+    \left\{\begin{array}{c}
+    \Delta\underline{x}\\
+    \Delta\underline{\lambda}_\mathcal{A}\\
+    \end{array} \right\} = 
+    \left\{ \begin{array}{c}
+    -\underline{R}_{\mathcal{A}}(\underline{x}, \underline{\lambda}_\mathcal{A} )\\
+    \underline{g}_{\mathcal{A}}(\underline{x})\\
+    \end{array}\right\}
+  \end{equation}
+  dove $J_{\mathcal{A}} = \frac{\partial \underline{g}_{\mathcal{A}}}{\partial \underline{x}}$ è la matrice Jacobiana della funzione di vincolo per i soli nodi attivi, $\underline{R}(\underline{x}, \underline{\lambda}_{\mathcal{A}})$ è il vettore del residuo meccanico globale e $K_{T}$ rappresenta la matrice di rigidezza tangente globale. In perfetta analogia con la formulazione esposta in \eqref{eq:matrice_rigidezza_contatto}, $K_T$ si compone della rigidezza strutturale della rete e della rigidezza geometrica di contatto:
+  \begin{equation}
+    K_T = T(\underline{x}) - K_{cont}
+  \end{equation}
+  in cui $T(\underline{x})$ è la matrice di rigidezza tangente della rete di cavi definita in \eqref{eq:matrice_tangente}, mentre $K_{cont}$ rappresenta il contributo geometrico di contatto valutato sui soli nodi dell'insieme attivo $\mathcal{A}$:
+  \begin{equation}
+     K_{cont} = \sum_{i \in \mathcal{A}} \lambda_i H_i(\underline{x}) = \sum_{i \in \mathcal{A}} \lambda_i \frac{\partial^2 g_i}{\partial \underline{x}^2}
+  \end{equation}
+  Per il corpo sferico di raggio $r_s$ e centro $\underline{x}_s$, la matrice Hessiana $H_i(\underline{x})$ del singolo nodo attivo $i \in \mathcal{A}$ assume la forma analitica:
+  \begin{equation}
+     H_i(\underline{x}) = \frac{1}{\|\underline{x}_i - \underline{x}_s\|} \left( I_{3\times 3} - \underline{n}_i^T \underline{n}_i \right)
+  \end{equation}
+
+  Risolto il sistema, lo stato cinematico e le forze di contatto vengono aggiornate applicando la proiezione di ammissibilità statica sui moltiplicatori:
+  \begin{align}
+  \underline{x}^{(k+1)} &= \underline{x}^{(k)} + \Delta \underline{x} \\
+  \underline{\lambda}_{\mathcal{A}}^{(k+1)} &= \max \left( \underline{0}, \; \underline{\lambda}_{\mathcal{A}}^{(k)} + \Delta \underline{\lambda}_{\mathcal{A}} \right)
+  \end{align}
+
+  \item \textbf{Criteri di aggiornamento e convergenza:}
+  Al termine di ogni iterazione ($\Delta \underline{x}, \Delta \underline{\lambda}_{\mathcal{A}}$), si verifica l'ammissibilità fisica della soluzione per aggiornare gli insiemi:
+  \begin{itemize}
+    \item \textbf{Violazione cinematica:} per ogni nodo appartenente all'insieme degli inattivi ($\mathcal{I}$) si verifica se compenetra l'ostacolo ($g_i(\underline{x}) < 0$). In caso positivo, il nodo viene promosso all'insieme attivo ($\mathcal{A}$).
+    \item \textbf{Violazione statica:} per ogni nodo presente nell'insieme attivo ($\mathcal{A}$) si verifica se $\lambda_i < 0$. Tale condizione indica una trazione non fisica esercitata dal vincolo sul cavo; pertanto, il nodo viene rimosso dall'insieme attivo al passo successivo.
+  \end{itemize}
+  L'equilibrio quasi-statico al passo temporale corrente si considera raggiunto esclusivamente quando l'insieme attivo non subisce alcuna modifica tra due iterazioni consecutive ($\mathcal{A}^{(k+1)} = \mathcal{A}^{(k)}$) e le norme dei residui rientrano nelle tolleranze prestabilite: 
+  \begin{equation*}
+  \|\underline{R}\| \le \epsilon_R \quad \text{e} \quad \|\underline{g}_{\mathcal{A}}\| \le \epsilon_g
+  \end{equation*}
+  con $\epsilon_R$ ed $\epsilon_g$ tolleranze numeriche fissate a piacere.
+\end{enumerate}
+
+\subsubsection{Calcolo delle reazioni vincolari esterne} 
+Raggiunta la convergenza all'equilibrio statico, si procede al calcolo delle reazioni vincolari esterne $\underline{r}_{vinc}$ prodotte dai vincoli di bordo (cerniere e carrelli). Tali forze vengono estratte direttamente dal residuo meccanico non vincolato $\underline{R}(\underline{x}, \underline{\lambda}_{\mathcal{A}})$ valutato in corrispondenza dei soli gradi di libertà vincolati:
+
+\begin{equation}
+\underline{r}_{vinc} = \left( S(\underline{x})\underline{x} - J_{\mathcal{A}}^T \underline{\lambda}_{\mathcal{A}} - \underline{f}_{g} \right)_f
+\label{eq:reazioni_vincolari}
 \end{equation}
 
+dove $S(\underline{x})\underline{x}$ rappresenta il vettore delle forze interne nodali, $J_{\mathcal{A}}^T \underline{\lambda}_{\mathcal{A}}$ la spinta trasmessa dal contatto e $\underline{f}_{g}$ è il vettore globale della forza peso. 
 
+Una volta estratte le reazioni vincolari, i corrispondenti componenti del vettore residuo vengono azzerati ($\underline{R}_f = \underline{0}$) per consentire la corretta valutazione della norma del residuo sui soli gradi di libertà liberi.
 
+\subsection{Implementazione della prova quasi-statica}
+Per simulare il comportamento della rete sotto la spinta dell'ostacolo sferico in un regime quasi-statico, l'evoluzione del sistema viene discretizzata definendo un vettori di tempi ordinati:
+\begin{equation}
+\underline{t} = \left[ t_0, t_1, \dots, t_k, t_{k+1}, \dots, t_{K} \right] \in [0, T]
+\end{equation}
 
-\subsubsection{Slack variables}
-\subsubsection{Active set method}
+La configurazione di partenza del sistema all'istante $t_0 = 0$ viene determinata calcolando l'equilibrio statico della sola rete di cavi soggetta esclusivamente al carico del proprio peso proprio, prima dell'interazione con l'ostacolo. In tale stato iniziale non sussiste alcun contatto, per cui l'insieme attivo risulta vuoto e le forze di contatto sono nulle:
+\begin{equation}
+\underline{x}^{(0)} = \underline{x}_{g}, \quad \underline{\lambda}^{(0)} = \underline{0}, \quad \mathcal{A}^{(0)} = \emptyset
+\end{equation}
 
-\section{Risultati della prova quasi statica}\label{sec:risultati_quasi_statici}
+A ciascun istante $t_{k+1}$, il moto imposto all'ostacolo assegna una nuova posizione al centro della sfera $\underline{x}_s^{(k+1)} = \underline{x}_s(t_{k+1})$, modificando la funzione di vincolo e di conseguenza lo stato di sollecitazione e deformazione dell'intera struttura.
+
+Poichè la soluzione varia con continuità lungo il percorso di carico, il problema di equilibrio non lineare al passo $t_{k+1}$ viene risolto impiegando la configurazione convergente dell'istante precedente $t_k$ come tentativo iniziale. Tali condizioni di innesco per l'algoritmo di Newton-Raphson e per l'\textit{active set} si esprimono come:
+\begin{equation}
+\underline{x}^{(k+1, \, m=0)} = \underline{x}^{(k)}, \quad \underline{\lambda}_{\mathcal{A}}^{(k+1, \, m=0)} = \underline{\lambda}_{\mathcal{A}}^{(k)}, \quad \mathcal{A}^{(k+1, \, m=0)} = \mathcal{A}^{(k)}
+\end{equation}
+dove l'indice $k$ identifica il passo temporale della prova quasi-statica, mentre l'indice $m$ denota l'interazione interna del solutore non lineare. 
+
+La risoluzione del problema strutturale al tempo $t_{k+1}$ equivale alla ricerca della configurazione $(\underline{x}^{k+1}, \underline{\lambda}_{\mathcal{A}}^{(k+1)})$ che annulla il residuo e soddisfa il vincolo monolatero attivo, risolvendo iterativamente il sistema aumentato linearizzato:
+\begin{equation}
+\begin{bmatrix} 
+K_T\left(\underline{x}^{(k+1, m)}\right) & J_{\mathcal{A}}^T\left(\underline{x}^{(k+1, m)}\right)\\
+J_{\mathcal{A}}\left(\underline{x}^{(k+1, m)}\right) & 0 
+\end{bmatrix} 
+\begin{Bmatrix} 
+\Delta \underline{x} \\
+\Delta \underline{\lambda}_{\mathcal{A}} 
+\end{Bmatrix} = 
+\begin{Bmatrix} 
+-\underline{R}\left(\underline{x}^{(k+1, m)}, \underline{\lambda}_{\mathcal{A}}^{(k+1, m)}\right)\\
+\underline{g}_{\mathcal{A}}\left(\underline{x}^{(k+1, m)}\right) 
+\end{Bmatrix}
+\label{eq:quasistatic_kkt}
+\end{equation}
+
+L'adozione dello stato al tempo $t_k$ come punto di partenza consente di ridurre drasticamente il numero di iterazioni di Newton-Raphson $N_{iter}$ necessarie alla convergenza ad ogni incremento temporale, minimizzando al contempo le variazioni numeriche nella definizione dell'insieme attivo $\mathcal{A}$.
+
+\subsubsection{Estrazione della curva Forza-Spostamento ($F-v$)}
+Per l'equilibrio traslazionale globale della rete lungo la direzione verticale $z$, la risultante delle reazioni vincolari ai bordi $r_{vinc,z}$ bilancia la somma del peso proprio della struttura e della spinta esercitata dall'ostacolo sferico $F_z$. Di conseguenza, la forza di contatto trasmessa dalla sfera all'istante $t_k$ si ottiene detraendo il contributo del peso proprio dalla somma delle reazioni verticali correnti:
+
+\begin{equation}
+F_z^{(k)} = \sum_{i \in f} r_{vinc, z}^{(i, k)} - \underline{f}_{g}
+\end{equation}
+
+Siano $\bar{t}$ e $\bar{k}$ rispettivamente l'istante e il numero dell'iterazione per cui abbiamo l'innesco del contatto. Lo spostamento verticale della sfera $\Delta v^{(k)}$ viene valutato come la variazione di quota del centro a partire dalla quota di primo contatto $z_s^{(\bar{k})}$:
+
+\begin{equation}
+  \Delta v^{(k)} = z_s^{(k)} - z_s^{(\bar{k})} 
+\end{equation}
+
+Le coppie di valori discreti $(F_z^{(k)}, \Delta v^{(k)})$ calcolate per ogni passo $k \ge \bar{k}$ definiscono i punti di equilibrio nel piano $F-v$. La congiunzione di tali punti consecutivi mediante segmenti di retta costituisce la curva forza-spostamento linearizzata a tratti, rappresentativa della risposta non lineare della rete sotto la spinta dell'ostacolo.
+
+\subsubsection{Calcolo dell'energia potenziale elastica $E_0$}
+L'energia potenziale elastica immagazzinata dalla rete di cavi nella configurazione di massimo affondamento viene indicata con $E_0$. Per la sua determinazione, si procede in primo luogo al calcolo del lavoro $W_s$ fatto dalla sfera. Tale lavoro corrisponde all'area sottesa dalla curva Forza-Spostamento, ottenuta numericamente integrando le coppie di punti discreti mediante la regola dei trapezi:
+
+\begin{equation}
+  W_s \approx \sum_{k = \bar{k}}^{K} \frac{F_z^{(k)} + F_z^{(k+1)}}{2} \left( \Delta v^{(k+1)} - \Delta v^{(k)} \right)
+\end{equation}
+dove $\bar{k}$ rappresenta il passo temporale per cui si ha l'innesco del contatto e $K$ è il passo finale della simulazione.
+
+Tuttavia, poichè il dispositivo di prova applica una trazione verso l'alto, il lavoro $W_s$ racchiude due contributi distinti: una quota destinata alla deformazione dei cavi ed una quota spesa per innalzare i punti della rete vincendo la gravità. La variazione di energia potenziale posizionale della struttura $\mathcal{W}$, essendo la forza peso $\underline{f}_g$ conservativa, è indipendente dal percorso seguito e si calcola direttamente a partire dalle posizioni nodali della configurazione iniziale $\underline{x}^{(0)}$ e finale $\underline{x}^{(K)}$:
+
+\begin{equation}
+   \mathcal{W} = \sum_{i=1}^{K} m_i g \left( x_{z,i}^{(K)} - x_{z,i}^{(0)} \right) = -\underline{f}_g^T \left( \underline{x}^{(K)} - \underline{x}^{(0)} \right)
+\label{eq:energia_posizionale}
+\end{equation}
+
+Omettere questo contributo comporterebbe un'erronea attribuzione nel lavoro di sollevamento alla risposta strutturale, sovrastimando, seppur di poco, la reale capacità della rete di accumulare deformazione elastica. Pertanto, l'energia potenziale elastica $E_0$ effettivamente immagazzinata dalla rete si ottiene detraendo la variazione di energia posizionale $\mathcal{W}$ dall'area sottesa dalla curva:
+
+\begin{equation}
+  E_0 = W_s - \mathcal{W}
+  \label{eq:energia_elastica_E0}
+\end{equation}
+
 
 \section{Dal bilancio dinamico al bilancio energetico quasi-statico}\label{sec:bilancio_energetico}
 
@@ -168,107 +410,132 @@ Per comprendere il legame formale tra la prova quasi-statica di laboratorio e la
 
 Si consideri il sistema meccanico globale composto dal corpo impattante (sfera di massa $m_{\text{sfera}}$) e dalla rete di sicurezza. Il vettore dei gradi di libertà cinematici del sistema $\underline{x}(t)$ in questo caso viene definito a blocchi come:
 \begin{equation}
-    \underline{x}(t) = \begin{bmatrix} \underline{x}_{\text{massa}}(t) \\ \underline{x}_{\text{rete}}(t) \end{bmatrix}
-    \label{eq:vettore_esteso}
+    \underline{x}(t) = 
+    \left\{\begin{array}{c}
+    \underline{x}_{\text{s}}(t)\\
+    \underline{x}_{\text{r}}(t)\\
+    \end{array} \right\}
+    \label{eq:vettore_sistema_dinamico}
 \end{equation}
-dove $\underline{x}_{\text{massa}}(t) \in \mathbb{R}^3$ descrive la posizione del centro di massa dell'impattatore e $\underline{x}_{\text{rete}}(t) \in \mathbb{R}^{3n}$ racchiude le coordinate dei nodi $n$ della rete.
+dove $\underline{x}_{\text{s}}(t) \in \mathbb{R}^3$ descrive la posizione del centro di massa della sfera, $\underline{x}_{\text{r}}(t) \in \mathbb{R}^{3n}$ racchiude le coordinate dei nodi $n$ della rete, perciò, $\underline{x}(t) \in \mathbb{R}^{3(n+1)}$.  
 
-Assumendo per il corpo impattante l'ipotesi di corpo perfettamente rigido, esso non accumula energia potenziale elastica interna ($\mathcal{U}_{\text{massa}} = 0$) né contribuisce alla dissipazione di energia ($D_{\text{massa}} = \mathbf{0}$). 
+Assumendo che valgano le seguenti tre ipotesi di modellazione:
+\begin{enumerate}
+  \item \textbf{Rigidità dell'impattatore:} l'ostacolo sferico è ipotizzato come un corpo perfettamente rigido. Non presentando deformabilità locale, esso non immagazzina energia potenziale elastica interna né fornisce contributi alla dissipazione di energia del sistema, sotto tali ipotesi si ha che: $\mathcal{U}_{\text{s}} = 0$, $D_{\text{s}} = 0_{3\times3}$ e $S_{\text{massa}} = 0_{3\times3}$. 
+  \item \textbf{Massa concentrata:} l'inerzia della sfera è schematizzata mediante il modello a masse concentrate (\textit{lumped mass}) posizionata nel suo centro di massa. Per tanto in conformità con la definizione data in \eqref{eq:matrice_massa}, possiamo scrivere che $M_{\text{s}} = m_{\text{s}} \cdot I_{3\times3}$. 
+  \item \textbf{Disaccoppiamento strutturale:} sfera e rete costituiscono due sottosistemi elastici indipendenti che non condividono elementi finiti o smorzatori continui nel dominio. I blocchi fuori diagonale delle matrici di sistema risultano dunque rigorosamente nulli e l'interazione reciprocamente scambiata viene gestita esclusivamente per via cinematica tramite vincoli monolateri di non penetrazione. 
+\end{enumerate}
 
 Tenendo conto di tali ipotesi, la matrice di massa globale $M$, la matrice di smorzamento $D$ e la matrice di rigidezza secante $S(\underline{x})$ dell'intero sistema esteso vengono definiti in forma matriciale a blocchi come:
 \begin{equation}
-  M = \begin{bmatrix} M_{\text{massa}} & \mathbf{0} \\ \mathbf{0} & M_{\text{rete}} \end{bmatrix}, \quad
-  D = \begin{bmatrix} \mathbf{0} & \mathbf{0} \\ \mathbf{0} & D_{\text{rete}}\end{bmatrix}, \quad
-  S(\underline{x}) = \begin{bmatrix} \mathbf{0} & \mathbf{0} \\ \mathbf{0} & S_{\text{rete}}(\underline{x}_{\text{rete}}) \end{bmatrix}
+  M = \begin{bmatrix} M_{\text{s}} & 0 \\ 0 & M_{\text{r}} \end{bmatrix}, \quad
+  D = \begin{bmatrix} 0 & 0 \\ 0 & D_{\text{r}}\end{bmatrix}, \quad
+  S(\underline{x}) = \begin{bmatrix} 0 & 0 \\ 0 & S_{\text{r}}(\underline{x}_{\text{r}}) \end{bmatrix}
   \label{eq:definizione_matrici_globali}
 \end{equation}
-in cui $M_{\text{massa}} = m_{\text{sfera}} \cdot \mathbf{I}_{3 \times 3}$ rappresenta la matrice di massa concentrata della sfera rigida, mentre $M_{\text{rete}}$, $D_{\text{rete}}$ e $S_{\text{rete}}$ sono gli operatori propri della sola rete definiti nel Capitolo 2. 
+in cui $M_{\text{r}}$, $D_{\text{r}}$ e $S_{\text{r}}$ sono gli operatori propri della sola rete definiti nel Capitolo 2. 
 
-Richiamando l'equazione differenziale di equilibrio dinamico non lineare \cref{eq:equilibrio_dinamico_problema}:
+Specificando l'equazione differenziale di equilibrio dinamico non lineare \eqref{eq:equilibrio_dinamico_problema}, per il caso in cui l'intero sistema sia soggetto all'azione del solo peso proprio (\underline{p} = \underline{0}), abbiamo:
 \begin{equation}
-  M \ddot{\underline{x}} + D \dot{\underline{x}} + S(\underline{x})\underline{x} = \underline{p}
+  M \ddot{\underline{x}} + D \dot{\underline{x}} + S(\underline{x})\underline{x} = \underline{f}_g
   \label{eq:governo_cap3}
 \end{equation}
+Sotto l'ipotesi di vincolo liscio e ideale, le forze di interazione tra sfera e rete costituiscono reazioni interne a lavoro netto nullo, non comparendo quindi nell'equazione di governo del sistema globale \cref{eq:governo_cap3}. 
 
-Moltiplicando a sinistra l'\cref{eq:governo_cap3} per il trasposto del vettore velocità $\underline{\dot{x}}^T$ ed integrando nel tempo nell'intervallo dell'impatto $[0, t_{\text{arr}}]$ (dove $t_{\text{arr}}$ rappresenta l'istante per cui si ha il massimo affondamento e in cui la velocità dell massa impattante si azzera, $\underline{\dot{x}}(t_{\text{arr}}) = \underline{0}$), si ottiene l'equazione del lavoro e dell'energia in forma integrale: 
+Pertanto, moltiplicando a sinistra l'equazione per il trasposto del vettore velocità $\dot{\underline{x}}^T$ ed integrando nel tempo nell'intervallo dell'impatto $[\bar{t}, \hat{t}]$ — dall'innesco del contatto fino al massimo affondamento, in cui la velocità della massa impattante si azzera ($\dot{\underline{x}}_{s}(\hat{t}) = \underline{0}$) — si ottiene l'equazione del lavoro e dell'energia in forma integrale:
 \begin{equation}
-    \int_{0}^{t_{\text{arr}}} \underline{\dot{x}}^T M \ddot{\underline{x}} \, dt + \int_{0}^{t_{\text{arr}}} \underline{\dot{x}}^T D \dot{\underline{x}} \, dt + \int_{0}^{t_{\text{arr}}} \underline{\dot{x}}^T S(\underline{x}) \underline{x} \, dt = \int_{0}^{t_{\text{arr}}} \underline{\dot{x}}^T \underline{p}(t) \, dt
+    \int_{\bar{t}}^{\hat{t}} \underline{\dot{x}}^T M \ddot{\underline{x}} \, dt + \int_{\bar{t}}^{\hat{t}} \underline{\dot{x}}^T D \dot{\underline{x}} \, dt + \int_{\bar{t}}^{\hat{t}} \underline{\dot{x}}^T S(\underline{x}) \underline{x} \, dt = \int_{\bar{t}}^{\hat{t}} \underline{\dot{x}}^T \underline{f}_g \, dt
     \label{eq:bilancio_integrale}
 \end{equation}
 
 Analizzando i singoli termini dell'equazione \eqref{eq:bilancio_integrale}:
 \begin{enumerate}
-  \item \text{Lavoro delle forze d'inerzia (Variazione di energia cinetica):}\\
+  \item \textbf{Lavoro delle forze d'inerzia (Variazione di energia cinetica):}\\
   Ricordando la definizione di energia cinetica $\mathcal{K}$ data dall'equazione \eqref{eq:energia_cinetica}, il primo integrale esprime la variazione dell'energia cinetica totale del sistema:
   \begin{equation}
-        \int_{0}^{t_{\text{arr}}} \underline{\dot{x}}^T M \ddot{\underline{x}} \, dt = \left[ \frac{1}{2} \underline{\dot{x}}^T M \underline{\dot{x}} \right]_{0}^{t_{\text{arr}}} = \mathcal{K}(t_{\text{arr}}) - \mathcal{K}(0) = \mathcal{K}_{\text{res}} -\mathcal{K}_0
+        \int_{\bar{t}}^{\hat{t}} \underline{\dot{x}}^T M \ddot{\underline{x}} \, dt = \left[ \frac{1}{2} \underline{\dot{x}}^T M \underline{\dot{x}} \right]_{\bar{t}}^{\hat{t}} = \mathcal{K}(\hat{t}) - \mathcal{K}(\bar{t}) = \mathcal{K}_r(\hat{t}) -\mathcal{K}_s(\bar{t})
     \end{equation}
-  dove $\mathcal{K}_0 = \frac{1}{2} M_{\text{massa}} v_0^2$ rappresenta l'energia cinetica iniziale della massa impattante al momento del contatto ($t=0$), mentre $\mathcal{K}(t_{\text{arr}}) = \mathcal{K}_{\text{res}}$ indica l'eventuale energia cinetica residua associata alle sole oscillazioni proprie della rete all'istante di arresto della massa (per cui si ha la condizione $\mathcal{K}_{\text{massa}}(t_{\text{arr}}) = 0$, valendo la relazione $\dot{x}_{massa}(t_{arr}) = 0$).
+  dove $\mathcal{K}_s(\bar{t}) = \frac{1}{2} m_{s} ||\dot{\underline{x}}_{s}(\hat{t})||^{2}$ rappresenta l'energia cinetica della massa impattante al momento del primo contatto ($t=\bar{t}$), assumendo inizialmente la rete ferma ($\underline{\dot{x}}_r(\bar{t}) = \underline{0} \implies \mathcal{K}_r(\bar{t}) = 0$). Il termine $\mathcal{K}(\hat{t}) = \mathcal{K}_{r}(\hat{t})$ rappresenta invece l'eventuale energia cinetica residua associata alle sole oscillazioni proprie della rete all'istante di arresto della massa ($\underline{\dot{x}}_{s}(\hat{t}) = \underline{0} \implies \mathcal{K}_{s}(\hat{t}) = 0$).
    
-  \item \text{Energia dissipata per smorzamento ed attrito:}\\
-    Sfruttando la funzione di dissipazione di Rayleigh $\mathcal{R}$ definita nell'equazione \eqref{eq:dissipazione}, il secondo termine rappresenta il lavoro totale dissipato $W_{\text{diss}}$ dal sistema durante l'impatto (attriti nei nodi, scorrimenti e smorzamento del materiale):
+  \item \textbf{Energia dissipata per smorzamento ed attrito:}\\
+    Sfruttando la funzione di dissipazione di Rayleigh $\mathcal{R}$ definita nell'equazione \eqref{eq:dissipazione}, il secondo termine rappresenta il lavoro totale dissipato $W_{\text{diss}}$ dalla rete durante l'impatto (attrito nei nodi, scorrimenti e smorzamento del materiale):
     \begin{equation}
-        W_{\text{diss}} = \int_{0}^{t_{\text{arr}}} \underline{\dot{x}}^T D \dot{\underline{x}} \, dt = 2 \int_{0}^{t_{\text{arr}}} \mathcal{R} \, dt
+        W_{\text{diss}} = \int_{\bar{t}}^{\hat{t}} \underline{\dot{x}}^T D \dot{\underline{x}} \, dt = 2 \int_{\bar{t}}^{\hat{t}} \mathcal{R} \, dt
     \end{equation}
 
-  \item \text{Lavoro delle forze interne (Energia Potenziale Elastica):}\\
-  Poichè il gradiente dell'energia potenziale elastica corrisponde al vettore delle forze interne elastiche ($S(\underline{x})\underline{x} = \frac{\partial \mathcal{U}}{\partial \underline{x}}$), il terzo termine rappresenta l'energia potenziale elastica di deformazione accumulata dalla rete $\mathcal{U}$ fino allo spostamento massimo $\underline{x}_{\text{max}} = \underline{x}(t_{\text{arr}})$:
+  \item \textbf{Lavoro delle forze interne (Energia Potenziale Elastica):}\\
+  Poichè il gradiente dell'energia potenziale elastica corrisponde al vettore delle forze interne elastiche ($S(\underline{x})\underline{x} = \frac{\partial \mathcal{U}}{\partial \underline{x}}$), il terzo termine rappresenta l'energia potenziale elastica di deformazione $\mathcal{U}$ accumulata dalla rete fino allo spostamento massimo $\hat{\underline{x}} = \underline{x}(\hat{t})$:
   \begin{equation}
-    \int_{0}^{t_{\text{arr}}} \underline{\dot{x}}^T S(\underline{x}) \underline{x} \, dt = \int_{\underline{0}}^{\underline{x}_{\text{max}}} \left( \frac{\partial \mathcal{U}}{\partial \underline{x}} \right) ^T d\underline{x} = \mathcal{U}(\underline{x}_{\text{max}}) - \mathcal{U}(\underline{x}_0)
+    \int_{\bar{t}}^{\hat{t}} \underline{\dot{x}}^T S(\underline{x}) \underline{x} \, dt = \int_{\bar{\underline{x}}}^{\hat{\underline{x}}} \left( \frac{\partial \mathcal{U}}{\partial \underline{x}} \right) ^T d\underline{x} = \mathcal{U}(\hat{\underline{x}}) - \mathcal{U}(\bar{\underline{x}})
   \end{equation}
-  dove $\mathcal{U}(\underline{x}_0)$ è l'energia potenziale elastica accumulata nella rete quando è in equilibrio soggetta al solo peso proprio.
+  dove $\mathcal{U}(\bar{\underline{x}})$ è l'energia potenziale elastica accumulata nella rete quando è in equilibrio soggetta al solo peso proprio, prima dell'innesco del contatto.
 
-  \item \text{Lavoro delle forze esterne:}\\
-    Ipotizzando che le uniche forze esterne agenti siano le forze di gravità costanti $\underline{p}(t) = \underline{p}$, il lavoro compiuto dai carichi esterni risulta:
+  \item \textbf{Lavoro delle forze esterne:}\\
+    Ipotizzando che le uniche forze esterne agenti siano le forze di gravità costanti $\underline{f}_g$, grazie alla sua natura conservativa, il lavoro compiuto dai carichi esterni risulta:
     \begin{equation}
-        W_{\text{ext}} = \int_{0}^{t_{\text{arr}}} \underline{\dot{x}}^T \underline{p} \, dt = \underline{p}^T \left[ \underline{x}(t_{\text{arr}}) - \underline{x}(0) \right] = \underline{p}_{\text{massa}}^T \Delta \underline{x}_{\text{massa}} + \underline{p}_{\text{rete}}^T \Delta \underline{x}_{\text{rete}}
+        W_{\text{ext}} = \underline{f}_g^T \left[ \underline{x}(\hat{t}) - \underline{x}(\bar{t}) \right] = \underline{f}_{g,s}^T \Delta \underline{x}_s + \underline{f}_{g,r}^T \Delta \underline{x}_r
     \end{equation}
-    dove $\underline{p}_{\text{massa}}^T \Delta \underline{x}_{\text{massa}} = m_{\text{sfera}} g \cdot \Delta z_{\text{massa}}$ rappresenta il lavoro motore compiuto dalla forza peso della sfera durante l'affondamento verticale $\Delta z_{\text{massa}}$.
+    dove $\underline{f}_{g,s}^T \Delta \underline{x}_{s} = m_{\text{s}} g (\hat{z}_s - \bar{z}_s)$ rappresenta il lavoro svolto dalla forza peso della sfera durante l'affondamento verticale $\hat{z}_s - \bar{z}_s$ dall'innesco del contatto $(\bar{t})$ fino all'istante di massimo affondamento $(\hat{t})$, in cui la velocità dell'impattatore si azzera.
 \end{enumerate}
 Raggruppando i singoli contributi nell'equazione di bilancio globale \eqref{eq:bilancio_integrale}, si ottiene:
 \begin{equation}
-    \mathcal{K}_0 + W_{\text{ext}} + \mathcal{U}(\underline{x}_0) = \mathcal{U}(\underline{x}_{\text{max}}) + W_{\text{diss}} + \mathcal{K}_{\text{res}}
+    \mathcal{K}_s(\bar{t}) + W_{\text{ext}} + \mathcal{U}(\bar{\underline{x}}) = \mathcal{U}(\hat{\underline{x}}) + W_{\text{diss}} + \mathcal{K}_{r}(\hat{t})
     \label{eq:bilancio_completo}
 \end{equation}
 
 \subsection{Ipotesi di massa della rete trascurabile}
-Separando dalla matrice di massa globale $M$ i contributi inerziali della massa impattatante $M_{\text{massa}}$ da quelli della rete $M_{\text{rete}}$, e considerando che nella maggior parte delle applicazioni reali la massa della rete risulta di ordini di grandezza inferiore rispetto al corpo impattante ($M_{\text{rete}} \ll M_{\text{massa}}$), l'energia cinetica propria associata al moto della sola rete $\mathcal{K_{\text{res}}}$ può essere trascurata. Di conseguenza anche i termini $\mathcal{U}(\underline{x}_0) \approx 0$ e $\underline{p}_{\text{rete}}^T \Delta \underline{x}_{\text{rete}} \approx 0$, diventano trascurabili.
+Separando dalla matrice di massa globale $M$ i contributi inerziali della sfera impattatante $M_{s}$ da quelli della rete $M_{r}$, e considerando che nella maggior parte delle applicazioni reali la massa della rete risulta di ordini di grandezza inferiore rispetto al corpo impattante ($M_{r} \ll M_{s}$), l'energia cinetica propria associata al moto della sola rete $\mathcal{K}_{r}(\hat{t})$ può essere trascurata. Di conseguenza anche i termini $\mathcal{U}(\bar{\underline{x}}) \approx 0$ e $\underline{f}_{g,r}^T \Delta \underline{x}_{r} \approx 0$, diventano trascurabili.
 
 Il bilancio energetico globale dell'impatto espresso dalla \eqref{eq:bilancio_integrale} si riduce alla seguente equazione di conservazione:
 \begin{equation}
-   \mathcal{K}_0 + m_{\text{sfera}} g \cdot \Delta z_{\text{massa}} \approx \mathcal{U}(\underline{x}_{\text{max}}) + W_{\text{diss}}    \label{eq:bilancio_semplificato}
+   \mathcal{K}_s(\bar{t}) + m_{s} g (\hat{z}_s - \bar{z}_s) \approx \mathcal{U}(\hat{\underline{x}}) + W_{\text{diss}}    
+   \label{eq:bilancio_semplificato}
 \end{equation}
-Raggruppando il termine relativo all'energia cinetica iniziale dell'impattatore $\mathcal{K}_0$ e la variazione di energia potenziale della sfera successiva all'impatto $m_{\text{sfera}} g \cdot \Delta z_{\text{massa}}$, in un termine relativo all'energia meccanica posseduta dalla sfera $E_{sfera}$, vediamo come tale energia viene dunque interamente convertita in lavoro interno di deformazione della rete $\mathcal{U}(\underline{x}_{\text{max}})$ ed in quota dissipata per attrito $W_{\text{diss}}$.
+Notando che il termine relativo all'energia cinetica iniziale dell'impattatore può essere espresso in funzione dell'energia potenziale posseduta all'istante del rilascio della massa $\mathcal{K}_s(\bar{t}) = m_s g (\bar{z}_s - {z}_{s,0})$, possiamo raccogliere i due termini a sinistra dell'equazione in un unico termine relativo all'energia meccanica $E_s$ posseduta dalla sfera:
+\begin{equation}
+  E_{s} = m_s g \Delta z_s
+\end{equation}
+dove $\Delta z_s$ è pari a $\hat{z}_s - z_{s,0}$ con $z_{s,0}$ la quota del centro della sfera all'istante del rilascio.
+ 
+Tale energia, durante l'impatto, verrà interamente convertita in lavoro interno di deformazione della rete $\mathcal{U}(\hat{\underline{x}})$ ed in quota dissipata per attrito $W_{\text{diss}}$.
 
 \subsection{Riduzione al regime quasi-statico}
-Nel caso di una prova quasi-statica condotta sperimentalmente, la forza viene applicata - per mezzo dello spostamento di una sfera delle stesse caratteristiche di quella impiegata nella prova dinamica - con una velocità estremamente ridotta, tale per cui i termini inerziali e viscosi risultano trascurabili ($\ddot{\underline{x}} \approx \underline{0}$ e $\dot{\underline{x}} \approx \underline{0}$). L'equazione di equilibrio dinamico \eqref{eq:governo_cap3} si riduce alla forma vista nell'\cref{eq:problema_quasi_statico}.
+Nel caso di una prova quasi-statica condotta sperimentalmente, la forza di contatto viene applicata imponendo lo spostamento di una sfera delle stesse caratteristiche di quella impiegata nella prova dinamica. La velocità di applicazione è sufficientemente ridotta da rendere trascurabili i termini inerziali e viscosi ($\ddot{\underline{x}} \approx \underline{0}$ e $\dot{\underline{x}} \approx \underline{0}$), riducendo l'equazione di equilibrio dinamico \eqref{eq:governo_cap3} alla forma statica espressa dall'\cref{eq:problema_quasi_statico}.
 
-L'energia totale assorbibile fino a rottura dal provino di rete, indicata con $E_0$ come proposto in \cite{EN1263-1}, è determinata integrando la forza applicata $\underline{p}(t)$ lungo il percorso di spostamento sino alla configurazione di rottura $\underline{x}_{\text{rottura}}$:
-\begin{equation}
-  E_0 = \int_{\underline{0}}^{\underline{x}_{\text{rottura}}} \underline{p}_{\text{stat}}^T d\underline{x} = \int_{\underline{0}}^{\underline{x}_{\text{rottura}}} \left( S(\underline{x}) \underline{x} \right)^T d\underline{x} = \mathcal{U}(\underline{x}_{\text{rottura}}) 
-  \label{eq:energia_E0_statica}
-\end{equation}
+L'energia potenziale elastica assorbita dalla rete fino alla configurazione di rottura, indicata con $E_0$ secondo la formulazione proposta in \cite{EN1263-1}, viene determinata per mezzo della metodologia illustrata in \cref{sec:prova_quasi_statica}. 
 
-Geometricamente, l'integrale dell'equazione \eqref{eq:energia_E0_statica} corrisponde all'area sottesa dalla curva Forza-Spostamento registrata sperimentalmente durante la prova quasi-statica. In un'ottica di verifica cautelativa, se la rete possiede una capacità di deformazione elastoplastica $E_0$ superiore all'energia meccanica dell'impatto di progetto ($E_{sfera}$), essa sarà in grado di assorbire l'urto garantendo la condizione limite:
+Al fine di verificare la capacità di assorbimento di energia potenziale elastica da parte della rete quando sottoposta alla prova d'impatto, sarà necessario verificare che la capacità della rete $E_0$ sia superiore alla domanda prevista da norma. A favore di sicurezza, è possibile trascurare il contributo dissipativo dell'energia $W_{diss}$, perciò, la condizione appena descritta si traduce nella seguente disuguaglianza:
+
 \begin{equation}
-  E_0 \ge E_{sfera}
+  E_0 \ge E_{s}
 \end{equation} 
 
 \subsection{Limiti di validità dell'approccio quasi-statico}
-DA APPROFONDIRE MEGLIO
-La validità dell'equivalenza energetica tra prova quasi-statica e risposta dinamica trova un limite fisico nella risposta in frequenza della rete. Quando il carico viene applicato quasi-staticamente, la frequenza della sollecitazione esterna tende a zero ($f \to 0$, quindi il periodo relativo $T \to \infty$), corrispondente ad un periodo d'azione virtualmente infinito. In questo regime, il Fattore di Amplificazione Dinamica (d'ora in poi indicato per mezzo dell'acronimo $DAF$) tende all'unità: 
+La validità dell'equivalenza energetica tra prova quasi-statica e risposta dinamica trova un limite fisico fondamentale nella risposta in frequenza della rete. 
+
+Quando il carico viene applicato quasi-staticamente ($f \to 0$, periodo $T \to \infty$), il Fattore di Amplificazione Dinamica teorico ($FAD$) per un sistema ad un grado di libertà tende all'unità:
 \begin{equation}
-  DAF = \frac{1}{\sqrt{\left(1 - \left(\frac{f}{f_n}\right)^2\right)^2 + \left(2\zeta \frac{f}{f_n}\right)^2}} \xrightarrow{f \to 0} 1
+   FAD = \frac{1}{\sqrt{\left(1 - \left(\frac{f}{f_n}\right)^2\right)^2 + \left(2\zeta \frac{f}{f_n}\right)^2}} \xrightarrow{f \to 0} 1
+   \label{eq:FAD}
 \end{equation}
+dove $f_n$ rappresenta la frequenza propria considerata (o del sistema ad un grado di libertà equivalente) e $\zeta$ il rapporto di smorzamento. In questo regime, l'onda di sollecitazione ha il tempo di propagarsi uniformemente lungo tutte le funi della rete, permettendo l'attivazione dei modi propri di vibrare a bassa frequenza (modi globali). La rete risponde quindi sviluppando la sua massima capacità di deformazione globale $E_0$. 
 
-In tali condizioni, l'onda di sollecitazione ha il tempo di propagarsi uniformemente lungo tutte le funi della rete, permettendo l'attivazione dei modi propri di vibrare a bassa frequenza (modi globali). La rete risponde quindi sviluppando la sua massima capacità di deformazione globale. 
+Tuttavia, nell'impatto dinamico reale occorre considerare due fattori critici: 
+\begin{itemize}
+  \item \textbf{Evoluzione della distribuzione in frequenze proprie:} A causa delle elevate deformazioni e degli effetti di irrigidimento geometrico dei cavi sotto carico, la matrice di rigidezza del sistema $K(\underline{x})$ e le relative frequenze proprie $f_n(\underline{x})$ variano continuamente in funzione dell'affondamento della sfera. Ciò altera istante per istante il contributo dei diversi modi che partecipano alla risposta strutturale.
+  \item \textbf{Effetti locali:} In presenza di elevate velocità di impatto $(v_0 = \sqrt{2g(\hat{z}_s - \bar{z}_s)})$ o impronte di contatto ridotte, l'energia dell'impatto attiva preminentemente i modi propri ad alta frequenza (modi locali). In tal caso i cavi direttamente a contatto con la sfera subiscono accelerazioni elevate e picchi di tensione localizzati, portando a rottura prematura per un fenomeno simile a quello del punzonamento.
+\end{itemize}
 
-Diversamente, quando l'impatto reale si verifica ad un'elevata velocità iniziale $v_0$ o agisce su un'impronta di contatto ridotta, la sollecitazione attiva i modi propri di vibrare ad alta frequenza (modi locali). In questo regime, l'ipotesi di inerzia trascurabile della sola rete cessa di essere valida localmente: i cavi direttamente a contatto con la massa devono accelerare in tempi brevissimi, e le forze d'inerzia locali si oppongono al movimento garantendovi un picco di tensione estremamente elevato. L'energia d'impatto non riesce a propagarsi verso la restante parte della struttura e la rottura si manifesta per un fenomeno di localizzazione della deformazione analogo al punzonamento, portando a rottura le singole maglie colpite ad un livello di energia cinetica globale inferiore ad $E_0$.
+Si conclude pertanto che la condizione di verifica in termini energetici $(E_0 \ge E_s)$ costituisce una condizione necessaria ma non sufficiente a garantire la tenuta della rete: il soddisfacimento del bilancio energetico generale, seppur condotto secondo ipotesi cautelative, non esclude, infatti, il collasso locale della struttura prima del completo arresto della massa impattante.
 
-\subsection{Obiettivi del capitolo}
-Sulla base del quadro teorico delineato, il presente capitolo è dedicato alla determinazione sperimentale e al calcolo teorico delle capacità di assorbimento dell'energia di deformazione statica $E_0$ su provini di rete, in accordo con i criteri prescritti dalla normativa UNI EN 1263-1 per le reti di sicurezza.
+\section{Sintesi della metodologia e prospettive di sviluppo}\label{sec:sintesi_e_prospettive}
+Sulla base del quadro teorico delineato, questa sezione sintetizza gli obiettivi della metodologia proposta, orientata alla determinazione sperimentale e al calcolo teorico - condotto tramite il solutore agli elementi finiti sviluppato nel presente lavoro di tesi - della capacità di assorbimento dell'energia di deformazione quasi-statica $E_0$ su provini di rete, in accordo con i criteri della normativa EN 1263-1.
 
-Sebbene la prova quasi-statica non possa cogliere i fenomeni transitori ad alta frequenza tipici degli impatti ad alta velocità la determinazione dell'area di deformazione $E_0$ e dfella curva Forza-Spostamento rappresenta il parametro costitutivo fondamentale indispensabile per la calibrazione di qualsiasi modello numerico. In quest'ottica, uno dei naturali sviluppi futuri proprosti nel presente lavoro di tesi risiede nella modellazione dinamica a piena scala del Sistema S, al fine di simulare la prova di impatto normata, valutando simultaneamente la capacità di dissipazione energetica globale dell'insieme ed il rispetto dei vincoli cinematici di deformazione masisma imposti dalla norma. 
+A partire dalla caratterizzazione meccanica del materiale costitutivo delle funi, la metodologia consentirà di stimare il valore di $E_0$ mediante il codice numerico implementato. Qualora il confronto con i dati sperimentali confermi la validità del modello entro un intervallo di differenza tipico delle tolleranze ingegneristiche $(\approx 10\text{--}15\%)$, il solutore potrà dirsi convalidato e idoneo a valutare l'energia di deformazione assorbibile dalle reti costituenti i sistemi di sicurezza. 
+
+In questo contesto, la prova quasi-statica si configura come un test preliminare fondamentale e decisamente meno oneroso - sia dal punto di vista economico che computazionale - rispetto alla prova d'impatto sull'intero sistema. Sebbene non sia in grado di cogliere i fenomeni transitori ad alta frequenza tipici degli impatti ad alta velocità, la verifica quasi-statica $E_0 \ge E_s$ rappresenta una condizione necessaria, seppure non sufficiente: il suo mancato soddisfacimento garantisce infatti che la successiva prova dinamica non potrà in alcun modo andare a buon fine.
+
+In quest'ottica, uno dei naturali sviluppi futuri risiede nell'estensione del solutore FEM sviluppato verso una modellazione dinamica a piena scala del Sistema S. Tale avanzamento, permetterà di simulare la prova di impatto normata, valutando simultaneamente la capacità di dissipazione energetica globale dell'insieme ed il rispetto dei vincoli cinematici di deformazione massima imposti dalla norma. 
 
 
 

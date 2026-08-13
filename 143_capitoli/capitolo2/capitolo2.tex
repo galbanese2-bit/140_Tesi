@@ -2,9 +2,9 @@
 \section{Introduzione}
 Le funi e le reti di funi rappresentano una classe di strutture leggere e flessibili di grande rilevanza nell'ingegneria moderna, impiegate in ambiti che spaziano dalle tensostrutture all'ingegneria civile, fino ai sistemi di protezione e alle barriere paramassi. La loro peculiarità risiede nella capacità di trasmettere esclusivamente sforzi di trazione e di assumere forme determinate dalle condizioni di carico e dai vincoli, rendendo necessaria una modellazione specifica e non riconducibile ai tradizionali elementi strutturali rigidi flessionalmente.
 
-In questo capitolo vengono presentati i principali modelli teorici e numerici utilizzati per descrivere il comportamento delle funi e, successivamente, delle reti di funi. La prima parte è dedicata alla meccanica delle funi, analizzata attraverso tre approcci di complessità crescente: il modello inestensibile, il modello ad elasticità diffusa e un modello alle differenze finite basato sull'equazione rigorosa di equilibrio. Questi modelli permettono di affrontare i due problemi classici della meccanica delle funi — la fune soggetta al peso proprio e la fune soggetta a un carico verticale distribuito — evidenziando analogie, differenze e limiti delle diverse formulazioni.
+In questo capitolo vengono presentati i principali modelli teorici e numerici utilizzati per descrivere il comportamento delle funi e, successivamente, delle reti di funi. La prima parte è dedicata alla meccanica delle funi, analizzata attraverso tre approcci di complessità crescente: il modello inestensibile, il modello ad elasticità diffusa e un modello alle differenze finite basato sulle equazioni indefinite di equilibrio. Questi modelli permettono di affrontare i due problemi classici della meccanica delle funi — la fune soggetta al peso proprio e la fune soggetta a un carico verticale distribuito — evidenziando analogie, differenze e limiti delle diverse formulazioni.
 
-La seconda parte del capitolo introduce invece la modellazione delle funi tramite metodi numerici agli elementi finiti, presentando sia la formulazione classica del Finite Element Method (F.E.M.) sia la formulazione alternativa nota come Position-based Finite Element Formulation (P.F.E.F.). Questi strumenti costituiscono la base per la modellazione delle reti di funi, che verrà approfondita nei capitoli successivi.
+La seconda parte del capitolo introduce invece la modellazione delle funi tramite metodi numerici agli elementi finiti, presentando una formulazione posizionale del Finite Element Method (F.E.M.), nota come Position-based Finite Element Formulation (P.F.E.F.). Questi strumenti costituiscono la base per la modellazione delle reti di funi, che verrà approfondita nei capitoli successivi.
 
 L'ultima parte del capitolo è dedicata alle reti di funi, strutture discrete costituite da un insieme di funi interconnesse. Vengono analizzati due problemi fondamentali:
 
@@ -772,12 +772,12 @@ dove $\overline{x}_{c,j}$ rappresenta il valore prescritto per il $j$-esimo \tex
 
 Per incorporare tali vincoli nel bilancio energetico senza ridurre a priori le dimensioni del sistema, in accordo con \cite{Fisicaro}, è possibile definire la funzione Lagrangiana $\mathcal{L}$ del sistema come segue:
 \begin{equation}
-   \mathcal{L} \left(\underline{x}, \dot{\underline{x}}, \underline{\lambda}\right) = \mathcal{K} - \mathcal{V} + \underline{\lambda}^T \underline{g}(\underline{x})
+   \mathcal{L} \left(\underline{q}, \dot{\underline{q}}\right) = \mathcal{K} - \mathcal{V} + \underline{\lambda}^T \underline{g}(\underline{x})
    \label{eq:funzione_lagrangiana_vincolata}
 \end{equation}
 dove $\mathcal{K}$ e $\mathcal{V}$ sono rispettivamente l'energia cinetica e l'energia potenziale totale come definite nelle \cref{eq:energia_cinetica,eq:energia_potenziale_totale}, e $\underline{\lambda} \in \mathbb{R}^c$ è il vettore dei moltiplicatori di Lagrange incogniti.
 
-Definiamo il vettore delle incognite generalizzato come:
+Il vettore delle coordinate generalizzato $\underline{q}$ è definito come:
 \begin{equation}
    \underline{q} =
    \left\{
@@ -793,7 +793,7 @@ Introducendo $\underline{q}$ nell'equazione di Lagrange definita in \eqref{eq:eq
    \label{eq:lagrangiana_q}
 \end{equation}
 
-Sostituendo l'espressione \eqref{eq:funzione_lagrangiana_vincolata} in \eqref{eq:lagrangiana_q}, si ottiene così il sistema algebrico-differenziale accoppiato di $3n + c$ equazioni che governa la dinamica vincolata della rete:
+Sostituendo l'espressione \eqref{eq:funzione_lagrangiana_vincolata} in \eqref{eq:lagrangiana_q}, si ottiene così il sistema algebrico-differenziale accoppiato di $3n + c$ equazioni in $3n+c$ incognite che governa la dinamica vincolata della rete:
 \begin{equation}
    \begin{cases}
       M \ddot{\underline{x}} + D \dot{\underline{x}} + S(\underline{x})\underline{x} - J^T \underline{\lambda} = \underline{f}_g + \underline{p} \\
@@ -840,6 +840,8 @@ Qualora si tenti la risoluzione del sistema algebrico rispetto al vettore delle 
 
 Per eliminare la singolarità della matrice di rigidezza e impedire i moti di corpo rigido, occorre imporre i $c$ vincoli cinematici. Dal punto di vista operativo, la trattazione viene formalizzata permutando l'ordine delle equazioni e delle incognite del sistema, in modo da raggruppare i $3n$ gradi di libertà totali nei $f$ gradi di libertà liberi e nei $c$ gradi di libertà vincolati ($3n = f + c$). È opportuno sottolineare che la riorganizzazione del sistema algebrico mediante lo scambio di righe e colonne non altera in alcun modo la soluzione fisica del problema, ma ne facilita la risoluzione numerica.
 
+Si evidenzia inoltre che, per effetto della struttura a blocchi della Jacobiana trasposta $J^T = \begin{bmatrix} 0_{f \times c} & I_{c \times c} \end{bmatrix}$, il termine $J^T \underline{\lambda}$ non fornisce alcun contributo in corrispondenza delle prime $f$ equazioni. Le reazioni vincolari risultano così algebricamente disaccoppiate dalla cinematica dei gradi di libertà liberi, consentendo la determinazione del vettore $\underline{x}_f$ in modo del tutto indipendente dal vettore dei moltiplicatori $\underline{\lambda}$.
+
 Il procedimento si articola in tre passi fondamentali:
 
 \begin{enumerate}
@@ -850,6 +852,7 @@ Il procedimento si articola in tre passi fondamentali:
    Una volta note le componenti libere $\underline{x}_f$, il vettore globale delle posizioni di tutti i nodi $\underline{x} \in \mathbb{R}^{3n}$ si ricava ricomponendo le posizioni calcolate $\underline{x}_f$ con i valori noti e fissati delle posizioni vincolate $\underline{\bar{x}}_c \in \mathbb{R}^c$ (ripristinando l'ordinamento nodale originario):
    \begin{equation}
       \underline{x} = \begin{Bmatrix} \underline{x}_f \\ \underline{\bar{x}}_c \end{Bmatrix}
+      \label{eq:vettore_x_partizionato}
    \end{equation}
 
    \item \textbf{Calcolo delle reazioni vincolari in post-processing:} 

@@ -1,35 +1,36 @@
 \chapter{Funi e reti soggette al peso proprio}\label{chap:capitolo2}
 \section{Introduzione}
-Le funi e le reti di funi rappresentano una classe di strutture leggere e flessibili di grande rilevanza nell'ingegneria moderna, impiegate in ambiti che spaziano dalle tensostrutture all'ingegneria civile, fino ai sistemi di protezione e alle barriere paramassi. La loro peculiarità risiede nella capacità di trasmettere esclusivamente sforzi di trazione e di assumere forme determinate dalle condizioni di carico e dai vincoli, rendendo necessaria una modellazione specifica e non riconducibile ai tradizionali elementi strutturali rigidi flessionalmente.
 
-In questo capitolo vengono presentati i principali modelli teorici e numerici utilizzati per descrivere il comportamento delle funi e, successivamente, delle reti di funi. La prima parte è dedicata alla meccanica delle funi, analizzata attraverso tre approcci di complessità crescente: il modello inestensibile, il modello ad elasticità diffusa e un modello alle differenze finite basato sulle equazioni indefinite di equilibrio. Questi modelli permettono di affrontare i due problemi classici della meccanica delle funi — la fune soggetta al peso proprio e la fune soggetta a un carico verticale distribuito — evidenziando analogie, differenze e limiti delle diverse formulazioni.
+Dal punto di vista della meccanica, le funi e le reti di funi si distinguono nettamente dalle tipologie strutturali tradizionali dell'ingegneria civile. L'assenza di rigidezza a flessione e a compressione fa sì che esse lavorino unicamente a trazione, adattando la propria geometria per raggiungere l'equilibrio in funzione dei carichi e dei vincoli applicati. La risposta di questi sistemi è quindi dominata da una forte non linearità geometrica, dove la configurazione finale può differire in modo significativo da quella iniziale di riferimento. 
 
-La seconda parte del capitolo introduce invece la modellazione delle funi tramite metodi numerici agli elementi finiti, presentando una formulazione posizionale del Finite Element Method (F.E.M.), nota come Position-based Finite Element Formulation (P.F.E.F.). Questi strumenti costituiscono la base per la modellazione delle reti di funi, che verrà approfondita nei capitoli successivi.
+In questo capitolo vengono presentati i principali modelli teorici e numerici utilizzati per descrivere il comportamento delle funi e, successivamente, delle reti di funi. La prima parte è dedicata alla meccanica delle funi, analizzata attraverso tre approcci di complessità crescente: il modello inestensibile, il modello ad elasticità diffusa e una formulazione alle differenze finite basata sulle equazioni indefinite di equilibrio. Questi modelli permettono di affrontare i due problemi classici della meccanica delle funi — la fune soggetta al peso proprio e la fune soggetta a un carico verticale distribuito — evidenziando analogie, differenze e limiti delle diverse formulazioni.
 
-L'ultima parte del capitolo è dedicata alle reti di funi, strutture discrete costituite da un insieme di funi interconnesse. Vengono analizzati due problemi fondamentali:
+La seconda parte introduce invece la modellazione delle funi tramite metodi numerici agli elementi finiti, presentando una formulazione posizionale del Finite Element Method (FEM), nota come Position-based Finite Element Formulation (PFEF). Questo approccio semplifica la gestione dei grandi spostamenti e delle deformazioni finite, fornendo l'ossatura computazionale per lo studio di sistemi strutturali complessi.
 
-le reti soggette al peso proprio, considerando diverse configurazioni di riferimento, differenti condizioni di vincolo e variazioni nella geometria della maglia;
+Infine, l'ultima parte del capitolo estende il modello alla trattazione delle reti di funi, intese come strutture discrete costituite da un insieme di funi interconnesse. Vengono approfonditi gli aspetti topologici, la compilazione della matrice di connettività e le strategie per la definizione delle differenti geometrie di maglia e delle condizioni vincolo al bordo.
 
-le reti soggette a un carico concentrato, problema di particolare interesse per applicazioni quali le barriere paramassi e i sistemi di dissipazione dell'energia.
-
-L'obiettivo complessivo del capitolo è fornire una visione coerente e progressiva della meccanica delle funi e delle reti, mostrando come i diversi modelli teorici e numerici si integrino nella descrizione del comportamento di queste strutture altamente non lineari.
+L'obiettivo complessivo del capitolo è fornire un percorso teorico-numerico organico e progressivo che, muovendo dallo studio analitico del singolo elemento continuo, conduca alla formulazione del modello numerico discreto rete di funi.
 
 \section{La meccanica delle funi}
-La meccanica delle funi costituisce il punto di partenza per la comprensione del comportamento delle reti di funi e delle strutture flessibili basate su elementi esclusivamente tesi. In questa sezione vengono analizzati i modelli fondamentali che descrivono il comportamento statico delle funi, con particolare attenzione ai due problemi classici della disciplina: la fune soggetta al peso proprio e la fune soggetta a un carico verticale distribuito.
+La meccanica della singola fune costituisce il punto di partenza per la comprensione del comportamento delle reti e delle strutture flessibili basate su elementi esclusivamente tesi. In questa sezione vengono analizzati i modelli teorici di riferimento che descrivono il comportamento statico delle funi, con particolare attenzione ai due problemi classici della disciplina: la fune soggetta a un carico verticale distribuito lungo l'orizzontale e la fune soggetta al peso proprio lungo la propria linea d'asse.
 
 Sebbene i due problemi conducano a formulazioni matematiche e soluzioni teoriche differenti, essi rappresentano casi di riferimento essenziali per valutare l'accuratezza e i limiti dei modelli utilizzati nella pratica ingegneristica. Inoltre, come verrà mostrato, alcune modellazioni numeriche semplificate — in particolare quelle basate su formulazioni FEM lineari — possono produrre risultati simili in specifici regimi di tensione, evidenziando l'importanza di una corretta interpretazione delle ipotesi alla base di ciascun modello.
 
-La trattazione è articolata in tre approcci di complessità crescente. Si parte dal modello di fune inestensibile, che rappresenta la formulazione più semplice e storicamente più consolidata. Si passa poi al modello ad elasticità diffusa, che introduce la deformabilità assiale e consente di descrivere accuratamente il problema delle funi tese. Infine, viene presentato un modello alle differenze finite basato sull'equazione rigorosa di equilibrio indefinito, utile per analizzare in modo più accurato il comportamento della fune e per confrontare i risultati ottenuti nei diversi regimi di carico.
-
+La trattazione è articolata secondo un percorso di complessità crescente basato su tre approcci:
+\begin{itemize}
+   \item \textbf{Il modello inestensibile:} rappresenta la formulazione geometrica classica, utile per determinare la forma assunta dalla fune in equilibrio, ma priva della descrizione del processo deformativo del materiale;
+   \item \textbf{Il modello ad elasticità diffusa:} introduce la deformabilità assiale dell'elemento, consentendo di descrivere la risposta sia in regime di fune lasca che di fune fortemente tesa;
+   \item \textbf{Il modello alle differenze finite:} basato sulla risoluzione diretta alle equazioni differenziali indefinite di equilibrio di Irvine, permette di analizzare in modo rigoroso la distribuzione puntuale dello stato tensionale lungo il cavo. 
+\end{itemize}
 L'obiettivo della sezione è duplice: da un lato fornire una visione chiara, comparativa e progressiva dei principali modelli teorici per le funi; dall'altro stabilire un riferimento affidabile per valutare l'accuratezza delle soluzioni ottenute tramite la Position-based Finite Element Formulation (PFEF), che verrà introdotta nella sezione successiva. La comprensione dei modelli teorici presentati in questa sezione è infatti essenziale per interpretare correttamente i risultati numerici e per individuare i limiti e le potenzialità del metodo PFEF nella modellazione delle funi e delle reti di funi.
 
 \subsection{La fune inestensibile}
-Il modello di fune inestensibile rappresenta uno dei problemi centrali e più consolidati della meccanica dei cavi, grazie al contributo di numerosi studiosi che ne hanno definito e perfezionato la formulazione nel corso del tempo. Oltre all'ipotesi costitutiva di inestensibilità, si assume che la rigidezza flessionale dell'elemento sia trascurabile. Come discusso da Irvine nel testo Cable Structures \cite{irvine1981}, un cavo ideale privo di rigidezza flessionale non è in grado di sviluppare momenti flettenti e risulta pertanto instabile in presenza di qualsiasi forza di compressione, anche infinitesima. Da questa instabilità deriva la caratteristica fondamentale del modello denominato $"tension only"$: la fune può trasmettere esclusivamente sforzi di trazione e non offre alcuna resistenza a compressione.
+Il modello di fune inestensibile rappresenta uno dei problemi centrali e più consolidati della meccanica dei cavi, grazie al contributo di numerosi studiosi che ne hanno definito e perfezionato la formulazione nel corso del tempo. Oltre all'ipotesi costitutiva di inestensibilità, si assume che la rigidezza flessionale dell'elemento sia trascurabile. Come discusso da Irvine nel testo \textit{Cable Structures} \cite{irvine1981}, un cavo ideale privo di rigidezza flessionale non è in grado di sviluppare momenti flettenti e risulta pertanto instabile in presenza di qualsiasi forza di compressione, anche infinitesima. Da questa instabilità deriva la caratteristica fondamentale del modello denominato $"tension-only"$: la fune può trasmettere esclusivamente sforzi di trazione e non offre alcuna resistenza a compressione.
 
 In questo contesto, la fune viene descritta come un elemento perfettamente flessibile, la cui configurazione deformata è determinata unicamente dall'equilibrio rispetto ai carichi esterni e dai vincoli imposti. Tuttavia, come verrà discusso, il modello inestensibile non consente di descrivere una vera fenomenologia meccanica dell'evoluzione deformativa, poiché l'ipotesi di lunghezza costante elimina la possibilità di correlare la configurazione deformata a un processo di deformazione materiale. In altre parole, il modello permette di determinare la forma assunta dalla fune in equilibrio, ma non di interpretare il passaggio dalla configurazione indeformata a quella deformata attraverso una legge costitutiva.
 
 \subsubsection{L'equilibrio della fune soggetta ad un carico verticale distribuito}
-Consideriamo la configurazione finale di una fune soggetta ad un carico verticale distribuito. 
+Consideriamo la configurazione finale di una fune soggetta ad un carico verticale distribuito $p$. 
 
 \begin{figure}[htbp]
     \centering
@@ -50,12 +51,14 @@ Scrivendo la relazione in modo da esplicitare $y(x)$, avremo:
 \end{equation}
 
 La fune assume quindi la forma di una parabola simmetrica rispetto all'asse verticale. 
-La tiro orizzontale risulta quindi:
+La componente orizzontale della forza di tiro risulta quindi:
 \begin{equation}
    H = \frac{pl^{2}}{8f}
    \label{eq:equazione_tiro}
 \end{equation}
-Conoscendo $p$, $l$ ed $f$, e quindi la geometria della configurazione deformata, è immediato ricavare il tiro orizzontale $H$. Di conseguenza, la formula permette di conoscere il tiro di una fune già installata, quando la freccia $f$ può essere misurata, ma non consente di determinare a priori il tiro necessario per ottenere una configurazione desiderata. 
+con $f$ freccia massima della fune.
+
+Misurando $p$ e le grandezze geometriche $l$ ed $f$, è immediato ricavare l'intensità della componente orizzontale $H$ della forza di tiro. Di conseguenza, la formula permette di conoscere il tiro di una fune già installata, quando la freccia massima $f$ può essere misurata, ma non consente di determinare a priori il tiro necessario per ottenere una configurazione desiderata. 
 
 \subsubsection{L'equilibrio della fune soggetta al peso proprio}
 Consideriamo la configurazione deformata di una fune soggetta al peso proprio.
@@ -91,10 +94,11 @@ Sostituendo le espressioni \eqref{eq:parallelismo} e \eqref{eq:ds} nella \eqref{
 \begin{equation}
    \frac{d^{2}y}{dx^{2}} = - \frac{\gamma}{H} \sqrt{1 + \left( \frac{dy}{dx} \right)^{2}}
 \end{equation} 
-che rappresenta l'equazione differenziale della catenaria. 
+che rappresenta l'equazione differenziale della catenaria.
+
 Risolvendo, troviamo l'equazione generale della catenaria:
 \begin{equation}
-   y(x) = - \frac{H}{\gamma}cosh \left[ \frac{\gamma}{H} (x - x_0)\right] + y_0
+   y(x) = - \frac{H}{\gamma} \cosh \left( \frac{\gamma}{H} (x - x_0)\right) + y_0
    \label{eq:equazione_generale_della_catenaria}
 \end{equation}
 dove $x_0$ e $y_0$ sono costanti di integrazione. Imponendo le condizioni al bordo coerentemente con \cref{fig:fune_catenaria} otteniamo la soluzione particolare del problema della catenaria:
@@ -104,16 +108,16 @@ dove $x_0$ e $y_0$ sono costanti di integrazione. Imponendo le condizioni al bor
 \end{equation}
 
 \subsubsection{La fune soggetta ad un accorciamento iniziale}
-Nel modello inestensibile, la lunghezza della fune nella configurazione deformata coincide necessariamente con la lunghezza iniziale $L_0$. Tuttavia, nella pratica ingegneristica si presentano frequentemente situazioni in cui la fune viene installata con una lunghezza differente rispetto a quella che assumerebbe in assenza di carico, ad esempio a causa di un accorciamento $\Delta L_0$ imposto in fase di montaggio. 
-Per modellare tali condizioni, si introduce una \textbf{lunghezza efficace} della fune, definita come: 
+Nel modello inestensibile, la lunghezza della fune nella configurazione deformata coincide necessariamente con la lunghezza iniziale $L_0$. Tuttavia, nella pratica ingegneristica si presentano frequentemente situazioni in cui è necessario tener conto della variazione della lunghezza in opera rispetto al suo valore iniziale. 
+\'E possibile estendere a tali casi la modellazione della trave inestensibile introducendo una \textit{Lunghezza efficace} della fune, definita come: 
 \begin{equation}
     L_{eff} = L_0 - \Delta L_0 = L_0(1 - \varepsilon_0) 
     \label{eq:lunghezza_efficace}
 \end{equation}
-dove $\varepsilon_0$ non rappresenta una deformazione imposta al materiale, ma è la percentuale di lunghezza iniziale del cavo che produce l'accorciamento desiderato. L'idea è quella di considerare la fune come inestensibile, ma con una lunghezza iniziale modificata. 
+dove $\Delta L_0$ rappresenta un accorciamento imposto in fase di montaggio. In questo contesto $\varepsilon_0$ non rappresenta una deformazione imposta al materiale, ma è la percentuale di lunghezza iniziale del cavo che produce l'accorciamento desiderato. L'idea è quella di considerare la fune come inestensibile, ma con una lunghezza iniziale variabile. 
 
 \subsubsection{L'equazione di congruenza}
-Nei modelli inestensibili analizzati, l'equilibrio fornisce la forma della fune in funzione del tiro orizzontale $H$. Tuttavia, né nel caso della parabola né in quello della catenaria la geometria deformata è nota a priori: essa dipende proprio dal valore di $H$.
+Nei modelli analizzati, che trattano la fune come inestensibile, imponendo l'equilibrio si ottiene una relazione tra la forma della fune e l'intensità della componente orizzontale $H$ del tiro. Tuttavia, né nel caso della parabola, né in quello della catenaria, la configurazione finale è nota a priori: essa dipende proprio dal valore di $H$.
 Quando, oltre ai carichi esterni $p$ (o $\gamma$) e alla distanza tra gli appoggi $l$, è nota anche la lunghezza iniziale della fune $L_0$, è possibile chiudere il problema imponendo una condizione di congruenza sulla lunghezza.
 Per una fune inestensibile, la lunghezza nella configurazione deformata deve coincidere con la lunghezza iniziale. L'ipotesi costitutiva si traduce quindi nella condizione:
 \begin{equation}
@@ -130,7 +134,7 @@ Imporre la congruenza significa quindi risolvere l'equazione non lineare:
    L(H) - L_0 = 0
    \label{eq:congruenza_inestensibile2}
 \end{equation}
-che combina equilibrio e congruenza e permette di determinare il tiro orizzontale $H$. 
+che combina equilibrio e congruenza e permette di determinare l'intensità della componente orizzontale $H$ del tiro. 
 Nel caso in cui la fune sia soggetta ad un accorciamento iniziale, la lunghezza disponibile dopo l'operazione non coincide più con $L_0$, ma con la lunghezza efficace $L_{eff}$. L'equazione di congruenza diventa: 
 \begin{equation}
    L(H) = L_{eff}
@@ -146,19 +150,19 @@ Poichè per l'ipotesi di inestensibilità della fune dovrà valere che:
    L(H) = L_{eff} \geq l
    \label{eq:condizione_di_esistenza_della_soluzione}
 \end{equation}
-L'equazione di congruenza ammette soluzione solo se la lunghezza efficace non è inferiore alla distanza tra gli appoggi. Di fatto nessuna fune inestensibile può assumere una configurazione con lunghezza inferiore alla distanza tra i vincoli. 
+l'equazione di congruenza ammette soluzione solo se la lunghezza efficace non è inferiore alla distanza tra gli appoggi. Di fatto nessuna fune inestensibile può assumere una configurazione con lunghezza inferiore alla distanza tra i vincoli. 
 
 \vspace{1em}
-Nelle figura \cref{fig:parabolavscatenaria} vengono confrontati i grafici delle deformate di una fune inestensibile ($l = 10m$) soggetta al peso proprio, analizzata secondo i due principali schemi di carico verticale: distribuito sullo sviluppo della fune oppure sulla distanza orizzontale tra gli appoggi. Il confronto evidenzia come la differenza tra i due approcci sia marcata nel caso di funi lasche ($L_{eff} > l$) mentre diventi trascurabile nel casi di funi tese ($L_{eff} \approx l$), come mostrato nella figura \cref{fig:parabolavscatenaria2}, attraverso il grafico degli scostamenti geometrici.
+In \cref{fig:parabolavscatenaria} vengono confrontati i grafici delle deformate di una fune inestensibile ($l = 10\, \text{m}$) soggetta al peso proprio, analizzata secondo i due principali schemi di carico verticale: distribuito sullo sviluppo della fune oppure sulla distanza orizzontale tra gli appoggi. Il confronto evidenzia come la differenza tra i due approcci sia marcata nel caso di funi lasche ($L_{eff} > l$) mentre diventi trascurabile nel casi di funi tese ($L_{eff} \approx l$), come mostrato nella figura \cref{fig:parabolavscatenaria2}, attraverso il grafico degli scostamenti geometrici.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{143_capitoli/capitolo2/immagini_capitolo_2/parabolavscatenaria.pdf}
     \caption{Deformata della fune: modello parabolico vs catenaria}
     \label{fig:parabolavscatenaria}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{143_capitoli/capitolo2/immagini_capitolo_2/parabolavscatenaria2.pdf}
     \caption{Scostamento geometrico locale: modello parabolico vs catenaria}
@@ -172,16 +176,15 @@ Il modello di fune inestensibile rappresenta uno strumento teorico estremamente 
    \item il problema delle funi con lunghezza iniziale inferiore alla distanza tra gli appoggi. 
    \item il problema della fune con accorciamento della lunghezza iniziale tale per cui $L_{eff}<l$
 \end{itemize}
-La fune inestensibile è un modello geometrico, non costitutivo, utile per descrivere la forma in equilibrio ma incapace di rappresentare l'evoluzione deformativa o gli effetti della deformabilità assiale. 
+La fune inestensibile è un modello geometrico, non costitutivo, utile per determinare la forma assunta dalla fune quando viene raggiunto l'equilibrio statico ma incapace di rappresentare l'evoluzione deformativa o gli effetti della deformabilità assiale. 
 Per affrontare il problema anche dal punto di vista deformativo e costitutivo è indispensabile ricorrere a modelli più completi, come il modello di Irvine, soluzioni numeriche al problema elastico non lineare o le formulazioni numeriche alle differenze finite o agli elementi finiti. 
 
 \subsection{La fune elastica}
-Il modello analizzato in questa sezione introduce un legame costitutivo esplicito tra spostamenti, deformazioni e tensioni. Questo approccio permette di superare le limitazioni intrinseche del modello inestensibile, le quali risultano fortemente vincolanti nella pratica progettuale (come l'impossibilità di modellare funi con lunghezza efficace inferiore alla distanza tra gli appoggi).
+Il modello analizzato in questa sezione introduce un legame costitutivo esplicito tra spostamenti, deformazioni e tensioni. Questo approccio permette di superare le limitazioni intrinseche del modello inestensibile, le quali risultano fortemente vincolanti nella pratica progettuale.
 
-Inizialmente verrà introdotto il legame costitutivo del cavo; successivamente, verrà formulata l'equazione di congruenza che tiene conto dell'allungamnto assiale, al fine di determinare il tiro orizzontale $H$ attraverso una strategia numerica.
+Inizialmente verrà introdotto il legame costitutivo del cavo; successivamente, verrà formulata l'equazione di congruenza che tiene conto dell'allungamento assiale, al fine di determinare il tiro orizzontale $H$ attraverso una strategia numerica.
 
-\vspace{1em}
-Introduciamo il legame costitutivo  elastico lineare per il materiale: 
+Introduciamo il legame costitutivo elastico lineare per il materiale: 
 \begin{equation}
    \varepsilon = \frac{\sigma}{E}
    \label{eq:legame_costitutivo_materiale}
@@ -191,21 +194,21 @@ Il quale, espresso in termini di sforzo normale $N$  e rigidezza assiale del cav
    \varepsilon = \frac{N}{EA}
    \label{eq:legame_costitutivo_cavo}
 \end{equation}
-Coerentemente con le figure \cref{fig:fune_catenaria} e \cref{fig:fune_carico_distr}, difiniamo $s_0$ ed $s$, rispettivamente, l'ascissa curvilinea della fune nella configurazione iniziale e finale. 
-Assumendo l'ipotesi di piccole deformazioni elastiche del materiale, la deformazione assiale può essere espressa mediante la relazione cinematica classica:
+Coerentemente con le \cref{fig:fune_catenaria,fig:fune_carico_distr}, definiamo $s_0$ ed $s$, rispettivamente, l'ascissa curvilinea della fune nella configurazione iniziale e finale. 
+Assumendo l'ipotesi di piccole deformazioni elastiche del materiale, la deformazione assiale può essere espressa mediante la relazione cinematica:
 \begin{equation}
    \varepsilon = \frac{ds - ds_0}{ds_0}
    \label{eq:deformazione_assiale}
 \end{equation}
 dove $ds_0$ e $ds$ sono rispettivamente il tratto infinitesimo dell'ascissa curvilinea nelle due configurazioni.
-Combinando la relazione \eqref{eq:deformazione_assiale} con il legame costitutivo \eqref{eq:legame_costitutivo_cavo}, è possibile esplicitare il tratto differenziale iniziale $ds_0$ in funzione della geometria deformata corrente e dello sforzo agente: 
+Combinando la relazione \eqref{eq:deformazione_assiale} con il legame costitutivo \eqref{eq:legame_costitutivo_cavo}, è possibile esplicitare il tratto differenziale iniziale $ds_0$ in funzione della configurazione deformata corrente e dello sforzo agente: 
 \begin{equation}
    ds_0 = \frac{EA}{EA + N(s)} ds
    \label{eq:ds0_funzione_ds}
 \end{equation}
 L'equazione \eqref{eq:ds0_funzione_ds} consente di mappare la lunghezza iniziale della fune a partire dalla configurazione finale di equilibrio.
 
-Per stabilire la condizione di congruenza del problema elastico, si consideri la lunghezza totale della fune nella configurazione finale deformata $L(H)$. Essa sarà pari alla lunghezza iniziale $L_0$ maggiorata dell'allungamento totale elastico $\Delta L$ indotto dai carichi:
+Per stabilire la condizione di congruenza del problema elastico, si consideri la lunghezza totale della fune nella configurazione finale $L(H)$. Essa sarà pari alla lunghezza iniziale $L_0$ maggiorata dell'allungamento totale elastico $\Delta L$ indotto dai carichi:
 \begin{equation}
    L(H) - \Delta L - L_0 = 0
    \label{eq:congruenza_estensibile}
@@ -215,30 +218,29 @@ Ipotizziamo nota la lunghezza del cavo in configurazione iniziale $L_0$, l'equaz
    L(H) - \Delta L  = L_0
    \label{eq:congruenza_estensibile2}
 \end{equation}
-Ricordando che lo sforzo normale lungo il profilo della fune è legato al tiro orizzontale $H$ dalla relazione:
+Ricordando che lo sforzo normale lungo il profilo della fune è legato alla componente orizzontale $H$ del tiro, dalla relazione:
 \begin{equation}
    N(x) = H \sqrt{1 + (y'(x; H))^2}
    \label{eq:sforzo_normale}
 \end{equation}
-e che il differenziale corrente $ds$ sulla corda è espresso mediante la relazione \eqref{eq:ds}, la lunghezza iniziale $L_0$ può essere calcolata integrando l'equazione \eqref{eq:ds0_funzione_ds} lungo la proiezione orizzontale della campata $l$:
+e che il differenziale corrente $ds$ sulla corda è espresso mediante la relazione \eqref{eq:ds}. La lunghezza iniziale $L_0$ può essere calcolata integrando l'equazione \eqref{eq:ds0_funzione_ds} lungo la proiezione orizzontale della campata $l$:
 \begin{equation}
     L_0(H) = \int_{0}^{L_0} ds_0\ = \int_{-\frac{l}{2}}^{\frac{l}{2}} \frac{EA}{EA + N(x)} \sqrt{1 + (y'(x; H))^{2}} dx\
    \label{eq:lunghezza_indeformata_integer}
 \end{equation}
-Il problema di congruenza si riduce pertanto alla risoluzione di un equazione non lineare nella sola incongnita rappresentata dal tiro orizzontale $H$: 
+Il problema di congruenza si riduce pertanto alla risoluzione di un'equazione non lineare nella sola incongnita rappresentata dal tiro orizzontale $H$: 
 \begin{equation}
    L_0 - L_0(H) = 0 
    \label{eq:residuo_congruenza}
 \end{equation}
 Poichè la funzione della lunghezza elastica $L_0(H)$ dipende in modo fortemente non lineare da $H$, l'equazione \eqref{eq:residuo_congruenza} non ammette una soluzione analitica in forma chiusa. Il problema può essere tuttavia risolto efficacemente mediante schemi iterativi numerici, come il metodo di Newton - Raphson.
 
-\vspace{1em}
-Consideriamo anche in questo caso la necessità, dato un cavo di lunghezza inizale $L_0$, di sottoporlo ad un accorciamento $\Delta L_0$. Tale condizione modella fenomeni fisici reali importanti nell'ingegneria, come le operazioni di pre-tensionamento meccanico agli ancoraggi, i difetti di montaggio in cantiere e le contrazioni termiche indotte. Coerentemente con quanto definito per il modello inestensibile, si introduce la \textbf{lunghezza efficace} della fune in configurazione indeformata, definita come:
+Consideriamo anche in questo caso la necessità, dato un cavo di lunghezza inizale $L_0$, di sottoporlo ad un accorciamento $\Delta L_0$. Tale condizione modella fenomeni fisici reali importanti nell'ingegneria, come le operazioni di pre-tensionamento meccanico agli ancoraggi, i difetti di montaggio in cantiere e le contrazioni termiche indotte. Coerentemente con quanto definito per il modello inestensibile, si introduce la \textit{lunghezza efficace} della fune in configurazione indeformata, definita come:
 \begin{equation}
     L_{eff} = L_0 - \Delta L_0 = L_0(1 - \varepsilon_0)
     \label{eq:lunghezza_efficace_elastica}
 \end{equation}
-dove $\varepsilon_0$ rappresenta l'aliquota di accorciamento percentuale impresso rispetto alla geometria iniziale. L'introduzione di $L_{eff}$ modifica l'equazione di congruenza. La fune vincolata agli appoggi distanti $l$, reagisce alla contrazione sviluppando uno stato di trazione interna, nel caso in cui $L_{eff}<l$, mentre produce una variazione geometrica pari a quella prodotta nel caso inestensibile, quando $L_{eff}>l$. Al fine di esplicitare il ruolo di ciascuna componente deformativa la lunghezza totale della fune nella configurazione deformata $L$ può essere vista come la somma algebrica della lunghezza efficace $L_{eff}$, dell'accorciamento di montaggio $\Delta L_0$ e dell'allungamento elastico $\Delta L$:
+dove $\varepsilon_0$ rappresenta l'aliquota di accorciamento percentuale impresso rispetto alla geometria iniziale. L'introduzione di $L_{eff}$ modifica l'equazione di congruenza. La fune vincolata agli appoggi distanti $l$, reagisce alla contrazione sviluppando internamente uno stato tensionale di trazione, nel caso in cui $L_{eff}<l$, mentre produce una variazione geometrica pari a quella prodotta nel caso inestensibile, quando $L_{eff}>l$. Al fine di esplicitare il ruolo di ciascuna componente deformativa la lunghezza totale della fune nella configurazione deformata $L$ può essere vista come la somma algebrica della lunghezza efficace $L_{eff}$, dell'accorciamento di montaggio $\Delta L_0$ e dell'allungamento elastico $\Delta L$:
 \begin{equation}
    L = L_{eff} + \Delta L_0 + \Delta L
    \label{eq:contributi_L}
@@ -255,15 +257,15 @@ L_0(H) = L_{eff} + \Delta L_0 \implies L_0(H) = L_0
 Il problema si riduce nuovamente alla determinazione dello zero di una funzione nella sola incognita $H$, pronta per essere implementata nell'algoritmo di Newton-Raphson.
 
 \vspace{1em}
-Prendiamo ad esempio una fune in acciaio (possiamo assumere che il modulo elastico sia pari a $E = 210GPa$ e che la densità valga $7850kg/m$), di area pari ad $A = \pi r^{2}$ con $r = 1cm$, soggetta all'azione del solo peso proprio lineare ($\gamma = \rho g A$) considerata agente sulla lunghezza della fune stessa, la cui distanza tra gli appoggi è pari a $l$. Ipotizzando di conoscere la lunghezza iniziale $L_0$ e variando la $L_{eff}$ per mezzo di un accorciamento $\Delta L$, grazie alla \cref{fig:estensibilevsinestensibile1} possiamo vedere come attraverso il modello estensibile si possano considerare anche problemi la cui $L_{eff}$ sia minore di $l$.
+Prendiamo ad esempio una fune in acciaio (possiamo assumere che il modulo elastico sia pari a $E = 210\,\text{GPa}$ e che la densità valga $7850\,\text{kg/m}$), di area pari ad $A = \pi r^{2}$ con $r = 1\,\text{cm}$, soggetta all'azione del solo peso proprio lineare ($\gamma = \rho g A$) considerata agente sulla lunghezza della fune stessa, la cui distanza tra gli appoggi è pari a $l$. Ipotizzando di conoscere la lunghezza iniziale $L_0$ e variando la $L_{eff}$ per mezzo di un accorciamento $\Delta L$, grazie alla \cref{fig:estensibilevsinestensibile1} possiamo vedere come attraverso il modello estensibile si possano considerare anche problemi la cui $L_{eff}$ sia minore di $l$.
 
-Per chiarezza di spiegazione introduciamo una misura della laschezza del cavo. La valutazione della freccia massima (\textit{sag}) al variare dello sviluppo lineare della fune rispetto alla distanza tra i vincoli può essere espressa quantitativamente tramite il \textit{rapporto di laschezza} (o \textit{slackness ratio}) $\xi$, definito dalla seguente relazione espressa in pecentuale: 
+Per chiarezza espositiva introduciamo una misura della laschezza del cavo. La valutazione della freccia massima (\textit{sag}) al variare dello sviluppo lineare della fune rispetto alla distanza tra i vincoli può essere espressa quantitativamente tramite il \textit{rapporto di laschezza} (o \textit{slackness ratio}) $\xi$, definito dalla seguente relazione espressa in pecentuale: 
 \begin{equation}
     \xi = \frac{L_{eff} - l}{l} \times 100
     \label{eq:rapporto_laschezza}
 \end{equation}
 
-Nelle figure \cref{fig:estensibilevsinestensibile3,fig:estensibilevsinestensibile4} emergono chiaramente i limiti del modello inestensibile. 
+In \cref{fig:estensibilevsinestensibile3,fig:estensibilevsinestensibile4} emergono chiaramente i limiti del modello inestensibile. 
 
 Nel primo diagramma (\cref{fig:estensibilevsinestensibile3}), che mette in relazione il tiro orizzontale $H$ con il rapporto di laschezza $\xi$, si osserva come per $\xi < 0$ il modello estensibile descriva un comportamento lineare governato dalla rigidezza assiale $EA$ della fune. Al contrario, nel modello inestensibile la curva incontra un asintoto verticale in corrispondenza di $\xi \approx 0$, poichè il cavo non può subire accorciamenti al di sotto della distanza tra i vincoli. Il modello estensibile permette inoltre di cogliere il comportamento limite per $EA \rightarrow \infty$, caso in cui la curva elastica tende asintoticamente a quella inestensibile.
 
@@ -295,12 +297,12 @@ Analogalmente, nella figura successiva (\cref{fig:estensibilevsinestensibile4}),
 Mentre i modelli basati sull'equazione globale di congruenza della catenaria elastica introducono limitazioni cinematiche e matematiche, lo schema numerico che proponiamo mira alla risoluzione diretta della formulazione differenziale indefinita di Irvine. Tale approccio, in accordo con quanto riportato in \cite{irvine1981}, offre tre vantaggi fondamentali: in primo luogo, tratta la geometria corrente come incognita pura; in secondo luogo, calcola lo stato tensionale locale segmento per segmento, superando le approssimazioni delle tensioni medie tipiche dei problemi in cui si impone un'equazione di congruenza sull'intera struttura meccanica; infine, adotta una formulazione lagrangiana coerente rispetto all'ascissa curvilinea indeformata $s_0$, garantendo il rispetto rigoroso della conservazione della massa. Lo scopo di questa trattazione è quello di fornire una base ideale per il successivo confronto con i codici ad elementi finiti (FEM).
 
 \vspace{1em}
-Siano rispettivamente $\Omega_0$ ed $\Omega$ la configurazione di riferimento e quella deformata della fune soggetta al peso proprio. A differenza di quanto assunto nella figura \cref{fig:fune_catenaria}, assumiamo che l'ascissa curvilinea $s_0$ della fune abbia la propria origine nel punto medio della lunghezza della fune in configurazione di riferimento; perciò, anche non conoscendone a priori la geometria spaziale, possiamo definire il dominio materiale come:
+Siano rispettivamente $\Omega_0$ ed $\Omega$ la configurazione di riferimento e quella deformata della fune soggetta al peso proprio. A differenza di quanto assunto nella in \cref{fig:fune_catenaria}, assumiamo che l'ascissa curvilinea $s_0$ della fune abbia la propria origine nel punto medio della lunghezza della fune in configurazione di riferimento; perciò, anche non conoscendone a priori la geometria spaziale, possiamo definire il dominio materiale come:
 \begin{equation}
    s_0 \in \left[ -\frac{L_0}{2}, \frac{L_0}{2}\right]
    \label{eq:dominio_s0}
 \end{equation}
-Siano invece $(x(s_0), y(s_0))$ le funzioni che descrivono le coordinate generiche dei punti della fune nella configurazione deformata corrente $\Omega$. Considerando valida anche in questo caso l'ipotesi di piccole deformazioni elastiche del materiale, la deformazione assiale può essere espressa mediante lo stretch locale $\lambda(s_0)$ nella forma:
+Siano invece $(x(s_0), y(s_0))$ le funzioni che descrivono le coordinate dei punti appartenenti alla linea d'asse della fune nella configurazione corrente $\Omega$. Considerando valida anche in questo caso l'ipotesi di piccole deformazioni elastiche del materiale, la deformazione assiale può essere espressa mediante lo stretch locale $\lambda(s_0)$ nella forma:
 \begin{equation}
    \varepsilon(s_0) = \lambda(s_0) - 1 
    \label{eq:deformazione_assiale2}
@@ -324,7 +326,7 @@ dove l'apice indica la derivata rispetto all'argomento della funzione. Di conseg
 \begin{equation}
    \|\underline{t}(s_0)\| = \sqrt{(x'(s_0))^2 + (y'(s_0))^2} = \lambda(s_0)
 \end{equation}
-Imponendo il parallelismo tra l'azione interna dello sforzo normale e la configurazione tangente corrente, si ricavano le componenti cartesiane dello sforzo normale lungo gli assi orizzontale e verticale:
+Imponendo il parallelismo tra l'azione interna dello sforzo normale e la tangente locale alla linea d'asse della configurazione corrente, si ricavano le componenti dello sforzo normale in direzione orizzontale e verticale:
 \begin{equation}
    N_x(s_0) = N(s_0) \frac{x'(s_0)}{\lambda(s_0)}
 \end{equation}
@@ -333,7 +335,7 @@ Imponendo il parallelismo tra l'azione interna dello sforzo normale e la configu
 \end{equation}
 
 \vspace{1em}
-Poniamo adesso in equilibrio un tratto infinitesimo di fune. Isolando un segmento compreso tra due sezioni generiche aventi ascissa curvilinea corrente $s_1$ e $s_2$ nella configurazione deformata, l'equilibrio alla traslazione in direzione orizzontale $x$ si impone attraverso la relazione:
+Analizziamo quindi l'equilibrio di un tratto infinitesimo di fune. Consideriamo un segmento nella configurazione deformata, l'equilibrio alla traslazione in direzione orizzontale $x$ si impone attraverso la relazione:
 \begin{equation}
    N_x(s_2) - N_x(s_1) = 0
 \end{equation}
@@ -364,10 +366,9 @@ Seguendo il medesimo procedimento e includendo l'azione del peso proprio lineare
 Le equazioni \eqref{eq:irvine_indefinita_x} e \eqref{eq:irvine_indefinita_y} costituiscono il sistema differenziale non lineare accoppiato che governa il problema della fune elastica in regime di grandi spostamenti.
 
 \subsubsection{Risoluzione del problema mediante le differenze finite}
-Per risolvere il problema differenziale formulato nel paragrafo precedente dobbiamo imporre il rispetto delle equazioni indefinite di equilibrio \ref{eq:irvine_indefinita_x} ed \ref{eq:irvine_indefinita_y} per ciascun nodo di controllo in cui la configurazione iniziale viene discretizzata. La suddivisione della configurazione di riferimento viene effettuata in tratti di ascissa curvilinea della stessa lunghezza $h$. Le incognite del problema sono rappresentate dai vettori di posizione dei punti di controllo $\underline{x}$ e $\underline{y}$ che hanno lunghezza pari a $n+1$, essendo $n$ il numero di tratti in cui la fune è suddivisa. Tuttavia, risolvendo la parte simmetrica del problema ed imponendo il rispetto delle condizioni al contorno in accordo con i vincoli, il numero di incognite si riduce di 3 unità. Il sistema di equazioni sui punti interni della fune ci permette di imporre $2(n+1) - 4$ equazioni; tuttavia, imponendo un equazione sull'annullamento della componente verticale dello sforzo normale in mezzeria, è possibile ottenere l'equazione aggiuntiva necessaria. In tal modo, il sistema finale presenta un numero di equazioni pari a quello delle incognite ($2n-1$), rendendo invertibile la matrice dei coefficienti e garantendo l'unicità della soluzione. 
+Per risolvere il problema differenziale formulato nel paragrafo precedente dobbiamo imporre il rispetto delle equazioni indefinite di equilibrio \eqref{eq:irvine_indefinita_x} ed \eqref{eq:irvine_indefinita_y} per ciascun nodo di controllo in cui la configurazione iniziale viene discretizzata. La suddivisione della configurazione di riferimento viene effettuata in tratti di ascissa curvilinea della stessa lunghezza $h$. Le incognite del problema sono rappresentate dai vettori di posizione dei punti di controllo $\underline{x}$ e $\underline{y}$ che hanno lunghezza pari a $n+1$, essendo $n$ il numero di tratti in cui la fune è suddivisa. Tuttavia, risolvendo la parte simmetrica del problema ed imponendo il rispetto delle condizioni al contorno in accordo con i vincoli, il numero di incognite si riduce di 3 unità. Il sistema di equazioni sui punti interni della fune ci permette di imporre $2(n+1) - 4$ equazioni; tuttavia, imponendo un equazione sull'annullamento della componente verticale dello sforzo normale in mezzeria, è possibile ottenere l'equazione aggiuntiva necessaria. In tal modo, il sistema finale presenta un numero di equazioni pari a quello delle incognite ($2n-1$), rendendo invertibile la matrice dei coefficienti e garantendo l'unicità della soluzione. 
 
-\vspace{1em}
-In accordo con le equazioni differenziali e con la definizione dello sforzo normale e dei versori tangenti, è necessario valutare le derivate delle funzioni $x(s_0)$ e $y(s_0)$. Non conoscendon l'espressione analitica, queste vengono approssimate per mezzo delle differenze finite. Al fine di ottenere un soddisfacente grado di accuratezza - tale da poter successivamente confrontare i risultati con i vari modelli - si impiegano le differenze finite centrate a 4 punti. Fa eccezione l'uso dell'approssimazione alle differenze finite all'indietro a 4 punti, necessaria per imporre l'equilibrio sul punto di controllo estremale di destra senza introdurre delle condizioni fittizie al bordo (ghost points). Tale scelta permette di valutare la derivata al centro di un tratto di lunghezza $h$ (ovvero dove si intende calcolare lo sforzo normale) senza dover infittire la discretizzazione della fune. In questo modo, si calcolano lo sforzo normale $N$ e la tangente al centro dei singoli tratti, imponendo poi l'equilibrio ai nodi.
+In accordo con le equazioni differenziali e con la definizione dello sforzo normale e dei versori tangenti, è necessario valutare le derivate delle funzioni $x(s_0)$ e $y(s_0)$. Non conoscendone l'espressione analitica, queste vengono approssimate per mezzo delle differenze finite. Al fine di ottenere un soddisfacente grado di accuratezza - tale da poter successivamente confrontare i risultati con i vari modelli - si impiegano le differenze finite centrate a 4 punti. Fa eccezione l'uso dell'approssimazione alle differenze finite all'indietro a 4 punti, necessaria per imporre l'equilibrio sul punto di controllo estremale di destra senza introdurre delle condizioni fittizie al bordo (ghost points). Tale scelta permette di valutare la derivata al centro di un tratto di lunghezza $h$ (ovvero dove si intende calcolare lo sforzo normale) senza dover infittire la discretizzazione della fune. In questo modo, si calcolano lo sforzo normale $N$ e la tangente al centro dei singoli tratti, imponendo poi l'equilibrio ai nodi.
 
 \vspace{1em}
 A causa della non linearità del problema, il sistema di equazioni viene risolto mediante il metodo di Newton - Raphson ed espresso attraverso la relazione: 
@@ -378,16 +379,16 @@ A causa della non linearità del problema, il sistema di equazioni viene risolto
 dove:
 \begin{itemize}
    \item  $\underline{u}$, è il vettore delle incognite, contenente le componenti dei vettori $\underline{x}$ e $\underline{y}$ non vincolate dalle condizioni al bordo; 
-   \item  $\underline{R}(\underline{u})$, è il vettore dei residui;
+   \item  $\underline{R}(\underline{u})$, è la funzione dei residui, i cui dominio e codominio sono tali per cui: $R : \mathbb{R}^{2(n-1)} \rightarrow \mathbb{R}^{2n-1}$;
    \item  $\underline{F}_{int}(\underline{u})$, è il vettore delle forze interne;
-   \item $\underline{F}_{ext}$, è il vettore delle forze esterne. Nel problema considerato, l'unico carico esterno è il peso proprio della fune, modellato come un carico lineare $q_y$ agente lungo la direzione verticale. Nella formulazione discreta, tale carico viene convertito nel corrispondente contributo nodale (lumped).  
+   \item  $\underline{F}_{ext}$, è il vettore delle forze esterne. Nel problema considerato, l'unico carico esterno è il peso proprio della fune, modellato come un carico lineare $q_y$ agente lungo la direzione verticale. Nella formulazione discreta, tale carico viene convertito nel corrispondente contributo nodale (lumped).  
 \end{itemize}
 Vista la natura monotona del fenomeno, lo schema numerico può essere riassunto attraverso la formula di aggiornamento iterativo:
 \begin{equation}
  \underline{u}^{(k+1)} = \underline{u}^{(k)} - [J (\underline{u}^{(k)})]^{-1} \underline{R}(\underline{u}^{(k)})
  \label{eq:ricorrenza_newton_raphson}
 \end{equation}
-Dove $k$ rappresenta l'indice dell'iterazione corrente e $[J(\underline{u}^{(k)})]$. A differenza del caso continuo, in cui il problema dipende dall'unica variabile $s_0$, in questo contesto discreto le variabili da controllare sono pari a $2n - 1$. Di conseguenza, le componenti della Jacobiana sono definite come: 
+Dove $k$ rappresenta l'indice dell'iterazione corrente e $[J(\underline{u}^{(k)})]$ è la matrice Jacobiana della funzione dei residui. A differenza del caso continuo, in cui il problema dipende dall'unica variabile $s_0$, in questo contesto discreto le variabili da controllare sono pari a $2n - 1$. Di conseguenza, le componenti della Jacobiana sono definite come: 
 \begin{equation}
 J_{ij}(\underline{u}) = \frac{\partial R_i(\underline{u})}{\partial u_j},
 \qquad i,j = 1,\dots,2n-1.
@@ -395,30 +396,31 @@ J_{ij}(\underline{u}) = \frac{\partial R_i(\underline{u})}{\partial u_j},
 \end{equation}
 Le derivate all'interno della Jacobiana vengono approssimate per mezzo delle differenze finite centrali con uno schema a 2 punti. Si osserva che l'introduzione di questa ulteriore approssimazione su $[J]$ non riduce l'accuratezza della soluzione convergente, ma influenza unicamente il percorso del solutore nella ricerca della radice.
 
-\vspace{1em}
-L'algoritmo computazionale introduce nel calcolo dello sforzo normale un legame costitutivo di tipo \emph{tension-only} e assume come prima opzione di tentativo (\emph{initial guess}) la configurazione della fune ottenuta dal modello di fune elastica. Questa scelta favorisce la convergenza del solutore e permette di partire da una configurazione in cui il vettore degli sforzi normali presenta soli valori positivi; è stato infatti osservato che qualora molti elementi risultino Inizialmente compressi (e quindi privi di rigidezza), la convergenza del solutore ne risulterebbe compromessa.
+L'algoritmo computazionale introduce nel calcolo dello sforzo normale un legame costitutivo di tipo \emph{tension-only} e assume come prima opzione di tentativo (\emph{initial guess}) la configurazione della fune ottenuta dal modello di fune elastica. Questa scelta favorisce la convergenza del solutore e permette di partire da una configurazione in cui il vettore degli sforzi normali presenta solo valori positivi; è stato infatti osservato che qualora molti elementi risultino inizialmente compressi (e quindi privi di rigidezza), la convergenza del solutore ne risulterebbe compromessa.
+
+Per il confronto dei risultati vengono valutati l'errore assoluto ($e_{\text{ass}}$) e l'errore relativo ($e_{\text{rel}}$), definiti rispettivamente come:
+\begin{equation}
+   e_{\text{ass}} = \left| \text{val}_{\text{numerico}} - \text{val}_{\text{analitico}} \right|
+   \label{eq:errore_assoluto}
+\end{equation}
+
+\begin{equation}
+   e_{\text{rel}} = \frac{\left| \text{val}_{\text{numerico}} - \text{val}_{\text{analitico}} \right|}{\text{val}_{\text{analitico}}} 
+   \label{eq:errore_relativo}
+\end{equation}
 
 \vspace{1em}
 I risultati sintetizzati nelle \cref{fig:differenzevsestensibile1,fig:differenzevsestensibile2,fig:differenzevsestensibile3,fig:differenzevsestensibile4,fig:differenzevsestensibile5} evidenziano un'eccellente concordanza tra la soluzione analitica della catenaria elastica e il modello numerico alle differenze finite. Lo scostamento complessivo tra i due approcci si mantiene ampiamente al di sotto delle tolleranze tipiche dell'ingegneria civile.
 
-Dal punto di vista della risposta cinematica (\cref{fig:differenzevsestensibile4,fig:differenzevsestensibile5}), l'errore assoluto massimo sullo spostamento - calcolato secondo la \cref{eq:errore_assoluto} - si attesta costantemente al di sotto di $10^{-6}\text{m}$. L'andamento spaziale di tale errore riflette direttamente le particolità geometriche dei due casi analizzati:
+Dal punto di vista della risposta cinematica (\cref{fig:differenzevsestensibile4,fig:differenzevsestensibile5}), l'errore assoluto massimo sullo spostamento - calcolato secondo la \cref{eq:errore_assoluto} - si attesta costantemente al di sotto di $10^{-6}\,\text{m}$. L'andamento spaziale di tale errore riflette direttamente le particolità geometriche dei due casi analizzati:
 \begin{itemize}
    \item nel caso di fune lasca ($L_{eff} > l$), la forma analitica pura della catenaria viene confrontata con la soluzione numerica ottenuta mediante uno schema alle differenze finite di ordine 4. Tale discretizzazione genera una distribuzione caratteristica dell'errore lungo la campata, legata sia alla natura del modello elastico sia alla risoluzione numerica.
    \item nel caso di fune tesa ($L_{eff} < l$), la forte tensione riduce il raggio di curvatura rendendo la geometria della catenaria estremamente vicina a quella parabolica (come già riscontrato nel confronto tra le soluzioni inestensibili), alterando di conseguenza il profilo dell'errore assoluto.
 \end{itemize}
 
-Parallelamente alla risposta geometrica, le \cref{fig:differenzevsestensibile2,fig:differenzevsestensibile3} illustrano il quadro tensionale in termini di sforzo normale $N(x)$, ponendo a diretto confronto il profilo continuo della soluzione analitica con l'andamento discreto (a step) tipico delle formulazioni agli elementi finiti. La massima discrepanza assoluta si registra nel caso di fune tesa ed è pari a $e_{ass} \approx 0.15\text{N}$. Contestualizzato rispetto all'entità del tiro in gioco (superiore a $33\text{kN}$), tale scostamento corrisponde a un errore relativo (\cref{eq:errore_relativo}) percentuale di appena lo $0.0004\%$, del tutto trascurabile. \'E importante osservare che tale discrepanza non è attribuibile alla soluzione numerica, bensì alle approssimazioni intrinseche del modello analitico della catenaria elastica. Nel regime di fune tesa, infatti, l'ipotesi di deformazione assiale costante e la conseguente geometria non riproducono fedelmente la distribuzione reale dello sforzo normale ottenuta dalla formulazione differenziale di Irvine, che include uno stretch variabile lungo la campata.  
+Parallelamente alla risposta geometrica, le \cref{fig:differenzevsestensibile2,fig:differenzevsestensibile3} illustrano il quadro tensionale in termini di sforzo normale $N(x)$, ponendo a diretto confronto il profilo continuo della soluzione analitica con l'andamento discreto (a step) tipico delle formulazioni agli elementi finiti. La massima discrepanza assoluta si registra nel caso di fune tesa ed è pari a $e_{ass} \approx 0.15\,\text{N}$. Contestualizzato rispetto all'entità del tiro in gioco (superiore a $33\,\text{kN}$), tale scostamento corrisponde a un errore relativo percentuale di appena lo $0.0004\%$, del tutto trascurabile. \'E importante osservare che tale discrepanza non è attribuibile alla soluzione numerica, bensì alle approssimazioni intrinseche del modello analitico della catenaria elastica. Nel regime di fune tesa, infatti, l'ipotesi di deformazione assiale costante e la conseguente geometria non riproducono fedelmente la distribuzione reale dello sforzo normale ottenuta dalla formulazione differenziale di Irvine, che include uno stretch variabile lungo la campata.  
 
 In conclusione, la convergenza riscontrata sia sugli spostamenti sia sulle forze interne non solo dimostra l'elevata accuratezza della discretizzazione numerica adottata, ma legittima pienamente l'impiego della catenaria elastica analitica, di più agevole trattazione logica e computazionale, quale modello di riferimento per la successiva taratura della formulazione agli elementi finiti (FEM).
-\begin{equation}
-   e_{\mathrm{ass}} = \left| \mathrm{val}_{\text{numerico}} - \mathrm{val}_{\text{analitico}} \right|
-   \label{eq:errore_assoluto}
-\end{equation}
-
-\begin{equation}
-   e_{\mathrm{rel}} = \frac{\left| \mathrm{val}_{\text{numerico}} - \mathrm{val}_{\text{analitico}} \right|}{\mathrm{val}_{\text{analitico}}} 
-   \label{eq:errore_relativo}
-\end{equation}
 
 \begin{figure}[H]
     \centering

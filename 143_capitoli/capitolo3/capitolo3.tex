@@ -13,7 +13,7 @@ La trattazione si articola come segue:
     \item La \cref{sec:sintesi_e_prospettive} ricapitola la metodologia adottata e sviluppa le prospettive future.  
 \end{itemize}
 
-\section{La prova di impatto dinamica}\label{sec:prova_dinamica}
+\section{La prova dinamica}\label{sec:prova_dinamica}
 Sebbene la rete sia l'elemento a contatto con l'impattatore, la risposta meccanica globale del sistema di protezione non è affidata esclusivamente ad essa, bensì all'interazione di tutti gli elementi costitutivi(funi di bordo, elementi di ancoraggio, dispositivi di dissipazione di energia, eventuali pali di supporto).
 
 A tal proposito, i documenti di valutazione europea (\textit{European Assessment Document - EAD}) formulati per i sistemi di ritenuta massi prevedono l'esecuzione di prove dinamiche sia allo Stato Limite di Esercizio (\textit{Service Energy Level}) sia allo Stato Limite Ultimo (\textit{Maximum Energy Level}) sull'intero insieme strutturale, comprendendo - oltre alle strutture di intercettazione - anche i supporti, gli elementi di connessione e i device di dissipazione. Analogalmente, per le reti di sicurezza appartenenti alle tipologie di Sistema T, U e V della norma EN 1263-1, il test d'impatto dinamico prevede che venga sottoposto a prova l'intero sistema di sicurezza montato nella sua configurazione operativa. 
@@ -483,7 +483,7 @@ Raggruppando i singoli contributi nell'equazione di bilancio globale \eqref{eq:b
     \label{eq:bilancio_completo}
 \end{equation}
 
-\subsection{Ipotesi di massa della rete trascurabile}
+\subsubsection{Ipotesi di massa della rete trascurabile}
 Separando dalla matrice di massa globale $M$ i contributi inerziali della sfera impattatante $M_{s}$ da quelli della rete $M_{r}$, e considerando che nella maggior parte delle applicazioni reali la massa della rete risulta di ordini di grandezza inferiore rispetto al corpo impattante ($M_{r} \ll M_{s}$), l'energia cinetica propria associata al moto della sola rete $\mathcal{K}_{r}(\hat{t})$ può essere trascurata. Di conseguenza anche i termini $\mathcal{U}(\bar{\underline{x}}) \approx 0$ e $\underline{f}_{g,r}^T \Delta \underline{x}_{r} \approx 0$, diventano trascurabili.
 
 Il bilancio energetico globale dell'impatto espresso dalla \eqref{eq:bilancio_integrale} si riduce alla seguente equazione di conservazione:
@@ -499,7 +499,7 @@ dove $\Delta z_s$ è pari a $\hat{z}_s - z_{s,0}$ con $z_{s,0}$ la quota del cen
  
 Tale energia, durante l'impatto, verrà interamente convertita in lavoro interno di deformazione della rete $\mathcal{U}(\hat{\underline{x}})$ ed in quota dissipata per attrito $W_{\text{diss}}$.
 
-\subsection{Riduzione al regime quasi-statico}
+\subsubsection{Riduzione al regime quasi-statico}
 Nel caso di una prova quasi-statica condotta sperimentalmente, la forza di contatto viene applicata imponendo lo spostamento di una sfera delle stesse caratteristiche di quella impiegata nella prova dinamica. La velocità di applicazione è sufficientemente ridotta da rendere trascurabili i termini inerziali e viscosi ($\ddot{\underline{x}} \approx \underline{0}$ e $\dot{\underline{x}} \approx \underline{0}$), riducendo l'equazione di equilibrio dinamico \eqref{eq:governo_cap3} alla forma statica espressa dall'\cref{eq:problema_quasi_statico}.
 
 L'energia potenziale elastica assorbita dalla rete fino alla configurazione di rottura, indicata con $E_0$ secondo la formulazione proposta in \cite{EN1263-1}, viene determinata per mezzo della metodologia illustrata in \cref{sec:prova_quasi_statica}. 

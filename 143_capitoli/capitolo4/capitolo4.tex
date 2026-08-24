@@ -1,4 +1,13 @@
 \chapter{Risultati}
+\section{Introduzione}
+In questo capitolo vengono presentati e discussi i risultati delle analisi numeriche condotte mediante il solutore PFEF sviluppato nei capitoli precedenti. L'obiettivo principale è validare l'efficacia e l'affidabilità del modello nella simulazione della risposta strutturale fortemente non lineare delle reti di funi, valutandone sia le configurazioni di equilibrio sotto carichi statici e peso proprio (\textit{form finding}), sia la capacità di risposta durante prove di carico quasi-statiche. 
+
+La trattazione si articola in due macro-sezioni principali:
+
+\begin{itemize}
+    \item \textbf{Reti soggette al peso proprio e carichi statici:} in prima istanza, viene condotta un'ampia indagine parametrica e di sensibilità per comprendere il comportamento del sistema al variare dei principali fattori geometrici, cinematici e meccanici. Nello specifico, si analizza l'effetto delle condizioni di vincolo al bordo applicate alle configurazioni tipiche delle reti di protezione. Viene valutata l'influenza della rigidezza assiale delle funi secondo diverse distribuzioni di sezione. Ampio spazio è dedicato allo studio del fenomeno dello \textit{slack}, mettendo a confronto il comportamento di maglie quadrate e romboidali e illustrando le strategie numeriche implementate per superare la singolarità della matrice di rigidezza. L'analisi statica si completa con la valutazione della risposta della rete sotto l'azione di carichi concentrati, come naturale collegamento con il problema successivo.
+    \item \textbf{Simulazione della prova quasi-statica:} Nella seconda parte, il solutore viene applicato alla simulazione della prova quasi-statica, parametro fondamentale per qualificazione energetica del sistema. Vengono dettagliate le caratteristiche geometriche e meccaniche del provino e la storia di carico, concludendo il confronto tra i risultati  numerici e i dati sperimentali per verificare la precisione del modello nel descrivere la risposta globale della rete e la capacità di assorbimento dell'energia di deformazione. 
+\end{itemize}
 
 \section{Reti soggette al peso proprio}
 In \cref{chap:reti_di_funi}, è stata affrontata la formulazione matematica del metodo agli elementi finiti per le reti di funi, nonché la definizione della matrice di connettività, la quale consente di sviluppare topologie più complesse rispetto a quelle delle semplici funi. 
@@ -97,7 +106,7 @@ Il solutore consente di modellare diverse distribuzioni di area trasversale:
 \end{itemize}
 Sulla base dello scenario voluto l'algoritmo genera un vettore che associa a ciascun elemento strutturale l'area della sezione trasversale, sfruttando l'ordinamento degli elementi visto in \cref{chap:connettività}. Sviluppi futuri del codice potranno includere mappature ancor più flessibili a supporto della pregettazione. 
 
-I risultati relativi ad una rete a maglia quadrata con funi di controvento, le cui caratteristiche geometriche e meccaniche sono riassunte in \cref{tab:caratteristiche_area_rete}, sono riportati nelle \cref{fig:rete_aree_uguali,fig:rete_aree_diffenti1,fig:rete_aree_differenti2}.
+I risultati relativi ad una rete a maglia quadrata con funi di controvento vincolata ai 4 nodi d'angolo, le cui caratteristiche geometriche e meccaniche sono riassunte in \cref{tab:caratteristiche_area_rete}, sono riportati nelle \cref{fig:rete_aree_uguali,fig:rete_aree_diffenti1,fig:rete_aree_differenti2}.
 
 \begin{figure}[H]
     \centering

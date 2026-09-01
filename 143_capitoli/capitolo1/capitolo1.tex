@@ -1,13 +1,20 @@
-\chapter{Le reti di funi}
+\chapter{Le reti di funi}\label{chap:capitolo1}
 
 \section{Le reti di funi nell'ingegneria edile e civile}\label{chap:capitolo11}
+Negli ultimi decenni, l'impiego delle reti di funi ha registrato una notevole diffusione sia in ambito architettonico, sia nel campo dei dispositivi di protezione contro il rischio di caduta dall'alto. A causa delle marcate non linearità geometriche del comportamento unilaterale del materiale, la risposta meccanica di tali strutture non ammette una soluzione analitica in forma chiusa; la modellazione numerica automatizzata rappresenta quindi l'unico strumento in grado di descriverne e predirne accuratamente il comportamento meccanico.
+
+Caratterizzate da un'elevata deformabilità geometrica e da una marcata diffusività nei confronti delle azioni concentrate, le reti di funi presentano un duplice vantaggio: un'alta efficienza meccanica tipica di strutture completamente tese e la spiccata capacità dissipativa di quote di energia potenziale o cinematica. 
+
+Gli scopi applicativi nell'ingegneria edile e civile spaziano dalla sicurezza sui luoghi di lavoro alla mitigazione del rischio idrogeologico, fino alla realizzazione di involucri edilizi e tensostrutture pretensionate. 
+
+Nel seguito di questo capitolo verranno presentate le caratteristiche, i quadri normativi di riferimento e gli strumenti computazionali utili alla progettazione e all'analisi delle principali declinazioni funzionali di questi sistemi. 
 
 \subsection{Reti di sicurezza}
 Nell'ambito della sicurezza nei luoghi di lavoro, sono state sviluppate diverse tecnologie per la protezione degli operatori dal rischio di caduta dall'alto. Tra i Dispositivi di Protezione Collettiva (DPC), un ruolo di primario rilievo è occupato dalle reti di sicurezza (\textit{safety nets}). 
 
 Nelle costruzioni edili e nelle opere d'ingegneria civile, le reti di sicurezza vengono impiegate sia come sistemi di arresto caduta, sia come protezioni laterali nelle lavorazioni in quota, nelle opere di riparazione delle coperture e nelle attività su ponteggi. In generale, tali reti rappresentano una soluzione altamente flessibile ed economica per mitigare i rischi legati alle cadute dall'alto. 
 
-Rispetto ai Dispositivi di Protezione Individuale (DPI), le reti di sicurezza offrono il vantaggio di non limitare la libertà di movimento degli operatori all'interno dell'area di lavoro. Inoltre, garantiscono una cattura del corpo impattante decisamente più progressiva grazie all'elevata capacità dissipativa e deformabile del sistema. In questo modo è possibile ridurre significativamente la forza di arresto trasmessa all'operatore, mitigando anche i rischi di lesioni da trauma da impatto. 
+Rispetto ai Dispositivi di Protezione Individuale (DPI), le reti di sicurezza offrono il vantaggio di non limitare la libertà di movimento degli operatori all'interno dell'area di lavoro. Inoltre, garantiscono una cattura progressiva del corpo impattante grazie all'elevata capacità dissipativa e deformabile del sistema. In questo modo è possibile ridurre significativamente la forza di arresto trasmessa all'operatore, mitigando anche i rischi di lesioni da trauma da impatto. 
 
 La progettazione, il dimensionamento e la posa in opera delle reti di sicurezza in ambito europeo sono disciplinati dalla normativa \textit{EN 1263}, articolata in due parti principali: 
 \begin{itemize}
@@ -240,9 +247,146 @@ Oltre alle prove dinamiche a piena scala previste per la qualificazione dell'int
 
 Nel presente studio, l'applicazione del codice viene condotta su elementi in polietilene sollecitati secondo la logica della prova di punzonamento; tuttavia, vista la generalità del modello, la metodologia potrà essere estesa anche ad elementi metallici con caratteristiche geometriche analoghe o modellabili con le stesse assunzioni introdotte nel software (un esempio di modellazione di \textit{wire ring mesh} con elementi asta equivalenti è proposto in \cite{gentilini2013}).
 
-\subsection{Applicazioni architettoniche}
+\subsection{Il sistema di reti in cavi d'acciaio X-TEND}
+Il sistema \textit{X-TEND} (sviluppato da Carl Stahl) rappresenta una delle soluzioni più avanzate e versatili delle strutture a rete leggere in acciaio inossidabile per l'architettura e l'ingegneria edile e civile. A differenza delle reti tradizionali a maglia elettrosaldata o tessuta rigida, il sistema \textit{X-TEND} si basa sull'impiego di funi metalliche di diametro contenuto (tipicamente compreso tra $1.0\, \text{mm}$ e $4.0\, \text{mm}$) connesse reciprocamente a formare una struttura reticolare romboidale flessibile. 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height=0.35\textheight, keepaspectratio]{143_capitoli/capitolo1/immagini_capitolo_1/x_tend.jpg}
+    \caption{Applicazione del sistema \textit{X\_TEND} con funzione di parapetto su balcone esterno. Fonte: www.carlstahl-architektur.com}
+    \label{fig:x_tend_parapetto_esterno}
+\end{figure}
+
+La giunzione tra i singoli cavi avviene nei punti di incrocio mediante boccole di compressione, anch'esse in acciaio inossidabile. Questa configurazione conferisce una rigidezza geometrica controllata e un'elevata resistenza allo scorrimento dei nodi. La tenuta delle boccole di serraggio garantisce il comportamento globale del sistema, perciò la loro resistenza rappresenta un fattore fondamentale per la rete. Difatti, nell'\textit{European Assessment Document} \cite{EAD-XTEND} che ne regola la progettazione e ne definisce le prove che garantiscono le capacità del prodotto, molta attenzione è prestata nel definire i test di resistenza di questi elementi nelle varie configurazioni previste nel relativo \textit{European Technical Assessment} \cite{ETA-XTEND}.
+
+La combinazione tra elevata resistenza meccanica e minima massa propria rende il sistema \textit{X-TEND} estremamente versatile in diversi contesti progettuali:
+
+\begin{itemize}
+    \item \textit{Proiezioni anticaduta e parapetti trasparenti:} utilizzato come tamponamento di passerelle, ponti, scale e balauastre, assicura la conformità alle normative sulla sicurezza senza ostacolare la visibilità e l'illuminazione naturale. 
+    \item \textit{Bio-architettura e facciate verdi:} la rete funge da sottostruttura di supporto per specie vegetali rampicanti su grandi superfici verticali. Il sistema che si viene a creare, oltre alla funzione in termini di sicurezza, produce un ombreggiamento naturale che contribuisce alla mitigazione dell'assorbimento di calore derivante dall'irraggiamento solare e che contribuisce a ridurre l'effetto dell'isola di calore urbana ed al miglioramento delle prestazioni termiche dell'involucro.
+    \item \textit{Strutture tridimensionali e grandi campate:} la natura flessibile della maglia consente di adattarsi a superfici a doppia curvatura (paraboloidi, forme organiche o tensostrutture tridimensionali), minimizzando l'impatto visivo delle sottostrutture di ancoraggio.
+\end{itemize}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height=0.35\textheight, keepaspectratio]{143_capitoli/capitolo1/immagini_capitolo_1/x_tend_parapetto3.jpg}
+    \caption{Applicazione del sistema \textit{X\_TEND} con funzione di parapetto interno. Fonte: www.architonic.com}
+    \label{fig:x_tend_parapetto_interno}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height=0.35\textheight, keepaspectratio]{143_capitoli/capitolo1/immagini_capitolo_1/x_tend_green.jpg}
+    \caption{Applicazione del sistema \textit{X\_TEND} con funzione di facciata verde. Fonte: www.carlstahl-architektur.com}
+    \label{fig:x_tend_green}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height=0.35\textheight, keepaspectratio]{143_capitoli/capitolo1/immagini_capitolo_1/x_tend_altro.jpg}
+    \caption{Applicazione del sistema \textit{X\_TEND} come sistema di confinamento per animali in ambito zoologico. Fonte: www.carlstahl-architektur.com}
+    \label{fig:x_tend_zoo}
+\end{figure}
+
+La diffusione del sistema nell'architettura contemporanea è legata a precisi vantaggi prestazionali ed estetici rispetto ai sistemi rigidi tradizionali:
+\begin{itemize}
+    \item \textit{Trasparenza del sistema:} l'elevato rapporto tra vuoto e pieno (con permeabilità visiva che può superare il $90\%$) riduce drasticamente l'impatto visivo dell'opera, garantendo una quasi totale trasparenza e l'integrazione con il contesto paesaggistico. 
+    \item \textit{Elevato rapporto resistenza/peso:} la leggerezza propria del sistema minimizza i carichi permanenti portati gravanti sulle strutture portanti e sugli elementi di ancoraggio di bordo, semplificando la progettazione delle sottostrutture. 
+    \item \textit{Durabilità e manutenzione:} l'impiego di acciai inossidabili (AISI 316) assicura un'elevata resistenza alla corrosione anche in ambienti atmosferici aggressivi (es: marini o industriali), annullando la necessità di trattamenti protettivi superficiali periodici.
+    \item \textit{Incombustibilità:} la natura metallica dei componenti garantisce una reazione al fuoco minima, aspetto cruciale per l'impiego su facciate ed edifici pubblici soggetti a severe normative antincendio. 
+\end{itemize}
+
+Il ruolo svolto da questo sistema nei confronti del rischio di caduta dall'alto rende necessaria la sua capacità nel resistere ad azioni ortogonali. In merito a questa capacità in \cite{EAD-XTEND} è definito un test di impatto dinamico mediante un corpo con massa e velocità di impatto predefinite. \'E importante notare come il test di impatto debba essere eseguito prendendo in considerazione quanto previsto in merito in \cite{EN1263-1}. Difatti il sistema \textit{X-TEND} svolge gli stessi compiti delle reti di sicurezza, differendo nel materiale costituente e nei nodi che caratterizzano la giunzione tra i vari cavi. 
+
+A fronte di quanto detto, il software sviluppato sarà in grado di fornirci, anche per questo sistema, la capacità di assorbimento di energia potenziale elastica del sistema, necessaria per stabilire la possibilità di superamento del test di impatto. 
+
+\subsection{Tensostrutture}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height=0.35\textheight, keepaspectratio]{143_capitoli/capitolo1/immagini_capitolo_1/tenso_struttura_padiglione_germania.jpg}
+    \caption{Padiglione della Germania all'Expo '67, progettato da Frei Otto e Rolf Gutbrod.  Fonte: www.architecturelab.net}
+    \label{fig:tensostrutture}
+\end{figure}
+
+
+Un'ambito applicativo di grande importanza delle reti di funi nell'ingegneria civile ed edilizia è rappresentato dalle tensostrutture. L'impiego pioneristico di tali sistemi, che trova massima espressione nelle storiche realizzazioni di Frei Otto del padiglione tedesco per l'Esposizione Universale di Montreal (1967) e dell'Olympiapark di Monaco di Baviera (costruito in occasione dell'edizione del 1972 dei giochi olimpici), ha dimostrato la possibilità di coprire ampie luci con un uso minimo di materiale, affidando la stabilità della struttura al solo regime di trazione. 
+
+A differenza delle reti di sicurezza - in cui generalmente non è imposto un pretensionamento e le azioni vengono assorbite attraverso grandi deformazioni e cinematismi - le strutture di copertura richiedono uno stato di pretensione iniziale tale da garantire la rigidezza fuori piano necessaria e prevenire la perdita di trazione sotto l'azione dei carichi ambientali di progetto, quali vento e neve.  
+
+In questo contesto emerge la problematica fondamentale del \textit{form-finding} (ricerca della forma): la geometria di equilibrio della rete sotto pretensione non può essere prescritta arbitrariamente, ma deve essere determinata contestualmente allo stato tensionale desiderato. Il \textit{form-finding} rappresenta uno dei classici problemi della meccanica computazionale non lineare per strutture tese. 
+
+Sebbene la meccanica dei sistemi resistenti a sola trazione ricopra un ruolo di grande importanza in materia, l'analisi della loro risposta sotto le azioni ambientali tipiche di progetto esula dagli scopi del presente lavoro. L'obiettivo primario della tesi non risiede nel \textit{form-finding} di superfici pretensionate, bensì nella modellazione del comportamento meccanico di reti non pretensionate soggette a contatto quasi-statico con un corpo solido. La ricerca geometrica inziale è qui intesa esclusivamente come la determinazione dello stato di equilibrio a riposo della rete - anche in presenza di imbando (\textit{slack}) -, fase propedeutica alla simulazione del contatto tramite cui verrà calcolata la capacità di assorbimento energetico della rete.   
 
 \section{Altre applicazioni}
+Oltre al consolidato impiego nell'ingegneria edile e civile, le reti in cavi d'acciaio ed in materiali sintetici ad alte prestazioni trovano ampia diffusione in contesti industriali, scientifici e ricreativi, dove la flessibilità, la trasparenza e la capacità di dissipazione dell'energia rappresentano requisiti fondamentali. 
+
+\subsection{Settore ittico: pesca commerciale e acquacoltura}
+Nel settore marittimo e della pesca, la progettazione delle reti di funi rappresenta una branca dell'ingegneria navale, in cui l'evoluzione dei materiali ha consentito il passaggio da fibre tradizionali a soluzioni con prestazioni meccaniche ottimizzate. 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height=0.35\textheight, keepaspectratio]{143_capitoli/capitolo1/immagini_capitolo_1/gabbie_acquacoltura.jpg}
+    \caption{Gabbie per acquacoltura. Fonte: www.technocagesrl.com}
+    \label{fig:gabbia_acquacoltura}
+\end{figure}
+
+\begin{itemize}
+    \item \textit{Reti da pesca commerciale e da traino:} i sistemi a rete impiegati nella pesca oceanica sono realizzati mediante funi in polietilene ad alta densità (HDPE), poliammide (Nylon) o polietilene ad altissimo peso molecolare (UHMWPE, noto come Dyneema). Tali reti devono resistere a forti sollecitazioni di trazione ciclica, all'abrasione indotta dal contatto con il fondale marino e garantire al contempo la stabilità della forma della maglia sotto il flusso d'acqua per minimizzare la resistenza idrodinamica.
+    \item \textit{Gabbie per acquacoltura:} la maricoltura in mare aperto si avvale di contenimenti reticolari tridimensionali sottoposti all'azione permanente di onde e correnti. In questo contesto vengono impiegate sia reti in funi sintetiche, sia reti in cavi d'acciaio inossodabili.
+\end{itemize}
+
+L'ampia diffusione dell'acquacoltura nei paesi nordeuropei, come la Norvegia, ha fatto da traino circa lo sviluppo tecnologico, normativo e della letteratura scientifica in merito a tale impiego, portando alla definizione di standard rigorosi per il calcolo strutturale delle reti soggette ad azioni idrodinamiche \cite{AquacultureNets}. 
+
+\subsection{Reti ad uso sportivo}
+Nel settore dello sport e del tempo libero le reti svolgono funzioni di protezione e trattenuta mediante soluzioni sia metalliche che sintetiche:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.35\textheight, keepaspectratio]{143_capitoli/capitolo1/immagini_capitolo_1/tennis.png}
+    \caption{Rete da tennis. Fonte: www.laretesrl.com}
+    \label{fig:rete_tennis}
+\end{figure}
+
+\begin{itemize}
+    \item \textit{Barriere di arresto e protezione negli stati:} impiego di reti perimetrali di fondo campo in settori sportivi (calcio, tennis, golf, baseball, sci) dimensionate per smorzare l'energia cinetiva di palle e palloni mediante elevate deformazioni in campo elastico.
+    \item \textit{Parchi avventura e parchi a tema:} realizzazione di camminamenti sospesi, passerelle flessibili e sistemi di trattenuta anticaduta con funi in poliammide o acciaio. 
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.35\textheight, keepaspectratio]{143_capitoli/capitolo1/immagini_capitolo_1/parchi_avventura.jpg}
+    \caption{Rete in parco avventura. Fonte: www.italianaparchi.com}
+    \label{fig:rete_parchi_avventura}
+\end{figure}
+
+
+\section{L'approccio computazionale alla meccanica delle reti di funi}
+Analogalmente a quanto avvenuto storicamente per l'analisi di elementi strutturali con risposta non lineare --- si pensi agli studi sulle forme funicolari condotti da Antoni Gaudì --- prima dell'avvento dei solutori numerici la progettazione delle reti di funi si basava quasi esclusivamente su modelli fisici in scala. Tali metodi furono perfezionati scientificamente da Frei Otto, il quale impiegò configurazioni di reti appese e ribaltate per determinare la geometria di equilibrio sotto peso proprio. 
+
+Con la nascita dei primi elaboratori elettronici, l'analisi strutturale dei sistemi non lineari subì una svolta. Tuttavia, l'applicazione del Metodo agli Elementi Finiti (FEM) convenzionale ha mostrato fin da subito notevoli criticità nella soluzione dei problemi legati al \textit{form-finding}: in assenza di una geometria iniziale definita e di uno stato di tensione preesistente, la matrice di rigidezza del sistema risulta singolare, impedendo la convergenza degli algoritmi iterativi di Newton-Raphson. 
+
+\subsection{Il Force Density Method}
+Per superare lo stallo del FEM nella ricerca della forma, Klaus Linkwitz e Hans-J{\"o"}rg Schek introdussero il \textit{Force Density Method} (FDM) in \cite{linkwitz1971}, sviluppato originariamente per il calcolo delle coperture dell'Olympiapark di Monaco di Baviera. L'intuizione alla base del metodo consiste nel sostituire il legame costitutivo del materiale con un parametro geometrico-statico, la "densitità di forza": 
+\begin{equation}
+    q = \frac{S}{L}
+    \label{eq:densità_di_forza}
+\end{equation}
+dove $S$ rappresenta lo sforzo di trazione nell'elemento ed $L$ è la sua lunghezza deformata. 
+
+Assegnando a priori i valori di $q$, le equazioni di equilibrio nodale si trasformano da un sistema fortemente non lineare a un problema algebrico perfettamente lineari rispetto alle coordinate cartesiane dei nodi, risolvibile con un unico passaggio algebrico diretto. La soluzione del sistema fornisce il vettore delle posizioni nodali di equilibrio, a partire dal quale è possibile ricavare la lunghezza a riposo $L_0$ che ciascun cavo deve possedere. Il FDM assume quindi la densità di forza $q$ come dato primario e ne calcola la geometria e le lunghezza indeformate corrispondenti. 
+
+\subsection{Il Position-based Finite Element Formulation}
+Nel presente lavoro di tesi, la ricerca della configurazione di equilibrio della rete sotto peso proprio viene impostata secondo una prospettiva concettualmente opposta rispetto all'approccio FDM. Sulla base della formulazione posizionale sviluppata da Valvo \cite{Valvo1,Valvo2}, si determina infatti lo stato di equilibrio a partire da una rete di geometria e caratteristiche meccaniche note a priori.
+
+La criticità storica del FEM nel \textit{form-finding} --- dovuta alla singolarità della matrice di rigidezza tangente nella configurazione iniziale --- viene qui superata attraverso la regolarizzazione del legame costitutivo unilaterale (\textit{Tension-only}). Altre strategie convenzionali, come l'introduzione di un pretensionamento iniziale, si rilevano infatti fallaci in presenza di un elevato imbando (\textit{slack}) rispetto alla lunghezza naturale degli elementi.
+
+Il modello ad elementi finiti adotta una discretizzazione a masse concentrate nei nodi ed elementi cavo del primo ordine. In linea con la formulazione posizionale, si assumono come incognite primarie del problema le posizioni cartesiane assolute dei nodi, invece dei tradizionali vettori di spostamento nodale. I principali vantaggi di questo approccio risiedono nella conseguente simmetria della matrice di rigidezza secante del sistema e nella completa eliminazione dell'onerosità computazionale legata alle matrici di trasformazione tra sistemi di riferimento locali e e globale.
+
+L'approccio posizionale consente così di affrontare in un quadro unitario sia la fase di \textit{form-finding} inziale sia la successiva valutazione delle capacità di assorbimento dell'energia potenziale elastica della rete. L'integrazione di tale solutore con la formulazione per il problema di contatto descritta da Fisicaro \cite{Fisicaro} costituisce l'obiettivo primario del presente lavoro.
+
+
+
+
+
+
+
 
 
 

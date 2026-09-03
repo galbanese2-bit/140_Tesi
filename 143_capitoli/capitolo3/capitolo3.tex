@@ -16,34 +16,32 @@ La trattazione si articola come segue:
 \section{La prova dinamica}\label{sec:prova_dinamica}
 Sebbene la rete sia l'elemento a contatto con l'impattatore, la risposta meccanica globale del sistema di protezione non è affidata esclusivamente ad essa, bensì all'interazione di tutti gli elementi costitutivi(funi di bordo, elementi di ancoraggio, dispositivi di dissipazione di energia, eventuali pali di supporto).
 
-A tal proposito, i documenti di valutazione europea (\textit{European Assessment Document - EAD}) formulati per i sistemi di ritenuta massi prevedono l'esecuzione di prove dinamiche sia allo Stato Limite di Esercizio (\textit{Service Energy Level}) sia allo Stato Limite Ultimo (\textit{Maximum Energy Level}) sull'intero insieme strutturale, comprendendo - oltre alle strutture di intercettazione - anche i supporti, gli elementi di connessione e i device di dissipazione. Analogalmente, per le reti di sicurezza appartenenti alle tipologie di Sistema T, U e V della norma EN 1263-1, il test d'impatto dinamico prevede che venga sottoposto a prova l'intero sistema di sicurezza montato nella sua configurazione operativa. 
+A tal proposito, i documenti di valutazione europea (\textit{European Assessment Document - EAD}) formulati per i sistemi di ritenuta massi prevedono l'esecuzione di prove dinamiche sia allo Stato Limite di Esercizio (\textit{Service Energy Level}) sia allo Stato Limite Ultimo (\textit{Maximum Energy Level}) sull'intero insieme strutturale, comprendendo - oltre alle strutture di intercettazione - anche i supporti, gli elementi di connessione e i dispositivi di dissipazione. Analogalmente, per le reti di sicurezza appartenenti alle tipologie di Sistema T, U e V della norma EN 1263-1, il test d'impatto dinamico prevede che venga sottoposto a prova l'intero sistema di sicurezza montato nella sua configurazione operativa. 
 
 Diversamente, per la caratterizzazione dinamica delle reti di sicurezza in Sistema S, la norma EN 1263-1 prevede una procedura di prova che presenta la particolarità di disaccoppiare la risposta del sistema dalle strutture esterne di vincolo. La prova consiste nel rilascio in caduta libera di una massa sferica con geometria e peso normati da un'altezza tale da imprimere l'energia d'impatto prescritta. Il sistema - composto dalla rete di dimensioni $ 5 \text{m} \times 7 \text{m}$, dalla fune di bordo (\textit{border rope}) e dalle funi di attacco alla struttura esterna (\textit{tie ropes}) - deve arrestare la massa soddisfacendo un criterio di tipo \textit{passa/non passa}, verificando in particolare che la freccia massima di inflessione non superi il $75\%$ del lato minore della rete (come illustrato nelle \cref{fig:prova_dinamica1,fig:prova_dinamica2}). \'E interessante notare come lo stesso EAD di riferimento per i sistemi sostitutivi dei parapetti \textit{X-Tend} rimandi esplicitamente alla metodologia di prova prescritta per il Sistema S, introdocendo opportuni accorgimenti riguardanti il numero e la disposizione dei collegamenti con il supporto esterno in funzione delle dimensioni del provino.
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width = 0.85\textwidth]{143_capitoli/capitolo3/test_dinamico_sistema_S_1.png}
-    \caption{Prova dinamica per reti di sicurezza in sistema S - vista frontale}
+    \caption{Prova dinamica per reti di sicurezza in sistema S - vista frontale. Fonte: BS EN 1263-1}
   \label{fig:prova_dinamica1}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width = 0.85\textwidth]{143_capitoli/capitolo3/test_dinamico_sistema_S_2.png}
-    \caption{Prova dinamica per reti di sicurezza in sistema S - vista in pianta}
+    \caption{Prova dinamica per reti di sicurezza in sistema S - vista in pianta. Fonte: BS EN 1263-1}
   \label{fig:prova_dinamica2}
 \end{figure}
 Sebbene la prestazione dinamica sia una proprietà dell'intero insieme strutturale, la rete costituisce l'interfaccia primaria di contatto e il mezzo fondamentale attraverso cui le sollecitazioni vengono raccolte e trasmesse ai vincoli. Di conseguenza, la capacità della sola rete di assorbire lavoro di deformazione senza giungere a rottura rappresenta un requisito essenziale. Ai fini della caratterizzazione del materiale e della geometria della maglia, le normative tecniche prescrivono l'esecuzione di prove quasi-statiche su campioni di porzioni di rete di dimensioni standardizzate.
 
 \section{La prova quasi-statica e modellazione numerica del contatto}\label{sec:prova_quasi_statica}
-Nell'ambito della meccanica delle strutture, una prova quasi-statica è una metodologia impiegata per valutare la capacità di accumulare energia di deformazione elastoplastica di una sistema meccanico. Nell'ambito scientifico, l'idea principale è quella di incrementare l'intensità di una variabile di sistema di incrementi infinitesimi con lo scopo di procedere per successivi stati di equilibrio al fine di isolareall'interno del percorso di carico, i contributi conservativi da quelli non conservativi (è giusto?).
-
-La variazione prodotta sulla varibile controllata sarà tale per cui sia i fenomeni inerziali che quelli dissipativi prodotti dalla derivata prima della variabile controllata siano considerabili trascurabili. Tale discorso riprende perfettamente quando scritto nell'\cref{eq:problema_quasi_statico}, dove il vettore $\underline{p}(\text{t})$ non è altro che un vettore delle forze esterne generico. 
+Nell'ambito della meccanica delle strutture, una prova quasi-statica è un test meccanico in cui il carico viene applicato in modo estremamente lento, graduale e privo di urti, consentendo di trascurare gli effetti inerziali. Per la rete in esame, tale caratterizzazione mira a valutare la capacità del sistema di accumulare energia di deformazione elastoplastica lungo il percorso di carico. Attraverso una successione di stati di equilibrio statico, l'analisi elimina sia i contributi inerziali legati alle accelerezioni ($\underline{\ddot{x}} \approx \underline{0}$) sia le aliquote dissipative associate alle velocità di deformazione ($\underline{\dot{x}} \approx \underline{0}$).
 
 Tale prova consente di caratterizzare la risposta meccanica pura del componente "rete" indipendentemente dai fenomeni d'impatto e dalle oscillazioni proprie dell'intero sistema.
 
 \subsection{La prova quasi-statica secondo la EN 1263-1}
-La norma relativa ai sistemi di protezione anticaduta, per caratterizzare la resistenza statica della rete prevede l'applicazione di una prova quasi-statica (nominata anche come \textit{Static energy absorption test for nets}) su una rete di dimensioni $3\text{m} \times 3\text{m}$  per mezzo di una massa di prova dalle caratteristiche geometriche definite che viene spinta con una velocità non superiore ad $(1 \pm 0,1) \text{m/min}$ per mezzo di un gancio di trazione a contatto con il centro della rete provocandone l'entrata in carico, come mostrato in \cref{fig:prova_statica1}.
+La norma relativa ai sistemi di protezione anticaduta, per caratterizzare la resistenza statica della rete prevede l'esecuzione di una prova quasi-statica (nominata anche come \textit{Static energy absorption test for nets}) su una rete di dimensioni $3\text{m} \times 3\text{m}$  per mezzo di una massa di prova dalle caratteristiche geometriche definite che viene spinta con una velocità non superiore ad $(1 \pm 0,1) \text{m/min}$ per mezzo di un gancio di trazione a contatto con il centro della rete provocandone l'entrata in carico, come mostrato in \cref{fig:prova_statica1}.
 
 La sfera sale spinta per mezzo del paranco, nel mentre per mezzo del dinamometro interposto tra il gancio e la sfera la forza impiegata, così come lo spostamento verticale compiuto, viene misurata e registrata. L'area $A$ sottesa dal grafico riportato in \cref{fig:prova_statica2} rappresenta il lavoro fatto dalla forza per spostare la sfera della quantità $\Delta v$. Il lavoro compiuto è pari alla somma tra la variazione di energia potenziale elastica accumulata dalla rete tra lo stato iniziale e quello finale $E_0$, più il lavoro fatto per spostare la massa della sfera e quella della rete posta in trazione dalla configurazione iniziale a quella finale $(m_{sfera}+m_{rete})g \Delta v$. Allora, supponendo valga la condizione per cui $m_{sfera} \gg m_{rete}$, vale la relazione: 
 \begin{equation}
@@ -51,9 +49,9 @@ La sfera sale spinta per mezzo del paranco, nel mentre per mezzo del dinamometro
 \end{equation}
 Dai risultati della prova perciò è possibile ricavare l'energia potenziale elastica accumulabile dalla rete $E_0$ che come vedremo successivamente è necessaria, sotto talune ipotesi, a valutare l'esito della prova di impatto dinamico.
 
-In ultima istanza è necessario sottolineare come la prova quasi-statica descritta in \cite{EN1263-1} non riguardi le reti impiegate nei sistemi di protezione e quindi non ci permette di conoscere il valore di $E_0$ legato all'elemento elastico rete impiegata nel sistema oggetto di valutazione, bensì, caratterizza in maniera standard la rete che è montata sul sistema per mezzo del valore $E_0$ relativo ad un provino di dimensioni standard. Di fatto, questa prova caratterizza, non tanto la resistenza statica della rete in termini di forza, quanto l'energia potenziale elastica che un provino di dimensioni standard di una rete può assorbire.
+In ultima istanza è necessario sottolineare come la prova quasi-statica descritta nella norma EN 1263-1 \cite{EN1263-1} non riguardi le reti impiegate nei sistemi di protezione e quindi non ci permette di conoscere il valore di $E_0$ legato all'elemento elastico rete impiegata nel sistema oggetto di valutazione, bensì, caratterizza in maniera standard la rete che è montata sul sistema per mezzo del valore $E_0$ relativo ad un provino di dimensioni standard. Di fatto, questa prova caratterizza, non tanto la resistenza statica della rete in termini di forza, quanto l'energia potenziale elastica che un provino di dimensioni standard di una rete può assorbire.
 
-Il risultato della prova sulla è impiegato per classificare la rete facente parte del sistema di protezione in questione. Secondo \cite{EN1263-1}, le reti impiegate nei 4 sistemi di protezione (S, T, U, V), possono essere di quattro classi in funzione dell'energia che può agire su di esse e della dimensione $l_M$ delle maglie, perciò le reti sono classificate come segue: 
+Il risultato della prova è impiegato per classificare la rete facente parte del sistema di protezione in questione. Secondo la norma EN 1253-1 \cite{EN1263-1}, le reti impiegate nei 4 sistemi di protezione (S, T, U, V), possono essere di quattro classi in funzione dell'energia che sono in grado di sostenere e della dimensione $l_M$ delle maglie, perciò le reti sono classificate come segue: 
 \begin{itemize}
   \item -- \textbf{Classe A1}: $E_A$ = 2,3\text{kJ}; $l_M$ = 60\text{mm}
   \item -- \textbf{Classe A2}: $E_A$ = 2,3\text{kJ}; $l_M$ = 100\text{mm}
@@ -80,14 +78,14 @@ La prova di norma, perciò, non sarà simulata con l'obiettivo di caratterizzare
     Legenda: 1 -- rack; 2 -- telaio di prova; 3 -- trasduttore di spostamento; 
     4 -- rete non sollecitata; 5 -- massa di prova (sfera Ø 500 mm); 
     6 -- rete in prova; 7 -- dinamometro; 8 -- paranco; 
-    9 -- spostamento verticale della massa.}
+    9 -- spostamento verticale della massa. Fonte: BS EN 1263-1}
   \label{fig:prova_statica1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width = 0.6\textwidth]{143_capitoli/capitolo3/test_statico_sistema_S_2.png}
-    \caption{Prova di assorbimento statico dell'energia - grafico \textit{F - v}}
+    \caption{Prova di assorbimento statico dell'energia - grafico \textit{F - v}. Adattato da: BS EN 1263-1}
   \label{fig:prova_statica2}
 \end{figure}
 Nei confronti dell'elaborazione dei risultati derivanti dalla prova di carico come definita da norma, è importante notare che la condizione per cui la rete si considera arrivata a rottura non è indicata, perciò la norma lascia discrezionalità su quando fermare il test. Quello che si osserva alla rottura delle prime funi è una forte discontinuità del diagramma $F-v$ perciò molto spesso, la pratica comune, porta a fermarsi prima di questo fenomeno.
@@ -225,7 +223,7 @@ L'introduzione delle variabili ausiliarie consente di riformulare le condizioni 
 
 Siano $N_{iter}$ il numero di iterazioni di Newton-Raphson necessarie alla convergenza del problema e $t_{iter}$ il tempo di calcolo associato alla singola iterazione. Poichè $t_{iter}$ è dominato dal tempo di assemblaggio della matrice di rigidezza aumentata ($t_{iter} \approx t_{ass}$) - il quale è stato ridotto al minimo come illustrato nel paragrafo precedente - l'onerosità computazionale complessiva risulta direttamente proporzionale a $N_{iter}$. 
 
-Per contenere i tempi di calcolo della prova quasi-statica si è adottato quindi il metodo \textit{Active Set}. Il principio fondamentale di tale approccio consiste nel trattare esplicitamente la complementarità delle condizioni di vincolo aggiornando iterativamente l'insieme dei nodi effettivamente in contatto, denotato con $\mathcal{A}$ (\textit{active set}). A ogni iterazione viene risolto un problema lineare a vincoli attivi fissati, riducendo la non linearità del sistema e contraendo il numero di iterazioni $N_{iter}$ necessarie al solutore.
+Per contenere i tempi di calcolo della prova quasi-statica si è adottato quindi l'\textit{Active Set Method} coerentemente con l'impostazione teorica generale proposta in Wriggers \cite{wriggers2006computational}. Il principio fondamentale di tale approccio consiste nel trattare esplicitamente la complementarità delle condizioni di vincolo aggiornando iterativamente l'insieme dei nodi effettivamente in contatto, denotato con $\mathcal{A}$ (\textit{active set}). A ogni iterazione viene risolto un problema lineare a vincoli attivi fissati, riducendo la non linearità del sistema e contraendo il numero di iterazioni $N_{iter}$ necessarie al solutore.
 
 Nel seguito viene dettagliata la metodologia algoritmica adottata:
 \begin{enumerate}
@@ -502,7 +500,7 @@ Tale energia, durante l'impatto, verrà interamente convertita in lavoro interno
 \subsubsection{Riduzione al regime quasi-statico}
 Nel caso di una prova quasi-statica condotta sperimentalmente, la forza di contatto viene applicata imponendo lo spostamento di una sfera delle stesse caratteristiche di quella impiegata nella prova dinamica. La velocità di applicazione è sufficientemente ridotta da rendere trascurabili i termini inerziali e viscosi ($\ddot{\underline{x}} \approx \underline{0}$ e $\dot{\underline{x}} \approx \underline{0}$), riducendo l'equazione di equilibrio dinamico \eqref{eq:governo_cap3} alla forma statica espressa dall'\cref{eq:problema_quasi_statico}.
 
-L'energia potenziale elastica assorbita dalla rete fino alla configurazione di rottura, indicata con $E_0$ secondo la formulazione proposta in \cite{EN1263-1}, viene determinata per mezzo della metodologia illustrata in \cref{sec:prova_quasi_statica}. 
+L'energia potenziale elastica assorbita dalla rete fino alla configurazione di rottura, indicata con $E_0$ secondo la formulazione proposta nella norma EN 1263-1 \cite{EN1263-1}, viene determinata per mezzo della metodologia illustrata in \cref{sec:prova_quasi_statica}. 
 
 Al fine di verificare la capacità di assorbimento di energia potenziale elastica da parte della rete quando sottoposta alla prova d'impatto, sarà necessario verificare che la capacità della rete $E_0$ sia superiore alla domanda prevista da norma. A favore di sicurezza, è possibile trascurare il contributo dissipativo dell'energia $W_{diss}$, perciò, la condizione appena descritta si traduce nella seguente disuguaglianza:
 

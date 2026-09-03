@@ -138,6 +138,18 @@
 \clearpage
 
 % --------------------------------------------------
+% Abstract
+% --------------------------------------------------
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+Le reti di funi rappresentano soluzioni efficienti, versatili e leggere, ampiamente impiegate nei settori edile, civile e delle infrastrutture come dispositivi di protezione collettiva contro le cadute dall'alto e per l'intercettazione di oggetti il cui impatto risulterebbe critico per l'incolumità umana e la fruibilità delle opere. Poiché il fallimento di tali dispositivi comporta conseguenze gravose in termini economici e di vite umane, la conoscenza della meccanica dell'interazione tra il corpo e la rete rappresenta un obiettivo cruciale. A tal fine, nel presente lavoro di tesi è stato sviluppato un algoritmo di calcolo agli elementi finiti basato sulla formulazione posizionale (Position-based Finite Element Formulation - \textit{PFEF}). Il modello impiega elementi cavo monodimensionali del primo ordine con masse nodali concentrate, assumendo i vettori posizione nodale assoluti come incognite primarie del sistema. Il contatto tra il corpo sferico e la rete viene formalizzato mediante l'introduzione delle variabili ausiliarie (\textit{slack variables}) e risolto numericamente tramite l'\textit{Active Set Method}, consentendo di valutare la capacità di assorbimento energetico in accordo con le procedure di collaudo normative. Lo scopo è fornire uno strumento predittivo capace di stabilire a priori se una rete di date caratteristiche potrà superare la prova di impatto omologativa. Il lavoro indaga inoltre il problema statico, sviluppando strumenti specifici per la gestione dell'imbando (\textit{slack}) in strutture sovrabbondanti soggette al peso proprio. Vengono infine delineate alcune prospettive di sviluppo futuro, focalizzate sulla caratterizzazione meccanica avanzata dei materiali e sull'implementazione di un solutore per la riproduzione esplicita della prova di impatto dinamico. 
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+\newpage
+
+% --------------------------------------------------
 % Indice ed introduzione
 % --------------------------------------------------
 \tableofcontents
@@ -145,19 +157,19 @@
 
 \chapter*{Introduzione}
 \addcontentsline{toc}{chapter}{Introduzione}
+Le reti di funi rappresentano soluzioni flessibili ed efficienti importanti per l'ingegneria contemporanea, impiegate sia come elementi strutturali a grande luce quando adeguatamente pretensionate, sia come presidi di protezione collettiva ed intercettazione di oggetti. Il presente lavoro di tesi affronta la modellazione meccanica e lo sviluppo di un solutore agli elementi finiti basato sulla formulazione posizionale (Position-based Finite Element Formulation - PFEF), mirato all'analisi statica di tali strutture e alla stima delle loro capacità di assorbimento energetico. 
 
-Il presente lavoro di tesi si articola in cinque capitoli, volti a guidare il lettore attraverso un percorso logico che parte dall'inquadramento fisico-normativo del problema, passa per lo sviluppo teorico-numerico del modello agli elementi finiti, fino ad arrivare alla validazione applicativa dei risultati.
+La tesi è articolata in cinque capitoli che guidano dall'inquadramento fisico-normativo allo sviluppo teorico-numerico, fino alla validazione sperimentale del modello agli elementi finiti.
 
-Nel 
+Nel \cref{chap:capitolo1} sono presentate le applicazioni delle reti nei settori dell'ingegneria civile, edile e delle infrastrutture. Nella prima parte vengono analizzati i dispositivi di protezione collettiva per la prevenzione delle cadute dall'alto anche in contesti lavorativi (reti di sicurezza e reti di cavi \textit{X\_TEND}) e i sistemi per l'intercettazione di oggetti in caduta a tutela dell'incolumità umana e delle infrastrutture (reti anticalcinacci e barriere paramassi), affiancati dall'impiego delle tensostrutture per coperture a grande luce. La seconda parte illustra brevemente settori complementari come l'ittico e lo sportivo dove le reti occupano grande importanza. La terza parte ripercorre l'evoluzione delle tecniche d'analisi in assenza di formulazioni analitiche chiuse, affrontando il passaggio dai modelli analogici alle metodologie digitali, dal \textit{Force Density Method} (FDM) alla formulazione posizionale PFEF. 
 
+Nel \cref{chap:capitolo2} si confrontano tra modelli di fune a complessità crescente: il modello inestensibile (parabola e catenaria), quello ad elasticità diffusa e la soluzione alle differenze finite delle equazioni differenziali di Irvine. Viene, quindi, introdotta la formulazione agli elementi finiti su base posizionale (\textit{Position-based Finite Element Formulation} - PFEF). Del modello analitico adottato si descrivono: la cinematica dell'elemento cavo, il legame costitutivo \textit{tension-only} e la formulazione lagrangiana del moto. L'analisi viene infine estesa alle reti di funi illustrando l'assemblaggio topologico tramite matrice di connettività, l'applicazione dei vincoli esterni e la risoluzione del problema statico sotto il peso proprio. 
 
+Il \cref{chap:capitolo3} introduce le procedure di collaudo per la determinazione dell'energia assorbibile dai sistemi a rete, focalizzandosi sulla prova quasi statica. Segue la formalizzazione matematica del contatto tra la rete e la sfera per mezzo dell'introduzione delle variabili ausiliarie (\textit{slack variables}), gestito all'interno del solutore tramite l'algoritmo \textit{Active set method}. Viene infine discussa l'importanza di valutare l'energia potenziale elastica accumulata nel regime quasi-statico in vista dell'estensione a scenari d'impatto dinamico. 
 
+Il \cref{chap:capitolo4} raccoglie le simulazioni numeriche condotte con il solutore PFEF. La prima sezione illustra la risposta statica delle reti soggette al peso proprio, presentando strumenti pensati per la gestione dei vincoli esterni, delle rigidezze assiali e dell'imbando (\textit{slack}) in strutture sovrabbondanti e dei carichi concentrati. La seconda sezione applica il codice alle reti caratterizzate sperimentalmente, ponendo a confronto le curve di carico e valori di assorbimento energetico numerici con i dati rilevati in laboratorio. 
 
-La trattazione fatta in questa tesi ha come obiettivo quello di sviluppare un codice di calcolo per l'analisi di problemi meccanici relativi alle reti di funi.
-La meccanica delle reti di funi è di per se un argomento che necessariamente prevede l'utilizzo di codici di calcolo automatizzato, a causa della sua non linearità geometrica intrinseca e a causa dell'assenza di un modello che ne riesca a cogliere a pieno le peculiarità.
-Per confrontare il comportamento meccanico del modello numerico con quello dei modelli teorici abbiamo fatto riferimento al problema del singolo cavo. Successivamente passeremo a problemi relativi all'analisi delle reti di cavi. 
-In ultimo è stato sviluppato un modello meccanico di rete che risolve il problema di contatto della rete con un elemento di geometria definita. 
-Qui farò riferimento alla tesi di dottorato dell'ingegner Fisicaro a partire dalla trattazione fisica proposta nella tesi di dottorato, che a sua volta si basa su una versione alternativa del Metodo agli Elementi Finiti. 
+Il \cref{chap:capitolo5} sintetizza i risultati ottenuti nell'intero lavoro di tesi, valutando l'efficacia del codice computazionale sia nella risoluzione del problema statico sotto peso proprio sia nella riproduzione della prova quasi-statica di contatto. In ultimo, vengono tracciate le linee guida per i futuri sviluppi della ricerca, forcalizzati sulla caratterizzazione costitutiva dei materiali e sull'implementazione di uno schema integrativo temporale esplicito per la simulazione diretta dell'impatto dinamico. 
 
 \newpage
 \thispagestyle{empty}

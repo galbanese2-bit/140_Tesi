@@ -3,7 +3,7 @@
 
 Dal punto di vista della meccanica, le funi e le reti di funi si distinguono nettamente dalle tipologie strutturali tradizionali dell'ingegneria civile. L'assenza di rigidezza a flessione e a compressione fa sì che esse lavorino unicamente a trazione, adattando la propria geometria per raggiungere l'equilibrio in funzione dei carichi e dei vincoli applicati. La risposta di questi sistemi è quindi dominata da una forte non linearità geometrica, dove la configurazione finale può differire in modo significativo da quella iniziale di riferimento. 
 
-In questo capitolo vengono presentati i principali modelli teorici e numerici utilizzati per descrivere il comportamento delle funi e, successivamente, delle reti di funi. La prima parte è dedicata alla meccanica delle funi, analizzata attraverso tre approcci di complessità crescente: il modello inestensibile, il modello ad elasticità diffusa e una formulazione alle differenze finite basata sulle equazioni indefinite di equilibrio. Questi modelli permettono di affrontare i due problemi classici della meccanica delle funi — la fune soggetta al peso proprio e la fune soggetta a un carico verticale distribuito — evidenziando analogie, differenze e limiti delle diverse formulazioni.
+In questo capitolo vengono presentati i principali modelli teorici e numerici utilizzati per descrivere il comportamento delle funi e, successivamente, delle reti di funi. La prima parte è dedicata alla meccanica delle funi, analizzata attraverso tre approcci di complessità crescente: il modello inestensibile, il modello ad elasticità diffusa e una formulazione alle differenze finite basata sulle equazioni indefinite di equilibrio. Questi modelli permettono di affrontare i due problemi classici della meccanica delle funi — la fune soggetta al peso proprio e la fune soggetta a un carico trasversale uniformemente distribuito per unità di lunghezza — evidenziando analogie, differenze e limiti delle diverse formulazioni.
 
 La seconda parte introduce invece la modellazione delle funi tramite metodi numerici agli elementi finiti, presentando una formulazione posizionale del Finite Element Method (FEM), nota come Position-based Finite Element Formulation (PFEF). Questo approccio semplifica la gestione dei grandi spostamenti e delle deformazioni finite, fornendo l'ossatura computazionale per lo studio di sistemi strutturali complessi.
 
@@ -20,16 +20,16 @@ La trattazione è articolata secondo un percorso di complessità crescente basat
 \begin{itemize}
    \item \textbf{Il modello inestensibile:} rappresenta la formulazione geometrica classica, utile per determinare la forma assunta dalla fune in equilibrio, ma priva della descrizione del processo deformativo del materiale;
    \item \textbf{Il modello ad elasticità diffusa:} introduce la deformabilità assiale dell'elemento, consentendo di descrivere la risposta sia in regime di fune lasca che di fune fortemente tesa;
-   \item \textbf{Il modello alle differenze finite:} basato sulla risoluzione diretta alle equazioni differenziali indefinite di equilibrio di Irvine, permette di analizzare in modo rigoroso la distribuzione puntuale dello stato tensionale lungo il cavo. 
+   \item \textbf{Il modello alle differenze finite:} basato sulla risoluzione diretta alle equazioni differenziali indefinite di equilibrio, permette di analizzare in modo rigoroso la distribuzione puntuale dello stato tensionale lungo il cavo. 
 \end{itemize}
 L'obiettivo della sezione è duplice: da un lato fornire una visione chiara, comparativa e progressiva dei principali modelli teorici per le funi; dall'altro stabilire un riferimento affidabile per valutare l'accuratezza delle soluzioni ottenute tramite la Position-based Finite Element Formulation (PFEF), che verrà introdotta nella sezione successiva. La comprensione dei modelli teorici presentati in questa sezione è infatti essenziale per interpretare correttamente i risultati numerici e per individuare i limiti e le potenzialità del metodo PFEF nella modellazione delle funi e delle reti di funi.
 
 \subsection{La fune inestensibile}
-Il modello di fune inestensibile rappresenta uno dei problemi centrali e più consolidati della meccanica dei cavi, grazie al contributo di numerosi studiosi che ne hanno definito e perfezionato la formulazione nel corso del tempo. Oltre all'ipotesi costitutiva di inestensibilità, si assume che la rigidezza flessionale dell'elemento sia trascurabile. Come discusso da Irvine nel testo \textit{Cable Structures} \cite{irvine1981}, un cavo ideale privo di rigidezza flessionale non è in grado di sviluppare momenti flettenti e risulta pertanto instabile in presenza di qualsiasi forza di compressione, anche infinitesima. Da questa instabilità deriva la caratteristica fondamentale del modello denominato $"tension-only"$: la fune può trasmettere esclusivamente sforzi di trazione e non offre alcuna resistenza a compressione.
+Il modello di fune inestensibile rappresenta uno dei problemi centrali e più consolidati della meccanica dei cavi, grazie al contributo di numerosi studiosi che ne hanno definito e perfezionato la formulazione nel corso del tempo. Oltre all'ipotesi costitutiva di inestensibilità, si assume che la rigidezza flessionale dell'elemento sia trascurabile. Come discusso da H. Max Irvine nel testo \textit{Cable Structures} \cite{irvine1981}, un cavo ideale privo di rigidezza flessionale non è in grado di sviluppare momenti flettenti e risulta pertanto instabile in presenza di qualsiasi forza di compressione, anche infinitesima. Da questa instabilità deriva la caratteristica fondamentale del modello denominato \textit{tension-only}: la fune può trasmettere esclusivamente sforzi di trazione e non offre alcuna resistenza a compressione.
 
 In questo contesto, la fune viene descritta come un elemento perfettamente flessibile, la cui configurazione deformata è determinata unicamente dall'equilibrio rispetto ai carichi esterni e dai vincoli imposti. Tuttavia, come verrà discusso, il modello inestensibile non consente di descrivere una vera fenomenologia meccanica dell'evoluzione deformativa, poiché l'ipotesi di lunghezza costante elimina la possibilità di correlare la configurazione deformata a un processo di deformazione materiale. In altre parole, il modello permette di determinare la forma assunta dalla fune in equilibrio, ma non di interpretare il passaggio dalla configurazione indeformata a quella deformata attraverso una legge costitutiva.
 
-\subsubsection{L'equilibrio della fune soggetta ad un carico verticale distribuito}
+\subsubsection{L'equilibrio della fune soggetta ad un carico trasversale distribuito}
 Consideriamo la configurazione finale di una fune soggetta ad un carico verticale distribuito $p$. 
 
 \begin{figure}[htbp]
@@ -176,7 +176,7 @@ Il modello di fune inestensibile rappresenta uno strumento teorico estremamente 
    \item il problema delle funi con lunghezza iniziale inferiore alla distanza tra gli appoggi. 
    \item il problema della fune con accorciamento della lunghezza iniziale tale per cui $L_{eff}<l$
 \end{itemize}
-La fune inestensibile è un modello geometrico, non costitutivo, utile per determinare la forma assunta dalla fune quando viene raggiunto l'equilibrio statico ma incapace di rappresentare l'evoluzione deformativa o gli effetti della deformabilità assiale. 
+Il modello della fune inestensibile è utile per determinare la configurazione assunta dalla fune quando viene raggiunto l'equilibrio statico, ma non è in grado di rappresentare l'evoluzione deformativa o gli effetti della deformabilità assiale in quanto non tiene conto delle relazioni costitutive del materiale. 
 Per affrontare il problema anche dal punto di vista deformativo e costitutivo è indispensabile ricorrere a modelli più completi, come il modello di Irvine, soluzioni numeriche al problema elastico non lineare o le formulazioni numeriche alle differenze finite o agli elementi finiti. 
 
 \subsection{La fune elastica}
@@ -240,7 +240,7 @@ Consideriamo anche in questo caso la necessità, dato un cavo di lunghezza iniza
     L_{eff} = L_0 - \Delta L_0 = L_0(1 - \varepsilon_0)
     \label{eq:lunghezza_efficace_elastica}
 \end{equation}
-dove $\varepsilon_0$ rappresenta l'aliquota di accorciamento percentuale impresso rispetto alla geometria iniziale. L'introduzione di $L_{eff}$ modifica l'equazione di congruenza. La fune vincolata agli appoggi distanti $l$, reagisce alla contrazione sviluppando internamente uno stato tensionale di trazione, nel caso in cui $L_{eff}<l$, mentre produce una variazione geometrica pari a quella prodotta nel caso inestensibile, quando $L_{eff}>l$. Al fine di esplicitare il ruolo di ciascuna componente deformativa la lunghezza totale della fune nella configurazione deformata $L$ può essere vista come la somma algebrica della lunghezza efficace $L_{eff}$, dell'accorciamento di montaggio $\Delta L_0$ e dell'allungamento elastico $\Delta L$:
+dove $\varepsilon_0$ rappresenta l'aliquota di accorciamento percentuale impresso rispetto alla geometria iniziale. L'introduzione di $L_{eff}$ modifica l'equazione di congruenza. La fune vincolata agli appoggi posti a distanza $l$ tra loro, reagisce alla contrazione sviluppando internamente uno stato tensionale di trazione, nel caso in cui $L_{eff}<l$, mentre produce una variazione geometrica pari a quella prodotta nel caso inestensibile, quando $L_{eff}>l$. Al fine di esplicitare il ruolo di ciascuna componente deformativa la lunghezza totale della fune nella configurazione deformata $L$ può essere vista come la somma algebrica della lunghezza efficace $L_{eff}$, dell'accorciamento di montaggio $\Delta L_0$ e dell'allungamento elastico $\Delta L$:
 \begin{equation}
    L = L_{eff} + \Delta L_0 + \Delta L
    \label{eq:contributi_L}
@@ -294,7 +294,7 @@ Analogalmente, nella figura successiva (\cref{fig:estensibilevsinestensibile4}),
 
 \vspace{1em}
 \subsection{Una soluzione alle differenze finite}
-Mentre i modelli basati sull'equazione globale di congruenza della catenaria elastica introducono limitazioni cinematiche e matematiche, lo schema numerico che proponiamo mira alla risoluzione diretta della formulazione differenziale indefinita di Irvine. Tale approccio, in accordo con quanto riportato in \cite{irvine1981}, offre tre vantaggi fondamentali: in primo luogo, tratta la geometria corrente come incognita pura; in secondo luogo, calcola lo stato tensionale locale segmento per segmento, superando le approssimazioni delle tensioni medie tipiche dei problemi in cui si impone un'equazione di congruenza sull'intera struttura meccanica; infine, adotta una formulazione lagrangiana coerente rispetto all'ascissa curvilinea indeformata $s_0$, garantendo il rispetto rigoroso della conservazione della massa. Lo scopo di questa trattazione è quello di fornire una base ideale per il successivo confronto con i codici ad elementi finiti (FEM).
+Mentre i modelli basati sull'equazione globale di congruenza della catenaria elastica introducono limitazioni cinematiche e matematiche, lo schema numerico che proponiamo mira alla risoluzione diretta della formulazione differenziale indefinita di Irvine. Tale approccio, in accordo con quanto riportato in Irvine \cite{irvine1981}, offre tre vantaggi fondamentali: in primo luogo, tratta la geometria corrente come incognita pura; in secondo luogo, calcola lo stato tensionale locale segmento per segmento, superando le approssimazioni delle tensioni medie tipiche dei problemi in cui si impone un'equazione di congruenza sull'intera struttura meccanica; infine, adotta una formulazione lagrangiana coerente rispetto all'ascissa curvilinea indeformata $s_0$, garantendo il rispetto rigoroso della conservazione della massa. Lo scopo di questa trattazione è quello di fornire una base ideale per il successivo confronto con i codici ad elementi finiti (FEM).
 
 \vspace{1em}
 Siano rispettivamente $\Omega_0$ ed $\Omega$ la configurazione di riferimento e quella deformata della fune soggetta al peso proprio. A differenza di quanto assunto nella in \cref{fig:fune_catenaria}, assumiamo che l'ascissa curvilinea $s_0$ della fune abbia la propria origine nel punto medio della lunghezza della fune in configurazione di riferimento; perciò, anche non conoscendone a priori la geometria spaziale, possiamo definire il dominio materiale come:
@@ -316,7 +316,7 @@ EA \, \varepsilon(s_0), & \text{se } \varepsilon(s_0) > 0 \\[6pt]
 \end{cases}
 \label{eq:tension_only}
 \end{equation}
-Si osserva come in questa trattazione emerga una prima forte non linearità di tipo costitutivo, introdotta proprio dall'assunzione del legame bilineare di tipo \textit{tension only}.
+Si osserva come in questa trattazione emerga una prima forte non linearità di tipo costitutivo, introdotta proprio dall'assunzione del legame bilineare di tipo \textit{tension-only}.
 
 Definiamo ora il vettore tangente alla curva geometrica proiettato sulla configurazione indeformata della fune:
 \begin{equation}
@@ -479,15 +479,15 @@ Nelle reti a maglie poligonali, la pratica comune prevede di posizionare i nodi 
 
 \subsection{Position-based Finite Element Formulation}
 
-Proponiamo un modello agli elementi finiti (FE) di reti di funi con masse nodali concentrate e elementi $cavo$ del primo ordine. In linea con il position-based finite element formulation (PFEF) \cite{Valvo1}\cite{Valvo2}, assumiamo come incognite principali del problema le posizioni nodali, anzichè gli spostamenti nodali, che sono comunemente adottati nelle analisi agli elementi finiti. Come risultato, la matrice di rigidezza elastica secante del sistema risulterà essere simmetrica e non sarà necessaria l'adozione di due distinti sistemi di riferimento (locale e globale), in quanto ogni grandezza è riferita a un unico sistema di coordinate globali. 
+Viene proposto un modello agli elementi finiti (FE) di reti di funi con masse nodali concentrate e elementi cavo del primo ordine. In linea con la formulazione posizionale degli elementi finiti (\textit{Position-based Finite Element Formulation} - PFEF) proposta da P.S.Valvo \cite{Valvo1,Valvo2}, assumiamo come incognite principali del problema le posizioni nodali, anzichè gli spostamenti nodali, che sono comunemente adottati nelle analisi agli elementi finiti. Come risultato, la matrice di rigidezza elastica secante del sistema risulterà essere simmetrica e non sarà necessaria l'adozione di due distinti sistemi di riferimento (locale e globale), in quanto ogni grandezza è riferita a un unico sistema di coordinate globali. 
 
-I grandi spostamenti e le deformazioni finite sono descritte per mezzo del tensore di deformazione di Green-Lagrange. si assume che gli elementi cavo possano reagire solamente in trazione ($tension-only$) mediante una relazione lineare tra la deformazione assiale e la corrispondente componente del secondo tensore delle tensioni di Piola-Kirchhoff. Questa legge costitutiva è nota in letteratura come modello di materiale di Saint-Venant-Kirchhoff. 
+I grandi spostamenti e le deformazioni finite sono descritte per mezzo del tensore di deformazione di Green-Lagrange. si assume che gli elementi cavo possano reagire solamente in trazione (\textit{tension-only}) mediante una relazione lineare tra la deformazione assiale e la corrispondente componente del secondo tensore delle tensioni di Piola-Kirchhoff. Questa legge costitutiva è nota in letteratura come modello di materiale di Saint-Venant-Kirchhoff. 
 
 \vspace{1em}
 Le configurazioni di riferimento e corrente sono definite rispetto al sistema di riferimento cartesiano $Ox_{1}x_{2}x_{3}$, illustrato in figura \cref{fig:rete_discretizzata1}. Indicando rispettivamente con $\overline{\Omega}$ e $\Omega$ il dominio del sistema meccanico nella configurazione di riferimento e in quella corrente, da qui in avanti tutte le grandezze geometriche e meccaniche relative alla configurazione di riferimento saranno contrassegnate dall'overline; viceversa le quantità prive di barra sarnno riferite alla configurazione corrente. Sia $P_i$ la posizione dell'$i$-esimo nodo $(i = 1,\dots,n)$ nella configurazione corrente e $\overline{P}_i$ la medesima posizione nella configurazione di riferimento, la quale per definizione viene assunta geometricamente indeformata. Il vettore posizione del generico nodo in configurazione corrente è definito come $\underline{x}_i = P_i - O \in \mathbb{R}^3 $, mentre il corrispondente vettore spostamento può essere espresso mediante la relazione $\underline{u}_i = P_i - \overline{P}_i$. Infine, raccogliendo i vettori posizione di tutti gli $n$ nodi del sistema in un unico vettore globale delle coordiante nodali $x \in \mathbb{R}^{3n}$, quest'ultimo viene assunto come la principale incognita cinematica del problema strutturale. 
 
 \subsection{L'elemento cavo}
-Consideriamo l'$e-esimo$ elemento $(e = 1,\dots,m)$ che connette l'$i-esimo$ e $j-esimo$ nodo come rappresentato in \cref{fig:elementocavo}. Indichiamo il vettore delle posizioni nodali dell'elemento in configurazione corrente come $\underline{x}_e = [\underline{x}_i ; \underline{x}_j] \in \mathbb{R}^6$. La lunghezza nominale dell'elemento $l_e$, è definita come la distanza tra i suoi nodi, e potrà essere calcolata con la seguente formula: 
+Consideriamo l'$e$-esimo elemento $(e = 1,\dots,m)$ che connette l'$i$-esimo e $j$-esimo nodo come rappresentato in \cref{fig:elementocavo}. Indichiamo il vettore delle posizioni nodali dell'elemento in configurazione corrente come $\underline{x}_e = [\underline{x}_i ; \underline{x}_j] \in \mathbb{R}^6$. La lunghezza nominale dell'elemento $l_e$, è definita come la distanza tra i suoi nodi, e potrà essere calcolata con la seguente formula: 
 
 \begin{figure}[htbp]
   \centering
@@ -521,7 +521,7 @@ E \, e_{11}, & \text{se } e_{11} \geq 0 \\[6pt]
 \end{equation}
 dove $E$ è il modulo di Young del materiale. 
 
-Assumendo delle funzioni di forma lineari per gli elementi, in accordo con \cite{Valvo1,Valvo2}, la matrice di rigidezza elastica secante del singolo cavo $S_e \in \mathbb{R}^{6x6}$ può essere espressa mediante la relazione:
+Assumendo funzioni di forma lineari per gli elementi, in Valvo \cite{Valvo1,Valvo2} la matrice di rigidezza elastica secante del singolo cavo $S_e \in \mathbb{R}^{6x6}$ viene espressa mediante la relazione:
 \begin{equation}
    S_e(\underline{x}_e) = \sigma_{11} \frac{\overline{a}_e}{\overline{l}_e}\begin{bmatrix}
     I & -I \\
@@ -537,7 +537,7 @@ dove $\overline{a}_e$ è l'area della sezione dell'elemento, valutata in configu
    \end{matrix}\right]
 \label{eq:matrice_tangente}
 \end{equation}  
-che, secondo quanto dimostrato in \cite{Fisicaro} può essere riscritta in forma compatta come: 
+che, secondo quanto dimostrato in Fisicaro \cite{Fisicaro} può essere riscritta in forma compatta come: 
 \begin{equation}
    T_e\left(\underline{x}_e\right) = \left(\sigma_{11} + \frac{\partial \sigma_{11}}{\partial e_{11}}\frac{l_e^2}{\overline{l}_e^2}\right) \frac{\overline{a}_e}{\overline{l}_e} \left[\begin{matrix}
     I & -I \\
@@ -548,7 +548,7 @@ che, secondo quanto dimostrato in \cite{Fisicaro} può essere riscritta in forma
 Dalle equazioni \eqref{eq:matrice_secante} e \eqref{eq:matrice_tangente2} la dipendenza esplicita delle matrici dal vettore delle posizioni nodali dell'elemento $\underline{x_e}$ è racchiusa implicitamente nella lunghezza nominale $l_e$. 
 
 \vspace{1em}
-Come detto in precedenza, il modello a massa concentrata adottato prevede di ripartire la massa totale dell'elemento sui nodi di estremità. In accordo con la formulazione classica di \cite{Penzien}, assumiamo per il singolo elemento la seguente matrice di massa globale $M_e \in \mathbb{R}^{6x6}$:
+Come detto in precedenza, il modello a massa concentrata adottato prevede di ripartire la massa totale dell'elemento sui nodi di estremità. In Clough e Penzien \cite{Penzien}, la matrice di massa globale del singolo elemento $M_e \in \mathbb{R}^{6\times6}$ viene espressa come:
 \begin{equation}
    M_e = 
    \frac{1}{2}\ \overline{\rho}_e\,\overline{a}_e\,\overline{l}_e 
@@ -557,11 +557,11 @@ Come detto in precedenza, il modello a massa concentrata adottato prevede di rip
       0 & I
    \end{bmatrix}
 \end{equation}
-dove $\overline{\rho}_e$ è la densità di massa uniforme nella configurazione di riferimento, e $0 \in \mathbb{R}^{3x3}$ è la sottomatrice nulla. La struttura diagonale a blocchi riflette il fatto che ciascun nodo riceve metà della massa totale dell'elemento, senza accoppiamenti inerziali reciproci. 
+dove $\overline{\rho}_e$ è la densità di massa uniforme nella configurazione di riferimento, e $0 \in \mathbb{R}^{3\times3}$ è la sottomatrice nulla. La struttura diagonale a blocchi riflette il fatto che ciascun nodo riceve metà della massa totale dell'elemento, senza accoppiamenti inerziali reciproci. 
 
 Nel caso di problemi statici, il contributo inerziale è trascurabile. L'unico effetto della massa è legato alla forza peso. Per questo motivo, anzichè assemblare l'intera matrice di massa del sistema, si introduce direttamente il vettore di carico gravitazionale dell'elemento $f_{g,e} \in \mathbb{R}^6$:
 \begin{equation}
-   \underline{f}_{g,e} = \frac{1}{2}\overline{\rho}_e \overline{a}_e \overline{l}_e g
+   \underline{f}_{g,e} = \frac{1}{2}\overline{\rho}_e \overline{a}_e \overline{l}_e a_g
 \left\{
 \begin{array}{c}
 0 \\
@@ -573,16 +573,16 @@ Nel caso di problemi statici, il contributo inerziale è trascurabile. L'unico e
 \end{array}
 \right\}
 \end{equation}
-dove $g$ è l'accelerazione gravitazionale. Il vettore rappresenta la forza peso applicata ai due nodi dell'elemento, orientata lungo la direzione verticale del sistema di riferimento (assumendo l'asse $x_3$ rivolto verso il basso).  
+dove $a_g \approx 9.81 \, \text{m/s}^2$ è il modulo dell'accelerazione di gravità. Il vettore rappresenta la forza peso applicata ai due nodi dell'elemento, orientata lungo la direzione verticale del sistema di riferimento (assumendo l'asse $x_3$ rivolto verso il basso).  
 
 \vspace{1em}
-Al fine di formalizzare l'assemblaggio delle matrici appena introdotte e relative all'intero sistema meccanico introduciamo la matrice di localizzazione dell'$i-esimo$ nodo $L_i \in \mathbb{R}^{3x3n}$ e la matrice di assemblaggio dell'$e-simo$ elemento $A_e \in \mathbb{R}^{6x3n}$. 
-La matrice di localizzazione è definita come una matrice nulla, eccetto per le componenti corrispondenti alle colonne da $3i -2$ a $3i$ dove è posizionata la matrice identità $I \in \mathbb{R}^{3x3}$ .
+Al fine di formalizzare l'assemblaggio delle matrici appena introdotte e relative all'intero sistema meccanico introduciamo la matrice di localizzazione dell'$i$-esimo nodo $L_i \in \mathbb{R}^{3\times3n}$ e la matrice di assemblaggio dell'$e-simo$ elemento $A_e \in \mathbb{R}^{6\times3n}$. 
+La matrice di localizzazione è definita come una matrice nulla, eccetto per le componenti corrispondenti alle colonne da $3i -2$ a $3i$ dove è posizionata la matrice identità $I \in \mathbb{R}^{3\times3}$ .
 \begin{equation}   
     L_i = \begin{bmatrix}\underbrace{\textit{0}}_{1^{st}} & ... & \underbrace{\textit{0}}_{i^{th}-1} & \underbrace{I}_{i^{th}} & \underbrace{\textit{0}}_{i^{th}+1} & ... & \underbrace{\textit{0}}_{n^{th}} \end{bmatrix}.
 \label{eq:matrice_localizzazione}
 \end{equation}
-La matrice di localizzazione può essere usata per estrarre il vettore posizione dell'i-esimo nodo a partire dal vettore globale, ossia $\underline{x}_i = L_i \underline{x}$. Di conseguenza, l'operatore trasposto permette di scrivere $\underline{x} = \sum_{i=1}^{n} L_i^T \underline{x}_i$.
+La matrice di localizzazione può essere usata per estrarre il vettore posizione dell'$i$-esimo nodo a partire dal vettore globale, ossia $\underline{x}_i = L_i \underline{x}$. Di conseguenza, l'operatore trasposto permette di scrivere $\underline{x} = \sum_{i=1}^{n} L_i^T \underline{x}_i$.
 La matrice di assemblaggio dell'elemento $e$, che connette i nodi $i$ e $j$, si ottiene affiancando verticalmente le matrici di localizzazione dei suoi nodi di estremità: 
 \begin{equation}
 A_e =
@@ -600,7 +600,7 @@ Come risultato, il vettore delle posizioni nodali dell'elemento può essere espr
 \subsection{La rete di funi}
 Il vettore globale delle forze peso dell'intera rete $f_g \in \mathbb{R}^{3n}$ è ottenuto sommando i contributi dei singoli elementi tramite le rispettive matrici di assemblaggio trasposte:
 \begin{equation}
- \underline{f}_{g,e} = \sum_{e=1}^{m} A_e^T \underline{f}_{g,e}
+ \underline{f}_{g} = \sum_{e=1}^{m} A_e^T \underline{f}_{g,e}
  \label{eq:vettore_peso}
 \end{equation}
 Le matrici di rigidezza elastica secante $S(\underline{x})$ e tangente $T(\underline{x})$ dell'intera rete, appartenenti a $\mathbb{R}^{3 \times 3n}$ si ricavano per assemblaggio diretto:
@@ -616,7 +616,7 @@ Per trattare il problema in via generale, definiamo la matrice di massa globale 
    M = \sum_{e=1}^{m} A_e^T M_e A_e
    \label{eq:matrice_massa}
 \end{equation}
-Infine, introduciamo lo smorzamento nel modello secondo le ipotesi di Rayleigh \cite{Penzien}. La matrice di smorzamento $D \in \mathbb{R}^{3n \times 3n}$ è ottenuta come la combinazione lineare della matrice di massa e della matrice di rigidezza elastica tangente, quest'ultima valutata nella configurazione di riferimento (o indeformata) $\underline{\overline{x}}$: 
+Infine, viene integrato nel modello uno smorzamento viscoso proporzionale secondo la formulazione di Rayleigh. In Clough e Penzien \cite{Penzien}, la matrice di smorzamento $D \in \mathbb{R}^{3n \times 3n}$ è ottenuta come combinazione lineare della matrice di massa e della matrice di rigidezza elastica tangente, quest'ultima valutata nella configurazione di riferimento (o indeformata) $\underline{\overline{x}}$: 
 \begin{equation}
    D = \alpha_d M + \beta_d T(\underline{\overline{x}})
    \label{eq:matrice_smorzamento}
@@ -624,7 +624,7 @@ Infine, introduciamo lo smorzamento nel modello secondo le ipotesi di Rayleigh \
 dove $\alpha_d$ e $\beta_d$ sono coefficienti di proporzionalità di Rayleigh.
 
 \subsection{La formulazione lagrangiana}
-Le equazioni differenziali che governano il problema dell'equilibrio dinamico non lineare possono essere dedotte secondo appocci differenti. In accordo con \cite{Fisicaro}, seguiamo il metodo Lagrangiano. Lo stesso approccio sarà adottato successivamente per trattare il problema di contatto tra una rete ed un oggetto.
+Le equazioni differenziali che governano il problema dell'equilibrio dinamico non lineare possono essere dedotte secondo approcci differenti. In questa trattazione, come in Fisicaro\cite{Fisicaro}, si segue il metodo Lagrangiano, successivamente anche alla trattazione del contatto tra la rete e il corpo impattante.
 
 Definiamo la funzione Lagrangiana $\mathcal{L}$ del sistema come la differenza tra l'energia cinetica $\mathcal{K}$ e l'energia potenziale totale $\mathcal{V}$:
 \begin{equation}
@@ -641,17 +641,27 @@ L'energia cinetica globale del sistema discreto può essere ottenuta dalla sua d
 L'energia potenziale totale $\mathcal{V}$ racchiude i contributi associati alle forze conservative, tra cui il potenziale della forza peso $\mathcal{W}$ e l'energia potenziale elastica interna $\mathcal{U}$.
 
 \subsubsection{L'energia potenziale totale}
-L'energia potenziale totale del sistema meccanico può essere espressa come:
+L'energia potenziale gravitazionale del sistema meccanico può essere espressa rispetto alla configurazione di riferimento come:
 \begin{equation}
    \mathcal{V} = \mathcal{U} - \mathcal{W}
    \label{eq:energia_potenziale_totale}
 \end{equation}
-
-Impiegando un approccio \textit{lumped} delle masse, la massa degli elementi in cui il sistema è discretizzato viene concentrata nei nodi del sistema in funzione del peso proprio degli elementi in configurazione indeformata. Sia $m_i$ la massa concentrata nell'\textit{i-esimo} nodo, allora la forza peso relativa a tale massa è pari a $\underline{f}_{gi} = m_i\underline{g}$. Perciò il lavoro compiuto della forza peso quando l'\textit{i-esimo} nodo subisce uno spostamento $\underline{u}_i = \underline{x}_i - \overline{\underline{x}}_i$ è pari al prodotto scalare:
+Impiegando un approccio a masse concentrate, la massa degli elementi in cui il sistema è discretizzato viene concentrata nei nodi del sistema in funzione del peso proprio degli elementi in configurazione indeformata. Sia $m_i$ la massa concentrata nell'$i$-esimo nodo; la forza peso relativa a tale massa è pari a $\underline{f}_{gi} = m_i\underline{a}_g$, dove $\underline{a}_g \in \mathbb{R}^3$ indica il vettore accelerazione di gravità. Orientando il sistema di riferimento cartesiano globale con l'asse $x_3$ diretto verso il basso, il vettore $\underline{a}_g$ assume la forma:
+\begin{equation}
+   \underline{a}_g = a_g
+   \left\{
+   \begin{array}{c}
+   0 \\
+   0 \\
+   1
+   \end{array}
+   \right\}
+\end{equation}
+Perciò il lavoro compiuto della forza peso quando l'$i$-esimo nodo subisce uno spostamento $\underline{u}_i = \underline{x}_i - \overline{\underline{x}}_i$ è pari al prodotto scalare:
 \begin{equation}
    \mathcal{W}_i = \underline{f}_{gi}^{T} \underline{u}_i
 \end{equation}
-L'energia potenziale relativa alla forza peso del sistema meccanico può essere scritta come la sommatoria dei contributi energetici relativi agli $n$ nodi del sistema secondo la relazione: 
+Il lavoro totale svolto dalla forza peso sul sistema meccanico può essere scritto come la sommatoria dei contributi energetici relativi agli $n$ nodi del sistema secondo la relazione: 
 \begin{equation}
    \mathcal{W} = \sum_{i=1}^{n} \mathcal{W}_i = \sum_{i=1}^{n} \underline{f}_{gi}^{T} \underline{u}_i 
 \end{equation} 
@@ -663,26 +673,26 @@ Differenziando l'espressione dell'energia potenziale relativa al vettore delle f
 \begin{equation}
    \frac{\partial \mathcal{W}}{\partial \underline{x}} = \frac{\partial (\underline{f}_g^T \underline{x})}{\partial \underline{x}} - \frac{\partial (\underline{f}_g^T \overline{\underline{x}})}{\partial \underline{x}} = \underline{f}_g
 \end{equation}
-L'energia potenziale elastica dell'$e-esimo$ elemento si esprime come \cite{Valvo1,Valvo2}: 
+Seguendo la formulazione proposta in Valvo \cite{Valvo1,Valvo2}, l'energia potenziale elastica dell'$e$-esimo elemento si esprime come:
 \begin{equation}
-   \mathcal{U}_e = \int_{\overline{\Omega}_e} \overline{\varphi}\, dx1dx2dx3
+   \mathcal{U}_e = \int_{\overline{\Omega}_e} \overline{\varphi}\, dx_1 dx_2 dx_3
 \end{equation}
 Dove $\overline{\varphi}$ è la densità di energia di deformazione elastica per unità di volume nella configurazione di riferimento. Per l'elemento cavo considerato nel modello, $\mathcal{U}_e$ ha l'espressione analitica: 
 \begin{equation}
    \mathcal{U}_e = \frac{1}{2} \sigma_{11} e_{11} \overline{a}_e \overline{l}_e
 \end{equation}
-L'energia potenziale elastica totale dell'intero sistema meccanico è la somma dei contributi sui singoli elementi: 
+L'energia potenziale elastica totale dell'intero sistema meccanico è espressa dalla somma dei contributi sui singoli $m$ elementi: 
 \begin{equation}
    \mathcal{U} = \frac{1}{2} \sum_{e=1}^{m} \sigma_{11} e_{11} \overline{a}_e \overline{l}_e
    \label{eq:energia_potenziale_elastica}
 \end{equation}
-Ricordando le equazioni \eqref{eq:deformazione_green_lagrange} e \eqref{eq:tension_only2} si arriva all'espressione: 
+Per calcolare il gradiente dell'energia potenziale elastica della rete rispetto al vettore delle posizioni nodali $\underline{x}$, valutiamo in primis la derivata dell'energia potenziale elastica dell'$e$-esimo elemento $\mathcal{U}_e$. Ricordando le espressioni \eqref{eq:deformazione_green_lagrange} e \eqref{eq:tension_only2}, si ha:
 \begin{equation}
-   \frac{\partial (\sigma_{11} e_{11})}{\partial {\underline{x}}} = 2\sigma_{11} \frac{\partial e_{11}}{\partial {\underline{x}}} = \frac{\sigma_{11}}{\overline{l}_e^2} \frac{\partial l_e^2}{\partial {\underline{x}}}
+   \frac{\partial \mathcal{U}_e}{\partial \underline{x}} = \frac{1}{2} \overline{a}_e \overline{l}_e \frac{\partial (\sigma_{11} e_{11})}{\partial {\underline{x}}} = \frac{1}{2} \sigma_{11} \frac{\overline{a}_e}{\overline{l}_e} \frac{\partial l_e^2}{\partial {\underline{x}}} = \frac{1}{2} \sigma_{11} \frac{\overline{a}_e}{\overline{l}_e} \frac{\partial l_e^2}{\partial {\underline{x}}}
 \end{equation}
-Differenziando l'energia potenziale del singolo elemento rispetto al vettore delle posizioni globali $\underline{x}$, otteniamo:
+Sommando i contributi relativi a tutti gli $m$ elementi del sistema, si ottiene la derivata dell'energia potenziale elastica totale:
 \begin{equation}
-   \frac{\partial \mathcal{U}}{\partial {\underline{x}}} = \frac{1}{2} \sum_{e=1}^{m} \overline{a}_e \overline{l}_e \frac{\partial {\sigma_{11} e_{11}}}{\partial {\underline{x}}} = \frac{1}{2} \sum_{e=1}^{m} \sigma_{11} \frac{\overline{a}_e}{\overline{l}_e} \frac{\partial l_e^2}{\partial {\overline{x}}}
+   \frac{\partial \mathcal{U}}{\partial {\underline{x}}} = \frac{1}{2} \sum_{e=1}^{m} \overline{a}_e \overline{l}_e \frac{\partial {\sigma_{11} e_{11}}}{\partial {\underline{x}}} = \frac{1}{2} \sum_{e=1}^{m} \sigma_{11} \frac{\overline{a}_e}{\overline{l}_e} \frac{\partial l_e^2}{\partial {\underline{x}}}
    \label{eq:derivata_energia_potenziale_elastica}
 \end{equation}
 Dall'equazione \ref{eq:lunghezza_elemento_quadro} segue la relazione: 
@@ -725,7 +735,7 @@ Perciò il gradiente dell'energia potenziale totale può essere scritto come:
 \end{equation}
 
 \subsubsection{Il contributo dissipativo}
-Per tener conto delle forze dissipative, estendiamo il formalismo lagrangiano introducendo la funzione di dissipazione di Rayleigh \cite{Penzien}:
+Per tener conto delle forze dissipative, estendiamo il formalismo lagrangiano introducendo la funzione di dissipazione di Rayleigh definita in Clough e Penzien \cite{Penzien}:
 \begin{equation}
    \mathcal{R} = \frac{1}{2} \underline{\dot{x}}^T D \underline{\dot{x}}
    \label{eq:dissipazione}
@@ -747,13 +757,13 @@ Sostituendo le espressioni ricavate e sviluppando le derivate, arriviamo al sist
 In questa formulazione, sia il vettore delle posizioni dei nodi $\underline{x}(t)$ che il vettore dei carichi nodali esterni globali $\underline{p}(t)$, dipendono dal tempo. 
 
 \subsection{Vincoli esterni}
-La formulazione Lagrangiana dell'equilibrio di un sistema meccanico espresso in soli gradi di libertà (\textit{gdl}) liberi non esplicita le forze reattive generate dai vincoli cinematici. In accordo con \cite{Amendola}, l'ipotesi di vincoli cinematici ideali implica che il lavoro virtuale svolto dalle reazioni vincolari $\underline{r}_{\text{vinc}}$ sia nullo per qualsiasi spostamento virtuale ammissibile. Allora per esplicitare il termine dovuto alle reazioni vincolari è necessario formulare nuovamente il problema introducendo un termine relativo alle reazioni dei vincoli.
+La formulazione Lagrangiana dell'equilibrio di un sistema meccanico espresso in soli gradi di libertà (\textit{gdl}) liberi non esplicita le forze reattive generate dai vincoli cinematici. In Amendola \cite{Amendola}, l'ipotesi di vincoli cinematici ideali implica che il lavoro virtuale svolto dalle reazioni vincolari $\underline{r}_{\text{vinc}}$ sia nullo per qualsiasi spostamento virtuale ammissibile. Per esplicitare il contributo di tali reazioni, risulta pertanto necessario riformulare il problema introducendo opportunamente i vincoli e le relative incognite reattive.
 
 Consideriamo il caso in cui la struttura sia soggetta a vincoli esterni olonomi e scleronomi, siano:
 \begin{itemize}
    \item $n$: il numero totale di nodi della rete tridimensionale, perciò $3n$ sarà il numero totale di \textit{gdl} del sistema non vincolato;
    \item $c$: il numero di \textit{gdl} vincolati da condizioni al contorno esterne (\textit{constraint});
-   \item $f$: il numero di \textit{gdl} liberi del sistema meccanico;
+   \item $f$: il numero di \textit{gdl} liberi (\textit{free}) del sistema meccanico;
    Perciò vale la partizione del problema totale:
    \begin{equation}
       3n = f + c
@@ -772,7 +782,7 @@ g_j(\underline{x}) = x_{c,j} - \overline{x}_{c,j} = 0 \quad (j = 1, \dots, c)
 \end{equation}
 dove $\overline{x}_{c,j}$ rappresenta il valore prescritto per il $j$-esimo \textit{gdl} vincolato.
 
-Per incorporare tali vincoli nel bilancio energetico senza ridurre a priori le dimensioni del sistema, in accordo con \cite{Fisicaro}, è possibile definire la funzione Lagrangiana $\mathcal{L}$ del sistema come segue:
+Per incorporare tali vincoli nel bilancio energetico senza ridurre a priori le dimensioni del sistema, come in Fisicaro \cite{Fisicaro}, è possibile definire la funzione Lagrangiana $\mathcal{L}$ del sistema come segue:
 \begin{equation}
    \mathcal{L} \left(\underline{q}, \dot{\underline{q}}\right) = \mathcal{K} - \mathcal{V} + \underline{\lambda}^T \underline{g}(\underline{x})
    \label{eq:funzione_lagrangiana_vincolata}
@@ -805,9 +815,9 @@ Sostituendo l'espressione \eqref{eq:funzione_lagrangiana_vincolata} in \eqref{eq
 \end{equation}
 dove $J^T \in \mathbb{R}^{3n \times c}$ è la trasposta della matrice Jacobiana $J = \frac{\partial \underline{g}}{\partial \underline{x}} \in \mathbb{R}^{c \times 3n}$. La matrice $J$ assume il ruolo di un operatore di selezione, separando i gradi di libertà liberi da quelli vincolati. Riorordinando il vettore $\underline{x}$ in modo tale che le prime $f$ componenti corrispondano ai \textit{gdl} liberi e le restanti $c$ ai \textit{gdl}  vincolati, la Jacobiana assume la forma a blocchi $J = \begin{bmatrix} 0_{c \times f} & I_{c \times c} \end{bmatrix}$.
 
-I risultati ottenuti nel presente lavoro, adottando la formulazione di \cite{Fisicaro} in questo caso degenere, trovano riscontro in quanto riportato in \cite{Morin2008}.
+I risultati ottenuti nel presente lavoro mediante la formulazione proposta in Fisicaro \cite{Fisicaro} trovano riscontro, per questo caso degenere, con quanto riportato in Morin \cite{Morin2008}.
 
-Si evidenzia come, in analogia con la trattazione sviluppata in \cite{Fisicaro} relativamente ai problemi dinamici vincolati, l'impiego dei Moltiplicatori di Lagrange in presenza di vincoli strettamente bilaterali non richieda l'introduzione di variabili ausiliarie, necessarie invece in presenza di vincoli di disuguaglianza o monolaterali. La natura bilaterale del vincolo consente infatti di esprimere le condizioni cinematiche al contorno direttamente sotto forma di uguaglianze $\underline{g}(\underline{x}) = \underline{0}$.
+Si evidenzia come, in analogia con la trattazione sviluppata in Fisicaro \cite{Fisicaro} relativamente ai problemi dinamici vincolati, l'impiego dei Moltiplicatori di Lagrange in presenza di vincoli strettamente bilaterali non richieda l'introduzione di variabili ausiliarie, necessarie invece in presenza di vincoli di disuguaglianza o monolaterali. La natura bilaterale del vincolo consente infatti di esprimere le condizioni cinematiche al contorno direttamente sotto forma di uguaglianze $\underline{g}(\underline{x}) = \underline{0}$.
 
 Inoltre, essendoci riferiti a vincoli scleronomi, la funzione di vincolo $\underline{g}(\underline{x})$ risulta indipendente dal tempo $t$. È fondamentale sottolineare che l'evoluzione temporale dei moltiplicatori di Lagrange $\underline{\lambda}$ nell'analisi dinamica non è legata a una variabilità della geometria del vincolo, bensì alla variazione nel tempo dello stato di sollecitazione interno ed esterno del sistema. In questo contesto, $\underline{\lambda}$ esprime l'intensità istantanea delle reazioni vincolari reattive necessarie a garantire il rispetto della congruenza cinematica in ogni istante del processo dinamico.
 
@@ -833,7 +843,7 @@ Nel caso quasi-statico, le azioni esterne variano nel tempo in modo sufficientem
 \subsubsection{Formulazione del sistema ridotto e calcolo delle reazioni vincolari}
 Sebbene l'approccio lagrangiano esteso sia formalemnte rigoroso, la sua implementazione numerica per vincoli cinematici fissi comporterebbe la risoluzione di un sistema algebrico-differenziale sovradimensionato, tale circostanza comporta un'onerosità di calcolo maggiore per il solutore sviluppato.
 
-Pertanto, nel prosieguo del lavoro si adotta un approccio più affine a quello della metodologia degli elementi finiti, come proposto anche in \cite{felippa2004ifem}. Il metodo consiste nel risolvere il problema meccanico, in questo caso statico o quasi-statico, considerando dapprima la struttura libera nello spazio euclideo. 
+Pertanto, nel prosieguo del lavoro viene adottato un approccio più affine a quello della metodologia degli elementi finiti, come proposto anche in Felippa \cite{felippa2004ifem}. Il metodo consiste nel risolvere il problema meccanico, in questo caso statico o quasi-statico, considerando dapprima la struttura libera nello spazio euclideo. 
 \begin{equation}
    S(\underline{x})\underline{x} = \underline{f}_g + \underline{p}
   \label{eq:problema_statico_2}
@@ -892,23 +902,25 @@ Il problema così delineato presenta una doppia non linearità: geometrica, dovu
 \end{equation}
 La formula di ricorrenza dell'algoritmo, introdotta in generale nell'espressione \eqref{eq:ricorrenza_newton_raphson}, si specializza per questo caso come:
 \begin{equation}
-   \underline{x}^{(k+1)} = \underline{x}^{(k)} - [J(\underline{x}^{(k)})]^{-1} R(\underline{x}^{(k)})
+   K(\underline{x}^{(k)}) \Delta\underline{x}^{(k)} = - \underline{R}(\underline{x}^{(k)})
+   %   \underline{x}^{(k+1)} = \underline{x}^{(k)} - [J_R(\underline{x}^{(k)})]^{-1} R(\underline{x}^{(k)})
 \end{equation}
-dove $[J(\underline{x}^{(k)})] \in \mathbb{R}^{2n \times 2n}$ è la matrice Jacobiana della funzione vettoriale del residuo $R(\underline{x})$. Poichè il vettore globale delle forze peso $\underline{f}_g$ dipende esclusivamente dalle proprietà geometriche e materiali definite nella configurazione di riferimento, esso risulta del tutto indipendente dallo stato cinematico corrente del sistema; la sua derivata rispetto alle posizioni attuali è pertanto nulla ($\partial f_{g,i} / \partial x_j = 0$).
+dove $\Delta \underline{x}^{(k)}$ rappresenta l'incremento del vettore delle posizioni nodali all'iterazione $k$-esima, mentre $K(\underline{x}^{(k)}) \in \mathbb{R}^{2n \times 2n}$ è la matrice ottenuta applicando lo Jacobiano al residuo statico $\underline{R}(\underline{x}^{(k)})$. 
 
-Allo stesso tempo, il termine $\frac{\partial (S_i(\underline{x})\underline{x})}{\partial x_j}$ esprime la variazione del vettore delle forze interne elastiche globali rispetto alle coordinate correnti. Coerentemente con la formulazione introdotta in \cite{Fisicaro}, l'operazione di differenziazione del prodotto applicata al singolo elemento cavo mostra che la matrice di rigidezza tangente elementare $T_e$ è definita come la derivata prima del vettore delle forze elastiche nodali rispetto alle coordinate dei nodi stessi, sviluppata tramite la regola di derivazione delle funzioni composte:
+Poichè il vettore globale delle forze peso $\underline{f}_g$ dipende esclusivamente dalle proprietà geometriche e materiali definite nella configurazione di riferimento, esso risulta del tutto indipendente dallo stato cinematico corrente del sistema; la sua derivata rispetto alle posizioni attuali è pertanto nulla ($\partial f_{g,i} / \partial x_j = 0$).
+Allo stesso tempo, il termine $\frac{\partial (S_i(\underline{x})\underline{x})}{\partial x_j}$ esprime la variazione del vettore delle forze interne elastiche globali rispetto alle coordinate correnti. Coerentemente con la formulazione introdotta in Fisicaro \cite{Fisicaro}, l'operazione di differenziazione del prodotto applicata al singolo elemento cavo mostra che la matrice di rigidezza tangente elementare $T_e$ è definita come la derivata prima del vettore delle forze elastiche nodali rispetto alle coordinate dei nodi stessi, sviluppata tramite la regola di derivazione delle funzioni composte:
 \begin{equation}
    T_e(\underline{x}_e) = \frac{\partial (S_e \underline{x}_e)}{\partial \underline{x}_e} = S_e + \frac{\partial S_e}{\partial \underline{x}_e} \underline{x}_e
    \label{eq:rigidezza_meccanica_geometrica}
 \end{equation}
-Questo approccio analitico, basato sulla scomposizione della rigidezza tangente come somma del contributo secante attuale $S_e$ e del contributo dovuto alla variazione geometrica $\frac{\partial S_e}{\partial \underline{x}_e} \underline{x}_e$, si inserisce nel solco della letteratura classica ed è riportato in \cite{Fisicaro}. In tale ambito, si fa riferimento all'introduzione di $T_e$ nella soluzione con il metodo di Newton-Raphson dei problemi di elasticità non lineare, aventi come incognite le coordinate nodali, in accordo con \cite{Wriggers}.
+Questo approccio analitico, basato sulla scomposizione della rigidezza tangente come somma del contributo secante attuale $S_e$ e del contributo dovuto alla variazione geometrica $\frac{\partial S_e}{\partial \underline{x}_e} \underline{x}_e$, si inserisce nel solco della letteratura classica ed è riportato in Fisicaro \cite{Fisicaro}. In tale ambito, l'introduzione di $T_e$ nella soluzione mediante il metodo di Newton-Raphson per problemi di elasticità non lineare formulati in coordinate nodali è descritta in Wriggers \cite{Wriggers}.
 
 \vspace{1em}
-Nel caso specifico dell'elemento cavo qui trattato, introducendo il legame cinematico di Green-Lagrange \eqref{eq:deformazione_green_lagrange} e la legge costitutiva \textit{tension-only} \eqref{eq:tension_only2} all'interno del termine differenziale $\frac{\partial S_e}{\partial \underline{x}_e} \underline{x}_e$, l'esplicitazione di tale derivata conduce direttamente, come dimostrato in \cite{Fisicaro} nell'appendice A, alla formulazione compatta della matrice di rigidezza tangente elementare presentata nell'equazione \eqref{eq:matrice_tangente2}. In essa, la dipendenza dallo stato cinematico corrente rimane condensata implicitamente nel solo parametro della lunghezza nominale $l_e$.
+Nel caso specifico dell'elemento cavo qui trattato, introducendo il legame cinematico di Green-Lagrange \eqref{eq:deformazione_green_lagrange} e la legge costitutiva \textit{tension-only} \eqref{eq:tension_only2} all'interno del termine differenziale $\frac{\partial S_e}{\partial \underline{x}_e} \underline{x}_e$, l'esplicitazione di tale derivata conduce direttamente, come dimostrato in Fisicaro \cite{Fisicaro} nell'appendice A, alla formulazione compatta della matrice di rigidezza tangente elementare presentata nell'equazione \eqref{eq:matrice_tangente2}. In essa, la dipendenza dallo stato cinematico corrente rimane condensata implicitamente nel solo parametro della lunghezza nominale $l_e$.
 
-Poichè l'operatore globale delle forze interne è ottenuto per assemblaggio lineare dei contributi dei singoli elementi tramite la relazione \eqref{eq:matrice_rigidezza}, la differenziazione del sistema globale coincide esattamente con la matrice di rigidezza tangente totale della rete, $T(\underline {x})$. Ne consegue che la matrice Jacobiana del problema statico equivalga alla matrice di rigidezza tangente globale, e le sue componenti possono essere espresse semplicemente come:
+Poichè l'operatore globale delle forze interne è ottenuto per assemblaggio lineare dei contributi dei singoli elementi tramite la relazione \eqref{eq:matrice_rigidezza}, la differenziazione del residuo statico definisce la matrice di rigidezza tangente della rete $T(\underline{x})$. Ne consegue che la matrice del sistema statico $K(\underline{x})$ coincide con la matrice di rigidezza tangente della rete, e le sue componenti possono essere espresse semplicemente come:
 \begin{equation}
-   J_{ij}(\underline{x}) = \frac{\partial (S_i(\underline{x})\underline{x})}{\partial x_j} = T_{ij}(\underline{x}),
+   K_{ij}(\underline{x}) = \frac{\partial (S_i(\underline{x})\underline{x})}{\partial x_j} = T_{ij}(\underline{x}),
    \qquad i,j = 1,\dots,2n.
    \label{eq:jacobiana_componenti2}
 \end{equation}
@@ -972,10 +984,10 @@ Nonostante gli scopi strutturali dell'elemento siano differenti nei due scenari,
 
 Poichè la formulazione matematica elementare non richiede variazioni nel passaggio al modello tridimensionale, l'obiettivo principale in tale circostanza è stato quello di sviluppare degli strumenti per mezzo dei quali poter valutare una vasta gamma di casistiche reali e rispondere alle principali richieste in campo tecnico come già accenato all'interno del capitolo 1, agendo su alcuni aspetti fondamentali: 
 \begin{itemize}
-   \item \textbf{Geometria della maglia (\textit{mesh pattern}):} nei sistemi di protezioni regolati dalla norma \cite{EN1263-1}, la geometria della maglia può assumere due pattern distinti: a maglie quadrate (\textit{squared mesh}, contraddistinta dalla lettera Q) o a maglie a forma di diamante (\textit{diamond mesh}, D). L'architettura del codice consente tuttavia la specializzazione verso geometrie arbitrarie in ottica di consentire l'ottimizzazione nell'ambito della progettazione meccanica delle reti; a tal proposito, vengono riportati anche i risultati relativi a reti a base quadrata con elementi fune disposti lungo le diagonali principali. La gestione dell'assemblaggio dei FE avviene per mezzo della matrice di connettività, definita in funzione della geometria scelta, che verrà approfondita nelle sezioni successive. 
+   \item \textbf{Geometria della maglia (\textit{mesh pattern}):} nei sistemi di protezioni regolati dalla norma EN 1263-1\cite{EN1263-1}, la geometria della maglia può assumere due pattern distinti: a maglie quadrate (\textit{squared mesh}, contraddistinta dalla lettera Q) o a maglie a forma di diamante (\textit{diamond mesh}, D). L'architettura del codice consente tuttavia la specializzazione verso geometrie arbitrarie in ottica di consentire l'ottimizzazione nell'ambito della progettazione meccanica delle reti; a tal proposito, vengono riportati anche i risultati relativi a reti a base quadrata con elementi fune disposti lungo le diagonali principali. La gestione dell'assemblaggio dei FE avviene per mezzo della matrice di connettività, definita in funzione della geometria scelta, che verrà approfondita nelle sezioni successive. 
    \item \textbf{Vincoli esterni (\textit{supports}):} al fine di riprodurre le reali modalità di serraggio e vincolo applicate ai nodi perimetrali della rete, il comportamento dei supporti è stato idealizzato tramite vincoli cinematici rigidi (come cerniere fisse) o parzialmente cedevoli (come cerniere mobili). Oltre alla natura intrinseca del vincolo, il solutore permette di modificarne la disposizione geometrica lungo il perimetro per mezzo di schemi preconfigurati (ad esempio vincoli differenti a seconda del lato di perimetro che si vuole vincolare), consententendo l'analisi meccanica di reti parzialmente vincolate o sospese esclusivamente in corrispondenza dei vertici. 
-   \item \textbf{Disomogeneità meccanica dei cavi:} in conformità con le prescrizioni tecniche della norma \cite{EN1263-1} le reti impiegate possono essere dotate di una fune di bordo (\textit{border rope}). Per riprodurre questa disomogeneità di rigidezza tra le funi di maglia, di bordo e di diagonale, il codice gestisce la variazione delle proprietà meccaniche tramite la modulazione dell'area della sezione trasversale $A$. Tale sezione viene assunta idealmente come circolare e governata analiticamente per mezzo di un raggio fittizio $r$, consentendo così la differenziazione meccanica a livello del singolo elemento fune. La definizione di tali proprietà geometriche avviene nel solutore attraverso configurazioni prestabilite, strutturate per analizzare scenari caratterizzati da rigidezze assiali differenti: elementi a sezione uniforme su tutto il dominio, sezioni differenziate tra maglia interna e funi di bordo, ed infine un modello che distingue tra funi di maglia, di bordo e diagonali strutturali. 
-   \item \textbf{Lunghezza dei lati della rete:} un parametro fondamentale per lo svolgimento della prova di assorbimento statico dell'energia da parte di una rete, come specificato in \cite{EN1263-1}, è l'abbassamento iniziale massimo dovuto al solo peso proprio della rete (\textit{sag}), il quale deve attestarsi su un valore pari a $5 \pm 1 cm$. Poichè lo standard normativo prevede che la rete sia posizionata in opera senza l'applicazione di un pretensionamento iniziale, l'unico parametro geometrico che consente di calibrare questa freccia flessionale è il rapporto tra la lunghezza effettiva dei lati della rete a riposo ($L_x$ e $L_y$), e la distanza tra i bordi vincolati ($l_x$ e $l_y$). Come espresso nel Capitolo 1, l'indagine si limita a domini a base rettangolare o quadrata, a seguito della maggior richiesta sul mercato. Il problema computazionale si riduce, pertanto, alla valutazione e alla taratura della tolleranza geometrica da adottare sulle lunghezze dei lati affinchè l'abbassamento ottenuto rientri nel range normativo.    
+   \item \textbf{Disomogeneità meccanica dei cavi:} in conformità con le prescrizioni tecniche della norma EN 1263-1\cite{EN1263-1} le reti impiegate possono essere dotate di una fune di bordo (\textit{border rope}). Per riprodurre questa disomogeneità di rigidezza tra le funi di maglia, di bordo e di diagonale, il codice gestisce la variazione delle proprietà meccaniche tramite la modulazione dell'area della sezione trasversale $A$. Tale sezione viene assunta idealmente come circolare e governata analiticamente per mezzo di un raggio fittizio $r$, consentendo così la differenziazione meccanica a livello del singolo elemento fune. La definizione di tali proprietà geometriche avviene nel solutore attraverso configurazioni prestabilite, strutturate per analizzare scenari caratterizzati da rigidezze assiali differenti: elementi a sezione uniforme su tutto il dominio, sezioni differenziate tra maglia interna e funi di bordo, ed infine un modello che distingue tra funi di maglia, di bordo e diagonali strutturali. 
+   \item \textbf{Lunghezza dei lati della rete:} un parametro fondamentale per lo svolgimento della prova di assorbimento statico dell'energia da parte di una rete, come specificato nella norma EN 1363-1\cite{EN1263-1}, è l'abbassamento iniziale massimo dovuto al solo peso proprio della rete (\textit{sag}), il quale deve attestarsi su un valore pari a $5 \pm 1 cm$. Poichè lo standard normativo prevede che la rete sia posizionata in opera senza l'applicazione di un pretensionamento iniziale, l'unico parametro geometrico che consente di calibrare questa freccia flessionale è il rapporto tra la lunghezza effettiva dei lati della rete a riposo ($L_x$ e $L_y$), e la distanza tra i bordi vincolati ($l_x$ e $l_y$). Come espresso nel Capitolo 1, l'indagine si limita a domini a base rettangolare o quadrata, a seguito della maggior richiesta sul mercato. Il problema computazionale si riduce, pertanto, alla valutazione e alla taratura della tolleranza geometrica da adottare sulle lunghezze dei lati affinchè l'abbassamento ottenuto rientri nel range normativo.    
 \end{itemize}
 
 \subsection{Topologia strutturale e matrice di connettività}\label{chap:connettività}
@@ -1003,7 +1015,7 @@ dove:
 \end{figure}
 
 
-A titolo esemplificativo, consideriamo le mesh pattern standard $Q$ e $D$ previste dalla norma \cite{EN1263-1} e riportate in \cref{fig:pattern_mesh}. Per entrambe le configurazioni, l'ordinamento lessicografico definisce la sequenza con cui avviene la numerazione dei nodi della maglia, sebbene venga declinato secondo logiche di scansione differenti: 
+A titolo esemplificativo, consideriamo le mesh pattern standard $Q$ e $D$ previste dalla norma EN 1263-1 \cite{EN1263-1} e riportate in \cref{fig:pattern_mesh}. Per entrambe le configurazioni, l'ordinamento lessicografico definisce la sequenza con cui avviene la numerazione dei nodi della maglia, sebbene venga declinato secondo logiche di scansione differenti: 
 \begin{itemize}
    \item nel caso di \textit{squared mesh} (Q), l'ordine lessicografico segue una scansione cartesiana standard per righe e colonne parallele agli assi principali del dominio di posa della rete. In questa configurazione, ogni intersezione della griglia corrisponde univocamente a un nodo strutturale e ad un incrocio di filamenti ortogonali, come rappresentato nel grafo di \cref{fig:grafo_squared};
    \item nel caso di \textit{diamond mesh} (D), l'ordinamento definisce la medesima disposizione spaziale dei nodi, ma la matrice di connettività viene modificata per mappare l'orientamento inclinato a rombo dei singoli elementi fune. Al fine di descrivere la caratteristica alternanza geometrica a scacchiera senza altere la mappatura dei nodi, la procedura attraverso cui viene compilata la matrice di connettività opera distinguendo la parità della somma degli indici di riga e colonna $(i + j)$. Gli elementi interni vengono così tesi lungo le diagonali geoemetriche dei quadrati logici, mentra gli elementi perimetrali di bordo vengono generati campionando i nodi con passo doppio, garantendo la perfetta chiusura dei triangoli esterni (vedi \cref{fig:grafo_diamond}).

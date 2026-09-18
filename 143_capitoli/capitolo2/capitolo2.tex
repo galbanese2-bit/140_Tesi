@@ -521,7 +521,7 @@ E \, e_{11}, & \text{se } e_{11} \geq 0 \\[6pt]
 \end{equation}
 dove $E$ è il modulo di Young del materiale. 
 
-Assumendo funzioni di forma lineari per gli elementi, in Valvo \cite{Valvo1,Valvo2} la matrice di rigidezza elastica secante del singolo cavo $S_e \in \mathbb{R}^{6x6}$ viene espressa mediante la relazione:
+Assumendo funzioni di forma lineari per gli elementi, in Valvo \cite{Valvo1,Valvo2} la matrice di rigidezza elastica secante del singolo cavo $S_e \in \mathbb{R}^{6\times6}$ viene espressa mediante la relazione:
 \begin{equation}
    S_e(\underline{x}_e) = \sigma_{11} \frac{\overline{a}_e}{\overline{l}_e}\begin{bmatrix}
     I & -I \\
@@ -529,7 +529,7 @@ Assumendo funzioni di forma lineari per gli elementi, in Valvo \cite{Valvo1,Valv
    \end{bmatrix}
    \label{eq:matrice_secante}
 \end{equation}
-dove $\overline{a}_e$ è l'area della sezione dell'elemento, valutata in configurazione di riferimento. Allo stesso tempo, la matrice di rigidezza elastica tangente $T_e \in \mathbb{R}^{6x6}$ si ottiene differenziando le forze interne e può essere espressa come:
+dove $\overline{a}_e$ è l'area della sezione dell'elemento, valutata in configurazione di riferimento. Allo stesso tempo, la matrice di rigidezza elastica tangente $T_e \in \mathbb{R}^{6\times6}$ si ottiene differenziando le forze interne e può essere espressa come:
 \begin{equation}
    T_e\left(\underline{x}_e\right) = S_e\left(\underline{x}_e\right) + \frac{\partial \sigma_{11}}{\partial e_{11}}\frac{\overline{a}_e l_e^2}{\overline{l}_e^3} \left[\begin{matrix}
     I & -I \\
@@ -545,7 +545,7 @@ che, secondo quanto dimostrato in Fisicaro \cite{Fisicaro} può essere riscritta
    \end{matrix}\right]
 \label{eq:matrice_tangente2}
 \end{equation}  
-Dalle equazioni \eqref{eq:matrice_secante} e \eqref{eq:matrice_tangente2} la dipendenza esplicita delle matrici dal vettore delle posizioni nodali dell'elemento $\underline{x_e}$ è racchiusa implicitamente nella lunghezza nominale $l_e$. 
+Dalle equazioni \eqref{eq:matrice_secante} e \eqref{eq:matrice_tangente2} la dipendenza esplicita delle matrici dal vettore delle posizioni nodali dell'elemento $\underline{x}_e$ è racchiusa implicitamente nella lunghezza nominale $l_e$. 
 
 \vspace{1em}
 Come detto in precedenza, il modello a massa concentrata adottato prevede di ripartire la massa totale dell'elemento sui nodi di estremità. In Clough e Penzien \cite{Penzien}, la matrice di massa globale del singolo elemento $M_e \in \mathbb{R}^{6\times6}$ viene espressa come:

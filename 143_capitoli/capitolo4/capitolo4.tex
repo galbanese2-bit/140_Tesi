@@ -359,16 +359,180 @@ Le caratteristiche della rete analizzata e delle forze applicate sono riportate 
 
 \section{Reti soggette alla prova quasi statica}
 
-\subsection{Caratteristiche geometriche delle reti testate}
-\subsubsection{Geometria della rete}
+Uno degli obiettivi del presente lavoro di tesi è valutare la capacità di assorbimento dell'energia elastoplastica di una rete di dimensioni reali, così da fornire al progettista uno strumento idoneo a stimare l'esito del superamento della prova di impatto dinamico di normativa come visto nel \cref{chap:capitolo3}. Per compiere tale analisi occorre caratterizzare meccanicamente gli elementi del modello numerico e validare i risultati ottenuti mediante il confronto con prove sperimentali di laboratorio. Poiché la normativa non richiede esplicitamente la valutazione dell'assorbimento energetico del dispositivo di intercettazione, i produttori non forniscono curve forza spostamento per la rete nel suo complesso.
+
+Tuttavia, i produttori eseguono le prove quasi-statiche richieste dalle normative di settore per la caratterizzazione della rete impiegata nei vari sistemi tipologici. Tali dati sono forniti a corredo della documentazione tecnica del prodotto. Ai fini del presente lavoro di ricerca, si dispone dei risultati sperimentali relativi a una rete di geometria nota, gentilmente concessi dal retificio "La Rete Srl". Nel contesto della modellazione numerica, la prova quasi-statica costituisce la validazione e non l'input del solutore che è invece rappresentato dalle proprietà meccaniche del singolo elemento di cavo. 
+
+Le caratteristiche meccaniche del singolo filo vengono dedotte a partire dai risultati della prova di trazione sulla maglia, eseguita secondo le prescrizioni della norma EN 1263-1 \cite{EN1263-1} (con metodologie di prova di cui alla EN 1806 \cite{ENISO1806-2002}) per determinare la resistenza a trazione e l'assorbimento energetico dell'elemento fino a rottura. Tali prove di trazione sulla singola maglia sono anch'esse disponibili sottoforma di grafico forza-spostamento grazie ai dati forniti dal produttore.
+
+Il percorso di validazione prende avvio dalla definizione del legame costitutivo del singolo cavo sulla base dei dati di prova sulla maglia. Definito il comportamento $N$-$\Delta l_p$ dell'elemento, le relative proprietà vengono implementate nel solutore per riprodurre la prova quasi-statica di normativa su un provino di dimensioni $3\times3 \, \text{m}$. Il confronto positivo tra i risultati numerici e quelli sperimentali permetterà di validare il solutore e di estenere l'applicazione alla simulazione su scala reale dell'intera rete, permettendoci quindi di stimare con accuratezza ingegneristica la capacità globale di assorbimento dell'energia. 
+
+\subsection{Caratterizzazione maccanica delle funi}
+Al fine di caratterizzare il degrado delle caratteristiche meccaniche prodotto dall'invecchiamento naturale sulle reti poste in opera, la normativa EN 1263-1 \cite{EN1263-1} prevede che la capacità di assorbimento dell'energia della maglia di rete mediante test di trazione prodotto in accordo con la normativa EN ISO 1806 \cite{ENISO1806-2002}, sia determinata ad intervalli temporali prescritti e confrontata con lo stesso risultato ottenuto però allo stato come nuovo per la stessa rete. In tal modo è possibile così valutare il rispetto da parte del dispositivo delle previsioni in tema di degrado delle caratteristiche meccaniche poste inizialmente. Perciò i produttori dei sistemi di intercettazione dei dispositivi di protezione forniscono i valori di assorbimento dell'energia di una maglia di rete posta in trazione allo stato nuovo.
+
+Il principio della prova definita dalla norma EN ISO 1806 prevede di estendere una maglia di rete fino a quando uno dei nodi o dei giunti (presenti agli angoli della maglia) raggiungono la forza di rottura. La prova è compiuta per mezzo di un apparato di test che registra la forza applicata e lo spostamento relativo compiuto dalle estremità a cui la maglia è attaccata. 
+
+Non essendo completamente a conoscenza delle condizioni di prova con cui è stato ricavato il risultato grafico fornitoci dal produttore mediante il rapprto di prova i cui risultati sono riportati nella figura FARE RIFERIMENTO ALLA FIGURA, assumendo che le prove siano state eseguite in conformità con le prescizioni di norma, si assumerà, in accordo con le figure,  che la lunghezza iniziale del provino $\bar{l}_p$ sia pari a:
+\begin{equation}
+    \bar{l}_p = 2l_m - \frac{P_p}{2}
+\end{equation}
+considerato che la normativa EN ISO 1806 \cite{ENISO1806-2002} impone che il diametro del perno sia pari a $d_p = 2,0\,\text{cm}$, allora ne segue che per una maglia con lunghezza dei lati dichiarata di $l_m = 10 \, \text{cm}$, si avrà che $\bar{l}_p = 16,86 \, \text{cm}$.  
+
+Dai dati in nostro possesso risulta quindi chiaro che non siano noti né il legame costitutivo di un elemento di rete impiegato nel modello, ma di un elemento di rete differente con lunghezza $l_p$ e area di sezione $A_p$ note, nè di un legame costitutivo, $\sigma - \epsilon$ come definito nel capitolo \cref{chap:capitolo2}, necessario per applicare la formulazione del PFEF presentata.
+
+\subsection{Linearizzazione a tratti del legame}
+
+\subsubsection{Approssimazione bilineare/trilineare/quadrilineare}
+
+\subsubsection{Caratterizzazione meccanica dell'elemento di fune}
+La legge costitutiva forza-allungamento $N(\Delta lp)$ è ricavata sperimentalmente su un provino di lunghezza $l_p$ e area resistente $a_p$. Per ottenere la corrispondente legge dell'elemento generico della rete, di lunghezza iniziale $l_e$ e area $a_e$, si applica una scalatura diretta basata sull'allungamento. 
+
+Poichè lo \textit{stretch} $\lambda$ di un elemento sottoposto a solo sforzo normale monoassiale è adimensionale e definito come:
+\begin{equation}
+    \lambda =  \frac{l}{\bar{l}}
+\end{equation}
+Allora tale misura della variazione di lunghezza tra le due configurazioni è invariante rispetto all'elemento a cui è applicata, per cui: 
+\begin{equation}
+    \lambda = \lambda_p = \lambda_e
+\end{equation}
+Essendo la componente del tensore delle deformazioni di Green-Lagrange in direzione assiale dell'asta, esprimibile in funzione dello \textit{stretch}:
+\begin{equation}
+    e_{11} = \frac{1}{2} \frac{l_e^2 - \bar{l}_e^2}{\bar{l}_e^2} = \frac{1}{2} (\lambda^2 - 1)
+\end{equation}
+possiamo concludere che:
+\begin{equation}
+     e_{11} = e_{11,e} = e_{11,p} 
+\end{equation}
+Rircordando l'espressione della deformazione di Green-Lagrange ed imponendo l'uguaglianza si ottiene che: 
+\begin{equation}
+    \frac{\Delta l_p}{l_p} = \frac{\Delta l_e}{l_e}
+\end{equation}
+Perciò risulta che: 
+\begin{equation}
+    \Delta l_e = \Delta l_p \frac{l_e}{l_p} 
+\end{equation}
+La forza assiale invece può essere scalata, in virtù della definizione dello sforzo normale, considerando che la componente del secondo tensore di Piola-Kirchhoff è dipendente solamente dalla misura di deformazione di Green-Lagrange, secondo la relazione: 
+\begin{equation}
+    N = \bar{a} \, s_{11}(e_{11})\lambda
+    \label{eq:N_s_11}
+\end{equation}
+Dall'equivalenza della componente del secondo tensore di Piola-Kirchhoff, a fronte dello stesso valore della componente di deformazione del tensore di Green-Lagrange, otteniamo la seguente relazione:
+\begin{equation}
+    N_e = N_p \, \frac{\bar{a}_e}{\bar{a}_p} 
+\end{equation}
+Di conseguenza, il valore di rigidezza tangente dell'elemento può essere espressa in funzione del valore di rigidezza tangente del provino, secondo la relazione:
+\begin{equation}
+    k_{e} = k_{p} \, \frac{\bar{a}_e \bar{l}_p}{\bar{a}_p \bar{l}_e}  
+\end{equation}
+
+La legge costitutiva sperimentale dell'elemento è adesso espressa come relazione forza-allungamento $N(\Delta l_e)$, dove $\Delta l_e = l_e -\bar{l}_e$ rappresenta la differenza di lunghezza dell'elemento in configurazione di riferimento, rispetto alla configurazione corrente. Nella formulazione del PFEF che adotteremo, tuttavia, lo sforzo normale è espresso rispetto allo \textit{stretch}. Il passaggio da $\Delta l_e$ a $\lambda$ è immediato, poiché:
+\begin{equation}
+    \Delta l_e = \bar{l}_e\left(\lambda - 1 \right)
+\end{equation}
+Pertanto, la legge costitutiva può essere riscritta come: 
+\begin{equation}
+    N_e\left(\Delta l_e\right) = N(\bar{l}_e\left(\lambda - 1 \right))
+\end{equation}
+La riscrittura della legge in funzione di $\lambda$ consente inoltre di ottenere in modo diretto la rigidezza tangente rispetto allo \textit{stretch}:
+\begin{equation}
+    k_{\lambda} = \frac{dN}{d\lambda} = \frac{dN}{d(\Delta l)} \frac{d(\Delta l)}{d\lambda} = k \, \bar{l}
+\end{equation}
+Che per l'elemento $e$-esimo della rete di funi assume la forma: 
+\begin{equation}
+    k_{e,\lambda} = k_e \, \bar{l}_e
+    \label{eq:k_lambda}
+\end{equation}  
+
+\subsection{Formulazione alternativa dell'elemento cavo PFEF}
+La formulazione del PFEF vista precedentemente nel \cref{chap:capitolo2} esprimeva le matrici di rigidezza secante e tangente dell'elemento $e$-esimo del sistema sotto le ipotesi di un legame costitutivo $\sigma$-$\epsilon$ elastico lineare sotto l'ipotesi di piccoli spostamenti. Data la necessità di esprimere il PFEF in funzione del legame costitutivo dell'elemento cavo rispetto allo \textit{stretch} e di eliminare l'ipotesi di piccole deformazioni, è quindi necessario procedere ad una nuova formulazione dell'elemento cavo da impiegare all'interno della formulazione del PFEF descritta in Valvo \cite{Valvo1,Valvo2}. 
+
+In Valvo \cite{Valvo1,Valvo2}, assumendo funzioni di forma lineari per gli elementi, la matrice di rigidezza elastica secante $S_e \in \mathbb{R}^{6\times6}$ e la matrice di rigidezza elastica tangente $T_e \in \mathbb{R}^{6\times6}$ sono espresse come segue: 
+\begin{equation}
+   S_e(\underline{x}_e) = s_{11} \, \frac{\bar{a}_e}{\bar{l}_e} \left[ \Delta \right]
+   \label{eq:matrice_secante_gd}
+\end{equation}
+\begin{equation}
+   T_e\left(\underline{x}_e\right) = S_e\left(\underline{x}_e\right) + C_{1111} \frac{\overline{a}_e}{\overline{l}_e^3} \left[ \Delta \right]\,\underline{x}_e {\underline{x}_e}^T \left[ \Delta \right] 
+   \label{eq:matrice_tangente_gd}
+\end{equation}
+dove $C_{1111}$ è definito come: 
+\begin{equation}
+    C_{1111} = \frac{\partial^2 \bar{\varphi}}{{\partial e_{11}}^2}
+\end{equation}
+Ricordando che l'espressione della componente del secondo tensore di Piola-Kirchhoff può essere espressa come: 
+\begin{equation}
+    s_{11} = \frac{\partial \bar{\varphi}}{\partial e_{11}}
+\end{equation}
+Allora: 
+\begin{equation}
+    C_{1111} = \frac{\partial s_{11}}{\partial e_{11}}
+\end{equation}
+che per la regola della catena può essere scritto:
+\begin{equation}
+    C_{1111} = \frac{\partial s_{11}}{\partial \lambda}\frac{\partial \lambda}{\partial e_{11}}
+    \label{eq:C1111}
+\end{equation}
+
+Esprimendo $s_{11}$ secondo l'equazione \eqref{eq:N_s_11} e compiendo le derivate si arriva all'espressione:
+ \begin{equation}
+    C_{1111} = \frac{1}{\lambda} \frac{\partial s_{11}}{\partial \lambda} = \frac{1}{\bar{a}_e{\lambda}^3} \left( \frac{\partial N(\lambda)}{\partial \lambda} \lambda - N(\lambda)\right)
+    \label{eq:C1111_2}
+\end{equation}
+Sostituendo nell'espressione \eqref{eq:matrice_tangente_gd}, le espressioni delle matrici di rigidezza elastica secante e tangente assumono la forma: 
+\begin{equation}
+   S_e(\underline{x}_e) = \frac{N(\lambda)}{l_e} \left[ \Delta \right]
+   \label{eq:matrice_secante_gd2}
+\end{equation}
+\begin{equation}
+   T_e\left(\underline{x}_e\right) = S_e\left(\underline{x}_e\right) +  \frac{K(\lambda)\lambda - N(\lambda)}{l_e^3}\,[\Delta]\underline{x}_e\underline{x}_e^T[\Delta]
+   \label{eq:matrice_tangente_gd_2}
+\end{equation}
+
+Assumendo un legame costitutivo lineare a tratti in funzione del valore $\lambda_1$ può essere espresso come: 
+\begin{equation}
+   N(\lambda_1) = 
+\begin{cases}
+    0 \,  & \text{se } \lambda_1 \leq 0 \\[6pt]
+    K_1    \, \lambda_1, & \text{se } \lambda_{y1} \geq \lambda_1 \geq 0 \\[6pt]
+    \dots\\[6pt]
+    N(\lambda_{yT-1}) + K_T    \, (\lambda_1 - \lambda_{yT-1}), & \text{se } \lambda_{yT} \geq \lambda_1 \geq \lambda_{yT-1} \\[6pt]
+    N(\lambda_{yT}) + K_{T+1}  \, (\lambda_1 - \lambda_{yT})  & \text{negli altri casi } 
+\end{cases}
+\label{eq:tension_only2_gd}
+\end{equation}
+Allora la derivata parziale dello sforzo normale $N(\lambda_1)$ rispetto a $\lambda_1$ diventa: 
+\begin{equation}
+    K(\lambda_1) = 
+\begin{cases}
+    0 \,    & \text{se } \lambda_1 \leq 0 \\[6pt]
+    K_1     & \text{se } \lambda_{y1} \geq \lambda_1 \geq 0 \\[6pt]
+    \dots\\[6pt]
+    K_T     & \text{se } \lambda_{yT} \geq \lambda_1 \geq \lambda_{yT-1} \\[6pt]
+    K_{T+1} & \text{negli altri casi } 
+\end{cases}
+\label{eq:tension_only2_gd_k}
+\end{equation}
+e l'espressione \eqref{eq:matrice_tangente_gd_2} assume la forma: 
+\begin{equation}
+   T_e\left(\underline{x}_e\right) = S_e\left(\underline{x}_e\right) + \frac{\left( K_T - N(\lambda)\right)}{l_e^3} \left[ \Delta \right]\underline{x}_e\underline{x}_e^T[\Delta]
+   \label{eq:matrice_tangente_gd_4}
+\end{equation}
+Ponendo che:
+\begin{equation}
+    \underline{n}_e = \frac{1}{l_e} \left[ \Delta \right] \underline{x}_e 
+    \label{eq:prodotto_esterno}
+\end{equation}
+Introducendo le espressioni \eqref{eq:k_lambda} \eqref{eq:matrice_secante_gd} e \eqref{eq:prodotto_esterno}, otteniamo che:
+\begin{equation}
+   T_e\left(\underline{x}_e\right) = \frac{N(\lambda)}{l_e} \left[ \Delta \right] + \frac{\left( k_e l_e - N(\lambda)\right)}{l_e} \underline{n}_e \underline{n}_e^T
+   \label{eq:matrice_tangente_gd_5}
+\end{equation}
+
+
+
 \subsubsection{Condizioni di vincolo}
 \subsubsection{Configurazione iniziale}
 
-\subsection{Caratteristiche meccaniche della rete testata}
-
-\subsection{Percorso di carico}
-
-\subsection{Confronto tra i risultati numerici e quelli sperimentali}
 
 
 

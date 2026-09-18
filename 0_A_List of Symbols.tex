@@ -1,0 +1,136 @@
+\chapter*{List of Symbols}
+\addcontentsline{toc}{chapter}{List of Symbols}
+\markboth{List of Symbols}{List of Symbols}
+
+In this work, lowercase letters are generally used for scalar quantities and vectors; vectors are distinguished from scalars by an underline. Capital, Latin letters are used for matrices. Few exceptions to this rule are present to maintain the commonly adopted capitals letters for some scalar quantities (the Young's modulus, for instance). A special font is used to identify the work, the energy, and the potentials. An overline is also used when the quantity is evaluated in a special configuration, generally the reference one.
+
+\section*{Operators}
+
+\begin{tabular}{cp{0.8\textwidth}}
+
+    $\Delta$        & finite difference \\
+    $d$             & differential and derivative symbol  \\
+    $\partial$      & partial derivative symbol \\
+    $\dot{a}$       & differentiation of $a$ with respect to time \\
+    $a \, '$        & differentiation of $a$ with respect the curvilinear coordinate \\
+    $\| \vec{a} \|$ & norm of the vector $\vec{a}$ \\
+    $ a^* $         & predicted value of $a$ in a predictor--corrector algorithm \\
+    \textsuperscript{t} & transpose operator \\
+    $\otimes$       & dyadic product \\
+    $\wedge$        & vector product \\
+    $ A^{+} $       & Moore-Penrose pseudoinverse of $ A $
+\end{tabular}\\
+
+\section*{Indexes}
+
+\begin{tabular}{cp{0.8\textwidth}}
+  $\alpha$ & index used to identify the component of a vector in the \mbox{$ x_{\alpha} $-coordinate direction}, with $\alpha = 1, 2 ,3 $ \\  
+  $e$ & index of the $e^{th}$ element, with $ e = 1, ..., m$ \\
+  $h$ & index of the $h^{th}$ component of a column vector \\
+  $i$ & index of the $i^{th}$ node, with $ i = 1, ..., n$ \\
+  $j$ & index of the $j^{th}$ node, with $ j = 1, ..., n$ \\
+  $k$ & index of the $k^{th}$ time step \\
+  $m$ & number of elements \\
+  $n$ & number of nodes
+\end{tabular}\\
+
+\section*{Latin alphabet}
+\begin{tabular}{cp{0.8\textwidth}}
+  \textit{0} &  null matrix, with $ \textit{0} \in \mathbb{R}^{3 \times 3}$ \\
+  $ a_e $ & cross section of the $e^{th}$ element, with $a_e \in \mathbb{R}$ \\
+  $ \bar{a}_e $ & cross section of the $e^{th}$ element in the reference configuration, with $\bar{a}_e \in \mathbb{R}$ \\
+  $ A_e $ & assembly matrix of the $e^{th}$ element, with  $ A_e \in \mathbb{R}^{6 \times 3n} $ \\
+  $D$ & damping matrix for the net, with $ D \in \mathbb{R}^{3n \times 3n} $ \\
+  % \textit{\DJ} & subtraction matrix, with \textit{\DJ} $\in \mathbb{R}^{6 \times 6} $ \\ 
+  $d_t$ & distance between the centres of mass of the chaser satellite and the target, with $d_t \in \mathbb{R} $\\
+  $\mathbb{E}$ & the Euclidean space, diffeomorphic to $\mathbb{R}^3$ \\
+  $E$ & Young's modulus of the cable material, with $E \in \mathbb{R} $ \\
+  $\mathcal{E}_T$ & total mechanical energy of the net, with $\mathcal{E}_T \in \mathbb{R}$ \\
+  $ \vec{e}_{\, \alpha} $ & with $\alpha = 1, 2, 3$ - unit vectors in the direction of the $x$, with $y$, and $z$ axes, respectively, with $\vec{e}_{\, \alpha} \in \mathbb{R}^{3} $ \\
+  $ \vec{e}_{\, r} $ & unit vectors in the radial direction in a spherical coordinate system, with $\vec{e}_{\, r} \in \mathbb{R}^{3} $ \\
+  $ e_{11} $ & component of the Green-Lagrange strain tensor in the axial direction of the element, with $e_{11} \in \mathbb{R}$\\
+  $ \vec{f} $ & vector of equality constraints, with $\vec{f} \in \mathbb{R}^{n} $ \\
+  $ \vec{g} $ & vector of inequality constraints, with $\vec{g} \in \mathbb{R}^{n} $ \\
+  $ I $ &  Identity matrix, with $ I \in \mathbb{R}^{3 \times 3}$ \\
+  $ J $ &  Jacobian matrix, with $ J \in \mathbb{R}^{n \times 3 n}$ \\
+  $ \mathcal{K} $ & kinetic energy of the net, with $\mathcal{K} \in \mathbb{R}$ \\
+  $ \mathcal{L} $ & Lagrangian function, with $\mathcal{L} \in \mathbb{R}$ \\  
+  $ l_e $ & nominal length of the $e^{th}$ element, defined as the distance between its end nodes, with $l_e \in \mathbb{R}$ \\
+  $ \bar{l}_e $ & nominal length of the $e^{th}$ element in the reference configuration, with $\bar{l}_e \in \mathbb{R}$ \\
+  $ L_i $ & localisation matrix of the $i^{th}$ node, with $ L_i \in \mathbb{R}^{3 \times 3n} $ \\
+  $ m_T $ & total mass of the net, with $m_T \in \mathbb{R}$ \\
+  $\vec{p}$ & vector of nodal loads, with $ \vec{p} \in \mathbb{R}^{3n}$ \\
+  $ \vec{Q} $ & linear momentum of the net, with $ \vec{Q} \in \mathbb{R}^{3} $ \\
+  $ \vec{q} $ & generalized coordinates, with $ \vec{q} \in \mathbb{R}^{3n + 2n} $ \\
+  $\mathcal{R}$ & Rayleigh dissipation function, with $\mathcal{R} \in \mathbb{R}$ \\
+  $\mathbb{R}$ & set of real numbers \\
+  $\vec{r}$ & position vector with respect to the centre of the Earth, with $ \vec{r} \in \mathbb{R}^{3n}$ \\
+  $\Delta \vec{r}$ & residuals, with $ \Delta \vec{r} \in \mathbb{R}^{3n}$ \\
+  $r_t$ & radius of the spherical target, with $r_t \in \mathbb{R} $ \\
+  $ \vec{s} $ & slack variables, with $ \vec{s} \in \mathbb{R}^{n} $ \\
+  $ S $ & secant elastic stiffness matrix for the net, with $ S \in \mathbb{R}^{3n \times 3n} $ \\
+  $ S_e $ & secant elastic stiffness matrix for the $e^{th}$ element, with $ S_e \in \mathbb{R}^{6 \times 6} $ \\
+  $t$ & time, with $t \in \mathbb{R} $ \\
+  $ T $ & tangent elastic stiffness matrix for the net, with $ T \in \mathbb{R}^{3n \times 3n} $ \\
+  $ T_e $ & tangent elastic stiffness matrix for the $e^{th}$ element, with $ T_e \in \mathbb{R}^{6 \times 6} $ \\
+\end{tabular}\\
+
+\pagebreak
+
+\begin{tabular}{cp{0.8\textwidth}}
+  $ \mathcal{U} $ & elastic potential energy of the net, with $\mathcal{U} \in \mathbb{R}$ \\
+  $ \mathcal{U}_{e} $ & elastic potential energy of the $e^{th}$ element, with $\mathcal{U}_e \in \mathbb{R}$ \\
+  $ \mathcal{U}_t $ & potential energy of the net, with $\mathcal{U}_t \in \mathbb{R}$ \\
+  $ \mathcal{V} $ & potential related to conservative forces, with $\mathcal{V} \in \mathbb{R}$ \\
+  $\vec{v}$ & vector of nodal velocities, with $ \vec{v} \in \mathbb{R}^{3n}$ \\
+  $\vec{v}_{\,0}$ & vector of nodal velocities at time $ t = 0$, with $ \vec{v}_{\,0} \in \mathbb{R}^{3n}$ \\
+  $\vec{v}_{\,G}$ & velocity of the centre of mass, with $ \vec{x}_{\,G} \in \mathbb{R}^3$ \\
+  $ \mathcal{W}_d $ & work of the damping forces, with $\mathcal{W}_d \in \mathbb{R}$ \\
+  $x_1$ & Cartesian coordinate, with $x_1 \in \mathbb{R}$ \\
+  $x_2$ & Cartesian coordinate, with $x_2 \in \mathbb{R}$ \\
+  $x_3$ & Cartesian coordinate, with $x_3 \in \mathbb{R}$ \\
+  $\vec{x}$ & vector of nodal positions, with $ \vec{x} \in \mathbb{R}^{3n}$ \\
+  $\vec{x}_{\,0}$ & vector of nodal positions at time $ t = 0$, with $ \vec{x}_{\,0} \in \mathbb{R}^{3n}$ \\
+  $\vec{x}_{\,e}$ & nodal position vector of the $e^{th}$ element, with $ \vec{x}_{\,e} \in \mathbb{R}^6$ \\
+  $\vec{x}_{\,G}$ & position vector of the centre of mass, with $ \vec{x}_{\,G} \in \mathbb{R}^3$ \\
+  $\vec{x}_{\,i}$ & position vector of the $i^{th}$ node, with $ \vec{x}_{\,i} \in \mathbb{R}^3$\\
+\end{tabular}\\
+
+\section*{Greek alphabet}
+
+\begin{tabular}{cp{0.8\textwidth}}
+  $ \alpha_d $ & constant of proportionality with the mass for Rayleigh damping, with $\alpha_d \in \mathbb{R}$ \\
+  $ \beta_d  $ & constant of proportionality with the stiffness for Rayleigh damping, with $\beta_d \in \mathbb{R}$ \\
+  $ \beta $ & weighting parameter in the $\beta$-Newmark method, with $\beta \in \mathbb{R}$ \\
+  $\bar{\varphi}$ & strain energy density evaluated in the reference configuration, with $\bar{\varphi} \in \mathbb{R}$ \\
+  $ \gamma $ & weighting parameter in the $\beta$-Newmark method, with $\gamma \in \mathbb{R}$ \\
+  $\vec{\lambda}$ & Lagrange multipliers, with $\vec{\lambda} \in \mathbb{R}^n $ \\
+  $ \nu $ & Poisson's ratio, with $\nu \in \mathbb{R}$ \\
+  $ \nu_i $ & modulus of the relative velocity of the $i^{th}$ node with respect to the centre of mass of the net, with $\nu_i \in \mathbb{R}$ \\
+  $ \rho_e $ & density of the material constituting the $e^{th}$ element, with $\rho_e \in \mathbb{R}$ \\
+  $ \bar{\rho}_e $ & density of the material constituting the $e^{th}$ element, measured in the reference configuration, with $\bar{\rho}_e \in \mathbb{R}$ \\
+  $ \sigma_{11} $ & PK2 axial stress in the cable, with $\sigma_{11} \in \mathbb{R}$ \\
+  $ \xi_i $ & modulus of the relative distance of the $i^{th}$ node with respect to the centre of mass of the net, with $\xi_i \in \mathbb{R}$ \\ 
+  $\Omega$ & current configuration of a body, with $\Omega \subset \mathbb{E}$ \\
+  $\bar{\Omega}$ & reference configuration of a body, with $\bar{\Omega} \subset \mathbb{E}$ \\
+\end{tabular}\\
+
+\section*{Acronyms}
+\begin{tabular}{lp{0.8\textwidth}}
+    ADR         & Active Debris Removal \\
+    ANCF        & Absolute Nodal Coordinate Formulation \\
+    ESA         & European Space Agency \\
+    FE          & Finite Element \\
+    FEA         & Finite Element Analysis \\
+    GEO         & Geostationary Orbit \\
+    GNC         & Guidance, Navigation and Control \\
+    IADC        & Inter-Agency Space Debris Coordination Committee \\
+    ISS         & International Space Station \\
+    LEO         & Low Earth Orbit \\
+    NASA        & National Aeronautics and Space Administration \\
+    PFEF        & Position-based Finite Element Formulation \\
+    PK2         & Second Piola-Kirchhoff \\
+    TRL         & Technology Readiness Level \\
+    UN COPUOS   & United Nations Committee on Peaceful Uses of Outer Space\\
+    US SSN      & United States Space Surveillance Network \\
+\end{tabular}

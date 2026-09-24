@@ -845,80 +845,140 @@ La prova si arresta al raggiungimento dello spostamento $v_{\text{fin}}$, pari a
 \subsection{Risultati della prova quasi statica}
 \label{sec:risultati}
 
-La simulazione è stata condotta sulle due reti di cui si dispone tanto della prova di trazione sulla maglia quanto della prova quasi statica. Per ciascuna si sono considerate tre caratterizzazioni della fune: quella dedotta direttamente dal rapporto di prova, quella corretta secondo la \cref{sec:identificazione_lunghezza_provino}, e quella corretta anche nelle rigidezze mediante un fattore $\eta = 1{,}5$ applicato a tutti i tratti del legame. I risultati sono riportati nella \cref{tab:risultati} e illustrati nelle \cref{fig:confronto_100,fig:confronto_60}. I valori sperimentali di riferimento sono quelli dichiarati nei certificati riprodotti nella \cref{app:prove_quasi_statiche}.
-
-Si sottolinea preliminarmente che la lunghezza di riferimento del provino è stata calibrata una sola volta, sulla maglia $100\times100$, e che alla maglia $60\times60$ è stata applicata la medesima costruzione geometrica senza ulteriori aggiustamenti. Il confronto sulla seconda rete non costituisce pertanto una verifica indipendente in senso stretto, ma neppure un adattamento: il numero di parametri calibrati resta uno per entrambe le reti.
-
-\subsubsection*{Il legame dedotto direttamente dalla prova}
-
-La caratterizzazione ricavata dai rapporti di prova conduce a una sottostima severa della risposta. La forza a fine corsa risulta pari a $2819\,\text{N}$ contro i $17\,270\,\text{N}$ misurati sulla maglia $100\times100$, e a $2199\,\text{N}$ contro $24\,820\,\text{N}$ sulla $60\times60$: fattori di scarto pari rispettivamente a $6{,}1$ e $11{,}3$. L'energia assorbita segue lo stesso andamento, con scarti del $-84\%$ e del $-87\%$.
-
-Il motivo è immediato alla luce di quanto osservato nella \cref{sec:caratterizzazione_elemento}. Con la lunghezza di riferimento dedotta dalla sola geometria nominale della maglia, il termine del tratto elastico cade a $\lambda_{y,1} = 1{,}979$ per la maglia $100\times100$ e a $\lambda_{y,1} = 1{,}508$ per la $60\times60$, valori che la rete non raggiunge in alcun punto della prova. L'intera risposta si svolge pertanto entro il primo tratto del legame, il più cedevole, e i tratti successivi non vengono mai attivati. Ciò è particolarmente evidente sulla maglia $60\times60$, il cui primo tratto è assai cedevole: la curva calcolata risulta pressoché rettilinea, mentre quella sperimentale mostra un marcato irrigidimento. È questa differenza di forma, e non soltanto di scala, a produrre il disaccordo fra lo scarto in forza e quello in energia, che in tutti gli altri casi risultano invece sostanzialmente coincidenti.
-
-\subsubsection*{La correzione geometrica}
-
-L'adozione della lunghezza di riferimento corretta modifica radicalmente il quadro. Lo scarto sulla forza finale si riduce al $-28\%$ sulla maglia $100\times100$ e al $+41\%$ sulla $60\times60$, e quello sull'energia al $-25\%$ e al $+39\%$: da fattori di $6{,}1$ e $11{,}3$ si passa a fattori compresi fra $1{,}3$ e $1{,}4$.
-
-Decisivo è però il segno. Lo scarto residuo è negativo su una rete e positivo sull'altra: la correzione geometrica non sottostima né sovrastima sistematicamente, ma colloca le due previsioni su lati opposti del dato sperimentale. Ne discende la conseguenza che costituisce il risultato principale di questa sezione: nessun fattore moltiplicativo unico, applicato alle rigidezze di entrambe le caratterizzazioni, può ridurre simultaneamente i due scarti. L'errore residuo non è dunque riconducibile a una proprietà della fune non colta dal modello, giacché una tale proprietà agirebbe nel medesimo verso su entrambe le reti.
-
-
-\subsubsection*{Lettura del meccanismo e criterio di validazione}
-
-La \cref{fig:confronto_100} riporta, per la maglia $100\times100$, i due punti notevoli del caso con correzione geometrica e in forza. Il primo elemento supera la soglia $\lambda_{y,1} = 1{,}190$ alla quota di $0{,}711\,\text{m}$, in corrispondenza di una forza di $7799\,\text{N}$: è il punto in cui la curva calcolata abbandona l'andamento iniziale e assume la pendenza ridotta del secondo tratto. La soglia $\lambda_u = 1{,}393$ è raggiunta alla quota di $0{,}847\,\text{m}$ e a una forza di $11\,949\,\text{N}$; a fine corsa lo \textit{stretch} massimo negli elementi vale $1{,}57$, ossia il $13\%$ oltre l'allungamento ultimo dedotto dalla prova di trazione.
-
-Si osservi che la corrispondenza fra il ginocchio della curva e la prima plasticizzazione non costituisce una verifica indipendente della correzione geometrica, giacché è proprio quella correzione a determinare la posizione della soglia: essa fornisce l'interpretazione del meccanismo, non la conferma del parametro.
-
-Lo scarto conseguito con la sola correzione geometrica, pari al $25\%$ e al $39\%$ in termini di energia, non soddisfa la soglia del $10\div15\%$ assunta come criterio di validazione nella \cref{sec:sintesi_e_prospettive}. Se ne deve concludere che la caratterizzazione della fune ottenuta da prova su maglia singola non è trasferibile alla simulazione dell'intera rete con l'accuratezza richiesta, finché le condizioni con cui tale prova è stata eseguita non siano documentate. Si tratta di una conclusione relativa alla procedura di qualificazione e ai dati che essa rende disponibili, non ai limiti della formulazione o del solutore, la cui capacità di riprodurre la forma della risposta è attestata dalla coincidenza fra gli scarti in forza e in energia.
-
-\subsubsection*{Il comportamento oltre l'allungamento ultimo}
-
-Il superamento di $\lambda_u$ rende non più trascurabile il comportamento degli elementi oltre l'allungamento ultimo. La simulazione è stata pertanto ripetuta con la legge quintilineare, introducendo il plateau descritto nella \cref{sec:elemento_cavo_formulazione_alternativa}. Le due risposte coincidono, come atteso, fino alla quota di $0{,}847\,\text{m}$, oltre la quale si separano: la curva con plateau raggiunge un massimo di $13\,355\,\text{N}$ e successivamente decresce, a indicare che il sistema ha attinto il proprio carico limite. Il metodo di Newton cessa di convergere alla quota di $0{,}917\,\text{m}$.
+\subsubsection{Identificazione del numero di maglie del provino}
+Per ciascuno dei casi elencati nella \cref{tab:casi} si è simulata la prova quasi statica e si è calcolato il lavoro $W_s$ compiuto dalla forza di contatto fino allo spostamento finale dichiarato nel certificato, secondo la \eqref{eq:energia_criterio}. I valori sono riportati nella \cref{tab:scarti} accanto allo scarto rispetto al dato sperimentale, pari a $4834,6\,\text{J}$ per la maglia $100\times100$ e a $5923,3\,\text{J}$ per la $60\times60$.
 
 \begin{table}[htbp]
     \centering
-    \caption{Risultati della simulazione della prova quasi statica e confronto con i valori certificati}
+    \caption{Lavoro compiuto sulla rete e forza a fine corsa, a confronto con i valori certificati}
     \vspace{5pt}
-    \label{tab:risultati}
-    \begin{tabularx}{\textwidth}{X c c c c c}
+    \label{tab:scarti}
+    \begin{tabularx}{\textwidth}{*{5}{Y}}
         \hline
         \rule{0pt}{3ex}
-        \textbf{Caso} & \textbf{$v_{\text{fin}}$} & \textbf{$F_{\text{fin}}$} & \textbf{$\Delta F$} & \textbf{$W_s$} & \textbf{$\Delta W$} \\
-                      & [m] & [N] & [\%] & [J] & [\%] \\ \hline
-        \rule{0pt}{3ex}
-        \textit{Rete} $100\times100$ & & & & & \\
-        Prova sperimentale & 1.024 & 17270 & -- & 4829 & -- \\
-        Legame a priori & 1.023 & 2819 & $-84$ & 793 & $-84$ \\
-        Correzione geometrica & 1.023 & 12491 & $-28$ & 3605 & $-25$ \\
+        $n_m$ & $W_s$ & scarto & $F_{\text{fin}}$ & scarto \\
+        {[--]} & [J] & [\%] & [kN] & [\%] \\ \hline
+        \multicolumn{5}{l}{\rule{0pt}{3ex}\textit{Maglia} $100\times100$ — sperimentale: $4834.6$ J, $17.27$ kN} \\ \hline
+        3  & 1667 & $-65.5$ & 5.97  & $-65.4$ \\
+        5  & 2496 & $-48.4$ & 8.47  & $-50.9$ \\
+        7  & 3263 & $-32.5$ & 11.22 & $-35.1$ \\
+        9  & 4001 & $-17.2$ & 13.74 & $-20.4$ \\
+        11 & 4733 & $-2.1$  & 16.05 & $-7.1$  \\
+        13 & 5390 & $+11.5$ & 17.94 & $+3.9$  \\ \hline
         \noalign{\vskip 4pt}
-        \textit{Rete} $60\times60$ & & & & & \\
-        Prova sperimentale & 1.133 & 24820 & -- & 5814 & -- \\
-        Legame a priori & 1.132 & 2199 & $-91$ & 734 & $-87$ \\
-        Correzione geometrica & 1.132 & 34907 & $+41$ & 8072 & $+39$ \\ \\[3pt] \hline
+        \multicolumn{5}{l}{\textit{Maglia} $60\times60$ — sperimentale: $5923.3$ J, $24.82$ kN} \\ \hline
+        3 & 1713 & $-71.1$ & 6.90  & $-72.2$ \\
+        4 & 2599 & $-56.1$ & 11.99 & $-51.7$ \\
+        5 & 3739 & $-36.9$ & 17.56 & $-29.2$ \\
+        6 & 5155 & $-13.0$ & 23.67 & $-4.6$  \\
+        7 & 6708 & $+13.2$ & 29.66 & $+19.5$ \\
+        8 & 8138 & $+37.4$ & 35.06 & $+41.2$ \\
+        9 & 9789 & $+65.3$ & 41.00 & $+65.2$ \\[3pt] \hline
     \end{tabularx}
 \end{table}
 
+entrambi gli scarti crescono monotonamente con $n_m$ e cambiano segno, cosicché il criterio individua per ciascuna rete un intervallo entro cui il valore cercato è compreso. Per la maglia $100\times100$ l'annullamento dello scarto energetico cade fra $n_m = 11$ e $n_m = 13$, e il valore intero che minimizza lo scarto in modulo è $n_m = 11$, con $-2,1\%$. Le due grandezze non indicano qui il medesimo valore, giacché $n_m = 13$ riproduce meglio la forza a fine corsa ($+3,9\%$ contro $-7,1\%$) ma assai peggio l'energia ($+11,5\%$ contro $-2,1\%$). Si è mantenuto il criterio energetico dichiarato, sia perché è la grandezza con cui la norma qualifica le reti di sicurezza, sia perché a $n_m = 11$ lo scarto in forza resta entra l'intervallo di tolleranza assunto, mentre il contrario non vale.
+
+Per la maglia $60\times60$ l'annullamento cade fra $n_m = 6$ e $n_m = 7$, e i due valori risultano sostanzialmente equivalenti in modulo, con $-13,0\%$ e $+13,2\%$. La forza a fine corsa distingue però nettamente i due casi, con $-4,6\%$ e $+19,5\%$, e indica il primo. A ciò si aggiunge una ragione di cautela: a $n_m = 6$ corrisponde un energia assorbita inferiore a quella certificata, cosicchè il modello attribuisce alla rete una capacità minore di quella misurata e la verifica energetica condotta risulta così a favore di sicurezza. Si è assunto $n_m = 6$ su entrambe le basi. 
+
+Le due identificazioni non hanno dunque la medesima nitidezza. Sulla maglia $60\times60$ nessun valore intero riproduce l'energia con l'accuratezza conseguita sull'altra rete, e lo scarto residuo si colloca al limite dell'intervallo del $10\div15\%$ assunto come criterio di validazione nella \cref{sec:sintesi_e_prospettive}. La ragione è la sensibilità del parametro, circa tripla rispetto alla maglia $100\times100$: una maglia in più o in meno vale qui quasi 30 punti percentuali di energia, contro i sette dell'altra rete. 
+
+Le due reti non condividono le proprietà del materiale — polietilene la prima, polipropilene la seconda, come osservato nella \cref{sec:geometria_prova} — né la dimensione della maglia. Lo schema di prova è però il medesimo, e i due provini attraversano pertanto la stessa successione di fenomeni: ciò che il materiale e la geometria modificano sono le pendenze dei tratti e la posizione delle soglie, non la natura del comportamento. Poiché inoltre $\overline{l}_p$ non è una lunghezza geometrica ma la misura della fune che partecipa alla deformazione, dipendente dalla costruzione del giunto oltre che dalla maglia, non vi è ragione per cui le due identificazioni debbano condurre al medesimo valore. \`E invece lecito attendersi che conducano a comportamenti confrontabili, ed è su questo che si fonda il confronto fra le due reti sviluppato in seguito. 
+
+\subsubsection{Confronto con la prova}
+\label{sec:confronto}
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{143_capitoli/capitolo4/immagini_capitolo_4/immagini_legami/confronto_F_S_100x100.pdf}
-    \caption{Maglia $100\times100$: confronto fra la curva forza-spostamento sperimentale e le risposte calcolate con le tre caratterizzazioni. I due marcatori indicano la prima plasticizzazione e il superamento dell'allungamento ultimo}
+    \caption{Maglia $100\times100$: curve forza-spostamento calcolate al variare del numero di maglie attribuito al provino, a confronto con la curva sperimentale. In tratto più spesso il caso identificato}
     \label{fig:confronto_100}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{143_capitoli/capitolo4/immagini_capitolo_4/immagini_legami/confronto_F_S_60x60.pdf}
-    \caption{Maglia $60\times60$: confronto fra la curva forza-spostamento sperimentale e le risposte calcolate con le tre caratterizzazioni}
+    \caption{Maglia $60\times60$: curve forza-spostamento calcolate al variare del numero di maglie attribuito al provino, a confronto con la curva sperimentale. In tratto più spesso il caso identificato}
     \label{fig:confronto_60}
 \end{figure}
 
+Le curve forza-spostamento calcolate per l'intera famiglia sono riportate, accanto alla curva sperimentale, nelle \cref{fig:confronto_100,fig:confronto_60}.
 
+Per la maglia $100\times100$ il caso identificato riproduce la prova non soltanto nell'energia - che il criterio impone - ma anche nella forma: la curva calcolata si mantiene sovrapposta alla sperimentale fino a circa $0,75\,\text{m}$ di spostamento e se ne discosta solo nel tratto terminale. Se ne deduce che, seppur il criterio di identificazione vincola una sola grandezza integrale, la corrispondenza dell'andamento non è imposta dalla calibrazione e costituisce un riscontro che da essa non dipende.
 
+Per la maglia $60\times60$ la situazione cambia. Nessun valore di $n_m$ riproduce simultaneamente le due porzioni della curva: la risposta misurata si colloca in prossimità del caso $n_m = 7$ nel tratto iniziale e tende al caso $n_m = 6$ in quello terminale. Il modello risulta dunque più cedevole della prova all'inizio e più rigido alla fine, e nessuna scelta del parametro può corregge entrambe le discrepanze, poiché esse hanno segno opposto. Il caso assunto riproduce la forza a fine corsa entro il $5\%$ ma l'energia soltanto entro il $13\%$: la curva calcolata raggiunge dunque un valore prossimo a quello misurato percorrendo però un cammino diverso, più cedevole nella parte intermedia. 
+
+Una spiegazione si trova nella caratterizzazione stessa. Il primo tratto del legame della maglia $60\times60$ è assai più cedevole — a $45\,\text{mm}$ di allungamento corrispondono appena $270\,\text{N}$ sul provino — e rappresenta con ogni probabilità l'assestamento geometrico della maglia sotto i perni più che la deformazione della fune. Nella rete sottoposta alla prova quasi statica quell'assestamento è però già avvenuto in fase di montaggio, poichè il campione è disteso fino a rientrare nella freccia prescritta: attribuendo all'elemento anche quel tratto, il modello concede alla rete una cedevolezza iniziale che nella prova reale non è presente. 
+
+\subsubsection{Il campo di validità della caratterizzazione}
+\label{sec:superamento_stretch_ultimo}
+
+Finché gli elementi si mantengono sul primo tratto elastico del legame $N$-$\lambda$, a parità di spostamento della sfera lo \textit{stretch} massimo risulta pressoché indipendente da $n_m$: la configurazione deformata è imposta dalla geometria del contatto e dei vincoli, e il legame determina le forze necessarie a raggiungerla, non la sua forma. \`E la ragione per cui i casi della famiglia si distinguono nelle ordinate delle curve forza-spostamento e non nel loro andamento iniziale.
+
+Le \cref{fig:confronto_100_marker,fig:confronto_60_marker} riportano le curve forza-spostamento con l'indicazione del punto in cui il primo elemento della rete raggiunge lo \textit{stretch} ultimo del legame. Nei casi in cui tale soglia viene raggiunta, il punto si colloca entro un intervallo di forza ristretto: fra $7,7$ e $8.0\,\text{kN}$ per la maglia $100\times100$ e fra $14,3$ e $15,6\,\text{kN}$ per la $60\times60$, ossia al $45\%$ e a circa il $60\%$ del carico raggiunto in prova. La circostanza si spiega osservando che la forza verticale complessiva si ottiene come somma delle componenti verticali degli sforzi normali, $F \simeq \sum N \sin\theta$: poiché lo sforzo normale ultimo dell'elemento non dipende da $n_m$ e l'inclinazione $\theta$ è governata dalla geometria, la forza alla quale il primo elemento raggiunge la soglia risulta pressoché indipendente dal parametro identificato.  
+
+Il dato è di fondamentale importanza per il trattamento della rottura. Se allo \textit{stretch} ultimo si attribuisse il significato di un criterio di rottura dell'elemento, la simulazione dovrebbe arrestarsi a meno della metà del carico che la prova raggiunge effettivamente, e ciò per entrambe le reti e per ogni valore del parametro. Poiché la prova prosegue invce fino a valori certificati senza che si manifesti alcuna discontinuità nella curva, se ne conclude che $\Delta l_{p,u}$ non individua la rottura della fune, bensì, come già osservato nella \cref{sec:linearizzazione}, il termine del campo entro il quale la caratterizzazione è stata misurata.
+
+Fra le due letture estreme — la rottura dell'elemento al raggiungimento di $\lambda_u$ e il proseguimento del legame oltre tale soglia — è stata esaminata anche quella intermedia, attribuendo all'elemento oltre $\lambda_u$ una rigidezza fortemente ridotta. In tale ipotesi la risposta calcolata perviene a un carico limite, oltre il quale la rete non equilibra ulteriori incrementi di spostamento, e la curva forza-spostamento presenta un massimo. La prova non mostra nulla di simile entro il campo esplorato, giacché la forza vi cresce in modo monotono fino allo spostamento finale dichiarato: la circostanza non esclude che un carico limite esista, ma lo colloca oltre il campo della prova e con esso oltre quello del confronto finora condotto. Si aggiunge che la rigidezza da attribuire al tratto oltre $\lambda_u$ non è ricavabile dai dati disponibili e avrebbe pertanto carattere convenzionale, cosicché il risultato che se ne trarrebbe sarebbe di natura qualitativa: mostrerebbe che un carico limite esiste. Si è dunque mantenuto il prolungamento dell'ultimo tratto misurato, sul quale la risposta calcolata si svolge nella sua parte terminale.
+
+L'entità di tale prolungamento è riportata nella \cref{tab:stretch}, che accosta allo \textit{stretch} ultimo di ciascun legame quello effettivamente raggiunto in simulazione, e nelle \cref{fig:legame_estrapolato_100,fig:legame_estrapolato_60}, dove il tratto oltre $\lambda_u$ è rappresentato con linea punteggiata e il cerchio indica lo \textit{stretch} massimo raggiunto.
+
+\begin{table}[htbp]
+    \centering
+    \caption{\textit{Stretch} ultimo del legame e \textit{stretch} massimo raggiunto nella simulazione}
+    \vspace{5pt}
+    \label{tab:stretch}
+    \begin{tabularx}{\textwidth}{*{6}{Y}}
+        \hline
+        \multicolumn{3}{c}{\rule{0pt}{3ex}\textit{Maglia} $100\times100$} & \multicolumn{3}{c}{\textit{Maglia} $60\times60$} \\
+        \cline{1-3}\cline{4-6}
+        \rule{0pt}{3ex}
+        $n_m$ & $\lambda_u$ & $\lambda_{max}$ & $n_m$ & $\lambda_u$ & $\lambda_{max}$ \\
+        {[--]} & [--] & [--] & {[--]} & [--] & [--] \\ \hline
+        \rule{0pt}{3ex}
+        3  & 1.925 & 1.486 & 3 & 1.604 & 1.358 \\
+        5  & 1.600 & 1.638 & 4 & 1.469 & 1.382 \\
+        7  & 1.444 & 1.593 & 5 & 1.383 & 1.419 \\
+        9  & 1.352 & 1.554 & 6 & 1.324 & 1.454 \\
+        11 & 1.292 & 1.520 & 7 & 1.281 & 1.477 \\
+        13 & 1.249 & 1.485 & 8 & 1.248 & 1.488 \\
+           &       &       & 9 & 1.222 & 1.503 \\[3pt] \hline
+    \end{tabularx}
+\end{table}
+
+Il confronto mostra che il superamento non riguarda l'intera famiglia. I casi ai quali compete un legame più cedevole — $n_m = 3$ per la maglia $100\times100$, $n_m = 3$ e $4$ per la $60\times60$ — restano interamente entro il campo misurato, in quanto le forze che vi si sviluppano non sono sufficienti a portare gli elementi allo \textit{stretch} ultimo: nelle figura il simbolo che identifica l'allugamento massimo raggiunto cade sul tratto continuo, prima del suo termine. Nei casi identificati il superamento è invece netto, pari al $17,6\%$ per la maglia $100\times100$ e al $9,8\%$ per la $60\times60$.
+
+Si osservi in fine che le due reti presentano un andamento opposto dello \textit{stretch} massimo al variare del parametro: esso cresce al diminuire di $n_m$ nella maglia $100\times100$ e al crescere di $n_m$ nella $60\times60$. Poiché la corsa imposta è la medesima in tutti i casi, la differenza non riguarda l'entità complessiva della deformazione bensì il modo con cui essa si ripartisce fra gli elementi, e riflette la diversa successione di rigidezza dei due legami. Una lettura quantitativa del fenomeno richiederebbe un'analisi della distribuzione degli \textit{stretch} che esula dagli scopi del presente lavoro.    
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{143_capitoli/capitolo4/immagini_capitolo_4/immagini_legami/confronto_F_S_100x100_marker.pdf}
+    \caption{Maglia $100\times100$: curve forza-spostamento con l'indicazione del primo raggiungimento dello \textit{stretch} ultimo. In tratto più spesso il caso identificato}
+    \label{fig:confronto_100_marker}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{143_capitoli/capitolo4/immagini_capitolo_4/immagini_legami/confronto_F_S_60x60_marker.pdf}
+    \caption{Maglia $60\times60$: curve forza-spostamento con l'indicazione del primo raggiungimento dello \textit{stretch} ultimo. In tratto più spesso il caso identificato}
+    \label{fig:confronto_60_marker}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{143_capitoli/capitolo4/immagini_capitolo_4/immagini_legami/legame_stretch_100x100_estrapolato.pdf}
+    \caption{Maglia $100\times100$: legami costitutivi della famiglia. In linea punteggiata il tratto oltre $\lambda_u$, non misurato; il cerchio indica lo \textit{stretch} massimo raggiunto nella simulazione; in tratto più spesso il caso identificato}
+    \label{fig:legame_estrapolato_100}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{143_capitoli/capitolo4/immagini_capitolo_4/immagini_legami/legame_stretch_60x60_estrapolato.pdf}
+    \caption{Maglia $60\times60$: legami costitutivi della famiglia. In linea punteggiata il tratto oltre $\lambda_u$, non misurato; il cerchio indica lo \textit{stretch} massimo raggiunto nella simulazione; in tratto più spesso il caso identificato}
+    \label{fig:legame_estrapolato_60}
+\end{figure}
 
 %%PEZZO DA RICOLLOCARE SUCCESSIVAMENTE 
 % - Che le due reti non condividano alcuna proprietà del materiale è del resto documentato: le funi di maglia sono in polietilene nella prima e in polipropilene nella seconda, come indicato nei certificati.
-
-%%DA RICOLLOCARE DOVE SI PARLA DI K4: NELLA TABELLA DELLA LINEARIZZAZIONE 
-% - $k_{p,4}$ ha carattere convenzionale, cosicché il risultato che da questo caso si trae è di natura qualitativa: esso mostra che la rete perviene a un carico limite, non ne fornisce il valore.
 
 %%DA METTERE NEI POSSIBILI SVILUPPI FUTURI DEL CAPITOLO 5
 % - Il caso con plateau mostrava che la rete perviene ad un carico limite

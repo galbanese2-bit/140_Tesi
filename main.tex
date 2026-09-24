@@ -68,10 +68,22 @@
 \usepackage{graphicx}
 \usepackage{pdfpages}
 \usepackage{float}
+% impostazioni sul float
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.75}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+\usepackage{placeins}
+
+%impostazioni sui riferimenti
 \usepackage[italian]{cleveref}
 \numberwithin{figure}{chapter}
 \numberwithin{table}{chapter}
 \usepackage{tabularx}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
 \usepackage{enumitem}
 \usepackage{subcaption}
 

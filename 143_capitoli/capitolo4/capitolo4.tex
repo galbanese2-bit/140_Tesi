@@ -883,7 +883,7 @@ Per la maglia $60\times60$ l'annullamento cade fra $n_m = 6$ e $n_m = 7$, e i du
 
 Le due identificazioni non hanno dunque la medesima nitidezza. Sulla maglia $60\times60$ nessun valore intero riproduce l'energia con l'accuratezza conseguita sull'altra rete, e lo scarto residuo si colloca al limite dell'intervallo del $10\div15\%$ assunto come criterio di validazione nella \cref{sec:sintesi_e_prospettive}. La ragione è la sensibilità del parametro, circa tripla rispetto alla maglia $100\times100$: una maglia in più o in meno vale qui quasi 30 punti percentuali di energia, contro i sette dell'altra rete. 
 
-Le due reti non condividono le proprietà del materiale — polietilene la prima, polipropilene la seconda, come osservato nella \cref{sec:geometria_prova} — né la dimensione della maglia. Lo schema di prova è però il medesimo, e i due provini attraversano pertanto la stessa successione di fenomeni: ciò che il materiale e la geometria modificano sono le pendenze dei tratti e la posizione delle soglie, non la natura del comportamento. Poiché inoltre $\overline{l}_p$ non è una lunghezza geometrica ma la misura della fune che partecipa alla deformazione, dipendente dalla costruzione del giunto oltre che dalla maglia, non vi è ragione per cui le due identificazioni debbano condurre al medesimo valore. \`E invece lecito attendersi che conducano a comportamenti confrontabili, ed è su questo che si fonda il confronto fra le due reti sviluppato in seguito. 
+Le due reti non condividono le proprietà del materiale — PE la prima, PP la seconda, come osservato nella \cref{sec:geometria_prova} — né la dimensione della maglia. Lo schema di prova è però il medesimo, e i due provini attraversano pertanto la stessa successione di fenomeni: ciò che il materiale e la geometria modificano sono le pendenze dei tratti e la posizione delle soglie, non la natura del comportamento. Poiché inoltre $\overline{l}_p$ non è una lunghezza geometrica ma la misura della fune che partecipa alla deformazione, dipendente dalla costruzione del giunto oltre che dalla maglia, non vi è ragione per cui le due identificazioni debbano condurre al medesimo valore. \`E invece lecito attendersi che conducano a comportamenti confrontabili, ed è su questo che si fonda il confronto fra le due reti sviluppato in seguito. 
 
 \subsubsection{Confronto con la prova}
 \label{sec:confronto}
@@ -945,7 +945,7 @@ L'entità di tale prolungamento è riportata nella \cref{tab:stretch}, che accos
     \end{tabularx}
 \end{table}
 
-Il confronto mostra che il superamento non riguarda l'intera famiglia. I casi ai quali compete un legame più cedevole — $n_m = 3$ per la maglia $100\times100$, $n_m = 3$ e $4$ per la $60\times60$ — restano interamente entro il campo misurato, in quanto le forze che vi si sviluppano non sono sufficienti a portare gli elementi allo \textit{stretch} ultimo: nelle figura il simbolo che identifica l'allugamento massimo raggiunto cade sul tratto continuo, prima del suo termine. Nei casi identificati il superamento è invece netto, pari al $17,6\%$ per la maglia $100\times100$ e al $9,8\%$ per la $60\times60$.
+Il confronto mostra che il superamento non riguarda l'intera famiglia. I casi ai quali compete un legame più cedevole — $n_m = 3$ per la maglia $100\times100$, $n_m = 3$ e $4$ per la $60\times60$ — restano interamente entro il campo misurato, in quanto le forze che vi si sviluppano non sono sufficienti a portare gli elementi allo \textit{stretch} ultimo: nelle figura il simbolo che identifica l'allugamento massimo raggiunto cade sul tratto continuo, prima del suo termine. Nei casi identificati il superamento è invece netto. Misurato sull'allungamento, l'unica base confrontabile con i dati della prova di grazione, ricordando che lo \textit{stretch} ne differisce di un unità, esso corrisponde a richiedere al ramo un allungamento di $608\,\text{mm}$ contro i $341\,\text{mm}$ che delimitano il campo misurato per la maglia $100\times100$, e di $176\,\text{mm}$ contro i $126\,\text{mm}$ per la $60\times60$: rispettivamente il $78\%$ e il $40\%$ oltre l'estremo della caratterizzazione.
 
 Si osservi in fine che le due reti presentano un andamento opposto dello \textit{stretch} massimo al variare del parametro: esso cresce al diminuire di $n_m$ nella maglia $100\times100$ e al crescere di $n_m$ nella $60\times60$. Poiché la corsa imposta è la medesima in tutti i casi, la differenza non riguarda l'entità complessiva della deformazione bensì il modo con cui essa si ripartisce fra gli elementi, e riflette la diversa successione di rigidezza dei due legami. Una lettura quantitativa del fenomeno richiederebbe un'analisi della distribuzione degli \textit{stretch} che esula dagli scopi del presente lavoro.    
 
@@ -975,6 +975,37 @@ Si osservi in fine che le due reti presentano un andamento opposto dello \textit
     \includegraphics[width=\textwidth]{143_capitoli/capitolo4/immagini_capitolo_4/immagini_legami/legame_stretch_60x60_estrapolato.pdf}
     \caption{Maglia $60\times60$: legami costitutivi della famiglia. In linea punteggiata il tratto oltre $\lambda_u$, non misurato; il cerchio indica lo \textit{stretch} massimo raggiunto nella simulazione; in tratto più spesso il caso identificato}
     \label{fig:legame_estrapolato_60}
+\end{figure}
+
+\subsubsection{Sforzi negli elementi e resistenza della fune}
+\label{sec:sforzi_elementi}
+
+Le \cref{fig:3d_100,fig:3d_60} riportano la distribuzione dello sforzo normale nella configurazione finale. Lo sforzo massimo negli elementi vale $2334\,\text{N}$ per la maglia $100\times100$ e $2035\,\text{N}$ per la $60\times60$, e si localizza negli elementi che congiungono la zona di contatto ai vincoli di bordo, lungo le direzioni principali della rete. 
+
+Alla fune di bordo è attribuito il medesimo legame costitutivo delle funi di maglia, scalato in ragione della sola area resistente. L'assunzione comporta di attribuirle anche il materiale delle funi di maglia: per la rete $100\times100$ ciò è conforme ai rapporti, che dichiarano il PE tanto per la maglia quanto per il bordo, mentre per la $60\times60$, le cui funi di maglia sono in PP e la cui fune di bordo è dichiarata in PE, costituisce una semplificazione. Essa è cautelativa in resistenza, visto che il carico di rottura che ne discende è inferiore ai $32500\,\text{N}$ certificati, e non incide sui risultati, poiché in nessuno dei casi esaminati gli elementi di bordo risultano determinanti. Dovrà invece essere riconsiderata in configurazioni nelle quali la fune di bordo assuma un ruolo portante, dove la rigidezza attribuita governa la risposta dell'intero sistema.  
+
+Le funi perimetrali risultano invece praticamente scariche. La circostanza discende dal vincolo adottato, che blocca ciascun nodo di bordo singolarmente in coerenza con i moschettoni prescritti dalla norma: il carico è trasmesso direttamente al telaio anziché raccolto dalla fune di bordo. Ne segue che l'ipotesi formulata nella \cref{sec:modellazione_prova}, di attribuire alle funi di bordo il legame delle funi di maglia scalato sulla sola area, non incide sui risultati qui discussi. Nel sistema S impiegato in opera, dove la rete è collegata ai vincoli estrni per il tramite della sola fune di bordo, tale elemento assume al contrario un ruolo determinante, e l'ipotesi dovrà essere riconsiderata.
+
+Lo sforzo massimo raggiunto può essere confrontato con la resistenza della fune, per verificare che la risposta calcolata non richieda all'elemento più di quanto esso non possa sostenere. Il dato non è disponibile per le funi impiegate, che i rapporti di prova non caratterizzano; si è fatto pertanto riferimento ai valori dichiarati per cordami commerciali di pari diametro e materiale, assunti come ordini di grandezza e riportati come intervalli. Per il PE di diametro $5\,\text{mm}$ il carico di rottura si colloca fra $3,1$ e $3,8\,\text{kN}$, per il PP ad alta tenacità di diametro $6\,\text{mm}$ fra $5,5$ e $7,0\,\text{kN}$. Gli sforzi massimi calcolati ne rappresentano rispettivamente il $61\div74\%$ e il $29\div37\%$.
+
+Il confronto costituisce un riscontro di plausibilità e non una verifica: le funi reali non sono note, il margine rilevato sulla maglia $100\times100$ non è tale da escludere la rottura con certezza. Esso mostra tuttavia che la risposta calcolata non richiede alla fune sforzi incompatibili con quelli che una fune di quel diametro e di quel materiale è in grado si sostenere, e che la rete più sollecitata è la $100\times100$ e non la $60\times60$ malgrado quest'ultima raggiunga in prova un carico maggiore. 
+
+Resta da esaminare la coerenza fra i due casi identificati. Ciascuna è stata condotta separatamente sulla propria rete, cosicché il confronto su ciascuna di esse non costituisce una verifica indipendente dal parametro; ciò che le due reti consentono di verificare è invece se i valori identificati conducano a caratterizzazioni fra loro compatibili. Assumendo i valori identificati, il termine del campo misurato corrisponde ad un allungamento del $29\%$ per la maglia $100\times100$ e del $32\%$ per la $60\times60$, e si riduce al $25\%$ per la prima ove si arresti la caratterizzazione all'ultimo punto effettivamente misurato. Due calibrazioni indipendenti, condotte su reti commerciali di materiale e geometria diversi, conducono dunque ad un medesimo intervallo, compreso fra il $25$ e il $33\%$. 
+
+Tali valori sono nell'ordine, e alquanto superiori, agli allungamenti a rottura dichiarati per i cordami commerciali dei medesimi materiali, che per il polipropilene ad alta tenacità (HTPP) si collocano fra il $15$ e il $25\%$. Lo scarto non sorprende: la lunghezza identificata non è quella di un tratto di fune, bensì una lunghezza di riferimento equivalente che riassume anche i contribuiti estranei alla deformazione della fune, primo fra tutti lo scorrimento in corrispondenza dei giunti. L'allungamento che ne discende non è pertanto una proprietà del materiale e non va confrontato con essa se non nell'ordine di grandezza. Che due prove condotte su reti diverse conducano al medesimo intervallo resta nondimeno un riscontro importante, ed è quanto il confronto fra le due reti consente di affermare.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{143_capitoli/capitolo4/immagini_capitolo_4/immagini_3d/rete_100x100/step_646.png}
+    \caption{Maglia $100\times100$, caso identificato: distribuzione dello sforzo normale nella configurazione finale della prova quasi statica}
+    \label{fig:3d_100}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{143_capitoli/capitolo4/immagini_capitolo_4/immagini_3d/rete_60x60/step_712.png}
+    \caption{Maglia $60\times60$, caso identificato: distribuzione dello sforzo normale nella configurazione finale della prova quasi statica}
+    \label{fig:3d_60}
 \end{figure}
 
 %%PEZZO DA RICOLLOCARE SUCCESSIVAMENTE 

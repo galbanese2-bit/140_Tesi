@@ -85,7 +85,7 @@ La risposta strutturale del sistema è investigata assumendo come riferimento un
         Area sezione trasversale fune di bordo & $A_2$ & 78.54 $[\text{mm}^2]$ \\
         Modulo di elasticità longitudinale fune & $E$ & 2.1 $[\text{GPa}]$ \\
         Regolarizzazione del legame costitutivo & $\beta$ & $10^{9}$ $[-]$\\       
-        Rapporto di laschezza in entrambe le direzioni & $\xi$& 3.33 $[\text{\%}]$\\ \hline
+        Rapporto di lassità in entrambe le direzioni & $\xi$& 3.33 $[\text{\%}]$\\ \hline
     \end{tabularx}
 \end{table}
 
@@ -94,7 +94,7 @@ La distribuzione delle forze all'interno di un sistema iperstatico è influenzat
 
 Nel caso specifico di strutture a comportamento fortemente non lineare per geometria, in cui l'ipotesi di piccoli spostamenti decade, la risoluzione numerica richiede l'impiego della matrice di rigidezza tangente, definita secondo l'\cref{eq:rigidezza_meccanica_geometrica}. Tale operatore risulta funzione diretta della rigidezza assiale degli elementi e della loro distribuzione spaziale. Di conseguenza, la corretta applicazione delle proprietà sezionali delle funi governa sia l'evoluzione delle stato tensionale sia la convergenza del processo iterativo volto alla soluzione del problema non lineare. 
 
-All'interno del solutore, la rigidezza assiale degli elementi è modellata assumendo il modulo di elasticità $E$ costante in funzione del materiale impiegato e variando l'area trasversale efficace $A$ mediante la definizione di un raggio fittizio dei cavi. E'necessario evidenziare come il raggio imposta alla sezione circolare degli elementi sia un parametro puramente fittizio: le funi reali, infatti, non sono costituite da solidi omogenei a sezione piena, bensì da trefoli orditi secondo specifiche configurazioni geometriche. La presenza di vuoti interstiziali e lo scorrimento relativo tra i fili fanno sì che l'area resistente effettiva $A$ e il modulo elastico equivalente $E$ differiscano significativamente dai corrispondenti valori geometrici di un cilindro compatto di pari diametro. 
+All'interno del solutore, la rigidezza assiale degli elementi è modellata assumendo il modulo di elasticità $E$ costante in funzione del materiale impiegato e variando l'area trasversale efficace $A$ mediante la definizione di un raggio fittizio dei cavi. \`E necessario evidenziare come il raggio imposto alla sezione circolare degli elementi sia un parametro puramente fittizio: le funi reali, infatti, non sono costituite da solidi omogenei a sezione piena, bensì da trefoli orditi secondo specifiche configurazioni geometriche. La presenza di vuoti interstiziali e lo scorrimento relativo tra i fili fanno sì che l'area resistente effettiva $A$ e il modulo elastico equivalente $E$ differiscano significativamente dai corrispondenti valori ottenuti per un corpo cilindrico omogeneo di pari diametro. 
 
 Tuttavia, l'assunzione di un comportamento elastico lineare per il materiale (ipotesi pienamente verificata per i problemi di validazione analizzati nel presente paragrafo, in cui le reti sono soggette al solo peso proprio o a carichi concentrati di intensità contenuta) consente di ottenere risultati fisicamente realistici e proporzionali alla rigidezza relativa dei componenti. Sotto l'ipotesi che la variabilità della rigidezza reale sia correlata linearmente alla sezione efficace, il solutore descrive con sufficiente accuratezza il flusso delle forze interne in funzione dei rapporti di rigidezza imposti. 
 
@@ -145,7 +145,7 @@ I risultati relativi ad una rete a maglia quadrata con funi di controvento vinco
         Area della sezione trasversale fune & $A_1$ & 19.63 $[\text{mm}^2]$ \\
         Area della sezione trasversale fune & $A_2$ & 78.54 $[\text{mm}^2]$ \\
         Regolarizzazione del legame costitutivo & $\beta$ & $10^{9}$ $[-]$\\
-        Rapporto di laschezza in entrambe le direzioni & $\xi$ & 0 $[\text{\%}]$ \\ \hline
+        Rapporto di lassità in entrambe le direzioni & $\xi$ & 0 $[\text{\%}]$ \\ \hline
     \end{tabularx}
 \end{table}
 
@@ -155,7 +155,7 @@ Nella trattazione della fune monodimensionale soggetta al peso proprio, qualora 
 
 In modo analogo, per sistemi discreti bidimensionali si utilizza la dicitura di rete lasca (\textit{net cables with slack}) per indicare una rete in cui lo sviluppo geometrico dei cavi costituenti è maggiore della distanza tra i vincoli perimetrali. Di conseguenza la rete non risulterà soggetta a tensioni elevate in direzione ortogonale a quella dei lati vincolati. Tuttavia, il caso in cui entrambi i lati della maglia siano più lunghi dei rispettivi lati vincolati introduce una complessità analitica e strutturale superiore rispetto al caso monodimensionale. 
 
-Il fenomeno dello \textit{slack} si verifica in maniera differenziata in funzione della geometria della mesh assunta: 
+Il fenomeno dello \textit{slack} si differenzia in funzione della geometria assunta per la mesh: 
 \begin{itemize}
     \item \textbf{Rete a maglia quadrata (\textit{squared mesh} (Q)):} se lungo le direzioni principali dell'orditura ($x$ e $y$) lo stato tensionale è idealmente dominato da sforzi normali di trazione, lungo le direzioni inclinate gli sforzi di trazione generano sollecitazioni di taglio. Lungo le diagonali principali che uniscono gli angoli, perciò, avremo una sollecitazione di trazione massima, a cui corrisponde in direzione ortogonale una compressione. Come visibile dai risultati riportati in figura \cref{fig:rete_Q_slack}, si creano delle zone del dominio della rete in cui molti elementi vanno in \textit{slack} perché compressi.
     \item \textbf{Rete a maglia romboidale (\textit{diamond mesh} (D)):} in questo caso, la maglia risulta ruotata di $45^\circ$ rispetto alla precedente. Di conseguenza la direzione in cui si verifica lo \textit{slack} è ortogonale rispetto al caso della mesh quadrata, come visibile in \cref{fig:rete_D_slack}. Assumendo un dominio in cui  $L_y = L_x = L$, le diagonali di lunghezza $\sqrt{2} L$ rappresentano le direzioni in cui si localizzano i maggiori allungamenti del dominio, inducendo l'allentamento dei cavi disposti lungo le direzioni evidenziate.
@@ -192,12 +192,12 @@ Il fenomeno dello \textit{slack} si verifica in maniera differenziata in funzion
         Area sezione trasversale fune di bordo & $A_2$ & 78.54 $[\text{mm}^2]$ \\
         Modulo di elasticità longitudinale fune & $E$ & 2.1 $[\text{GPa}]$ \\
         Regolarizzazione del legame costitutivo & $\beta$ & $10^{9}$ $[-]$\\
-        Rapporto di laschezza (Q) in entrambe le direzioni & $\xi_Q$ & 10 $[\%]$\\
-        Rapporto di laschezza (D) in entrambe le direzioni & $\xi_D$ & 10 $[\%]$\\ \hline
+        Rapporto di lassità (Q) in entrambe le direzioni & $\xi_Q$ & 10 $[\%]$\\
+        Rapporto di lassità (D) in entrambe le direzioni & $\xi_D$ & 10 $[\%]$\\ \hline
     \end{tabularx}
 \end{table}
 
-Questo comportamento discreto trova un parallelo continuo nel campo delle membrane e delle piastre sottili, dove l'insorgere della compressione diagonale provoca un instabilità flessionale fuori dal piano che si manifesta con la formazione di "rughe" parallele alla direzione di trazione principale. In entrambe i sistemi, la struttura modifica la propria topologia tridimensionale attraverso spostamenti fuori dal piano al fine di annullare la compressione interna e minimizzare l'energia potenziale totale del sistema.
+Questo comportamento discreto trova un parallelo continuo nel campo delle membrane e delle piastre sottili, dove l'insorgere della compressione diagonale provoca un instabilità flessionale fuori dal piano che si manifesta con la formazione di "increspature" parallele alla direzione di trazione principale. In entrambe i sistemi, la struttura modifica la propria topologia tridimensionale attraverso spostamenti fuori dal piano al fine di annullare la compressione interna e minimizzare l'energia potenziale totale del sistema.
 
 Dal punto di vista numerico, l'insorgere dello \textit{slack} comporta l'annullamento delle rigidezza e della tensione di ampie porzioni della rete. L'assenza di resistenza a compressione dell'elemento fune genera la comparsa di moti rigidi ad energia nulla (cinematismi locali). Di conseguenza la matrice di rigidezza tangente globale del sistema diventa singolare (o quasi singolare) compromettendo inevitabilmente la convergenza dell'algoritmo di soluzione. Per superare questa limitazione computazionale e restituire unicità alla soluzione numerica, si ricorre principalmente a due strategie: 
 
@@ -244,11 +244,11 @@ Come mostrato in \cref{fig:legame_regolarizzato_sigma,fig:legame_regolarizzato_E
     \label{fig:legame_regolarizzato_E}
 \end{figure}
 
-\subsubsection{Laschezza della rete}
-\label{sec:laschezza}
-La valutazione della freccia massima (\textit{sag}) al variare dello sviluppo lineare della rete rispetto alla distanza tra i vincoli può essere espressa quantitativamente tramite i valori del \textit{rapporto di laschezza} (o \textit{slackness ratio}) lungo le due direzioni principali della rete $\xi_x$ e $\xi_y$, definiti coerentemente con l'\cref{eq:rapporto_laschezza} espressa in pecentuale. 
+\subsubsection{Lassità della rete}
+\label{sec:lassità}
+La valutazione della freccia massima (\textit{sag}) al variare dello sviluppo lineare della rete rispetto alla distanza tra i vincoli può essere espressa quantitativamente tramite i valori del \textit{rapporto di lassità} (o \textit{slackness ratio}) lungo le due direzioni principali della rete $\xi_x$ e $\xi_y$, definiti coerentemente con l'\cref{eq:rapporto_lassità} espressa in pecentuale. 
 
-Al fine di stimare l'entità della freccia iniziale e garantire il rispetto delle prescrizioni geometriche imposte dalla normativa EN 1263-1 \cite{EN1263-1} per la prova statica di assorbimento di energia, si è condotta un'analisi parametrica su una rete di dimensioni nominali pari a $3\, \text{m} \times 3\,\text{m}$ (come previsto dalla norma per la stessa prova), ipotizzando un medesimo valore di \textit{rapporto di laschezza} lungo entrambe le direzioni principali ($\xi_x = \xi_y = \xi$). Nello specifico, è stata determinata la curva caratteristica che correla $\xi$ al valore della freccia massima $f$ risultante.
+Al fine di stimare l'entità della freccia iniziale e garantire il rispetto delle prescrizioni geometriche imposte dalla normativa EN 1263-1 \cite{EN1263-1} per la prova statica di assorbimento di energia, si è condotta un'analisi parametrica su una rete di dimensioni nominali pari a $3\, \text{m} \times 3\,\text{m}$ (come previsto dalla norma per la stessa prova), ipotizzando un medesimo valore di \textit{rapporto di lassità} lungo entrambe le direzioni principali ($\xi_x = \xi_y = \xi$). Nello specifico, è stata determinata la curva caratteristica che correla $\xi$ al valore della freccia massima $f$ risultante.
 
 I risultati dell'analisi parametrica per la configurazione a maglia quadrata (Q) e per quella romboidale (D) sono illustrati rispettivamente in \cref{fig:diagramma_sag_Q} e in \cref{fig:diagramma_sag_D}.
 
@@ -287,7 +287,7 @@ I parametri geometrici e meccanici adottati nei modelli numerici per la generazi
 
 È importante sottolineare come i due grafici non risultino direttamente confrontabili in termini di rigidezza nei confronti dei carichi verticali. Infatti, per garantire le medesime dimensioni complessive della rete, la dimensione della singola maglia nella configurazione romboidale differisce da quella della maglia quadrata per un fattore pari a $\sqrt{2}$, comportando di conseguenza un diverso numero complessivo di elementi costitutivi nei due modelli.
 
-Dai grafici è possibile quindi risalire ai valori del rapporto di laschezza $\xi$ (e, di conseguenza, alle tolleranze sulla lunghezza), affinchè la freccia della rete in configurazione di prova rispetti i limiti imposti dalla normativa ($f = 5 \pm 1\, \text{cm}$). In particolare, per i casi analizzati, il rapporto di laschezza dovrà essere compreso tra $ 0.08\% < \xi_{Q} < 0.12\%$ per la geometria quadrata e tra $ 0.04\% < \xi_{D} < 0.07\%$ per quella romboidale.    
+Dai grafici è possibile quindi risalire ai valori del rapporto di lassità $\xi$ (e, di conseguenza, alle tolleranze sulla lunghezza), affinchè la freccia della rete in configurazione di prova rispetti i limiti imposti dalla normativa ($f = 5 \pm 1\, \text{cm}$). In particolare, per i casi analizzati, il rapporto di lassità dovrà essere compreso tra $ 0.08\% < \xi_{Q} < 0.12\%$ per la geometria quadrata e tra $ 0.04\% < \xi_{D} < 0.07\%$ per quella romboidale.    
 
 Dall'esame degli andamenti si evince che la tolleranza teorica sulla lunghezza dei lati della rete in esame dovrebbe essere confinata entro limiti estremamente stringenti al fine di scongiurare un'eccessiva deformabilità o, al contrario, uno stato di coazione iniziale indesiderato. Tuttavia, considerando le ordinarie tolleranze di fabbricazione e posa delle reti di sicurezza, risulta nella pratica industriale pressoché impossibile garantire uno scarto dimensionale contenuto entro frazioni di punto percentuale. Di conseguenza, nel contesto operativo reale, la conformità geometrica della rete non viene valutata tramite il controllo dimensionale preventivo dello sviluppo dei cavi, bensì verificando direttamente il valore della freccia residua $f$ mediante prove prestazionali di tipo passa / non passa.
 
@@ -333,13 +333,13 @@ Le caratteristiche della rete analizzata e delle forze applicate sono riportate 
         Dimensione totale della rete & $L_x \times L_y$ & $3.00 \times 3.00$ $[\text{m}]$ \\
         Dimensione della singola maglia (Q) & $l_{m_x} \times l_{m_y}$ & $10 \times 10$ $[\text{cm}]$ \\
         Diametro nominale delle funi di maglia & $\phi _1$ & $5.0$ $[\text{mm}]$ \\       
-        Diametro nominale delle funi di maglia & $\phi _2$ & $10.0$ $[\text{mm}]$ \\
+        Diametro nominale delle funi di bordo & $\phi _2$ & $10.0$ $[\text{mm}]$ \\
         Modulo di elasticità longitudinale fune & $E$ & 2.1 $[\text{GPa}]$ \\
         Area della sezione trasversale fune & $A_1$ & 19.63 $[\text{mm}^2]$ \\
         Area sezione trasversale fune di bordo & $A_2$ & 78.54 $[\text{mm}^2]$ \\
         Regolarizzazione del legame costitutivo & $\beta$ & $10^{6}$ $[-]$\\  
-        Rapporto di laschezza \cref{fig:forza_concentrata_verticale} (entrambe le direzioni) & $\xi$ & 3.33 $[\%]$\\
-        Rapporto di laschezza \cref{fig:forza_concentrata_inclinata} (entrambe le direzioni) & $\xi$ & 1 $[\%]$\\ \hline
+        Rapporto di lassità \cref{fig:forza_concentrata_verticale} (entrambe le direzioni) & $\xi$ & 3.33 $[\%]$\\
+        Rapporto di lassità \cref{fig:forza_concentrata_inclinata} (entrambe le direzioni) & $\xi$ & 1 $[\%]$\\ \hline
     \end{tabularx}
 \end{table}
 
@@ -361,7 +361,7 @@ Le caratteristiche della rete analizzata e delle forze applicate sono riportate 
 
 \section{Reti soggette alla prova quasi statica}
 
-Uno degli obiettivi del presente lavoro di tesi è valutare la capacità di assorbimento dell'energia di una rete di dimensioni reali, così da fornire al progettista uno strumento idoneo a stimare l'esito del superamento della prova di impatto dinamico di normativa come visto nel \cref{chap:capitolo3}. Per compiere tale analisi occorre caratterizzare meccanicamente gli elementi del modello numerico e validare i risultati ottenuti mediante il confronto con prove sperimentali di laboratorio. Poiché la normativa non richiede esplicitamente la valutazione dell'assorbimento energetico del dispositivo di intercettazione, i produttori non forniscono curve forza spostamento per la rete nel suo complesso.
+Uno degli obiettivi del presente lavoro di tesi riguarda lo sviluppo di un modello in grado di valutare la capacità di assorbimento dell'energia di una rete di dimensioni reali, così da fornire al progettista uno strumento idoneo a stimare l'esito del superamento della prova di impatto dinamico di normativa come visto nel \cref{chap:capitolo3}. Per compiere tale analisi occorre caratterizzare meccanicamente gli elementi del modello numerico e validare i risultati ottenuti mediante il confronto con prove sperimentali di laboratorio. Poiché la normativa non richiede esplicitamente la valutazione dell'assorbimento energetico del dispositivo di intercettazione, i produttori non forniscono curve forza spostamento per la rete nel suo complesso.
 
 Tuttavia, i produttori eseguono le prove quasi statiche richieste dalle normative di settore per la caratterizzazione della rete impiegata nei vari sistemi tipologici. Tali dati sono forniti a corredo della documentazione tecnica del prodotto. Ai fini del presente lavoro di ricerca, si dispone dei risultati sperimentali relativi a una rete di geometria nota, gentilmente concessi dal retificio \textit{La Rete Srl}. Nel contesto della modellazione numerica l'input del solutore è rappresentato dalle proprietà meccaniche del singolo elemento di cavo, dedotte dalla prova di trazione sulla maglia; la prova quasi statica sulla rete costituisce il termine di confronto. 
 
@@ -376,12 +376,12 @@ La normativa EN 1263-1 \cite{EN1263-1} prescrive che la capacità di assorbiment
 
 Il principio della prova definita dalla norma EN ISO 1806 \cite{ENISO1806-2002} consiste nell'estendere una maglia di rete fino al raggiungimento della forza di rottura in uno dei nodi o dei giunti posti ai suoi angoli. La maglia è vincolata a due perni contrapposti e l'apparato di prova registra la forza applicata e lo spostamento relativo delle estremità.
 
-Le condizioni con cui la prova è stata effettivamente condotta non sono tuttavia documentate: i rapporti forniti dal produttore, riportati nella \cref{app:prove_trazione}, non riportano la geometria del campione sottoposto a trazione. Quale che sia il numero di maglie che lo costituiscono, la lunghezza compresa fra i perni si scriver nella forma:  
+Le condizioni con cui la prova è stata effettivamente condotta non sono tuttavia documentate: i rapporti forniti dal produttore, riportati nella \cref{app:prove_trazione}, non riportano la geometria del campione sottoposto a trazione. Quale che sia il numero di maglie che lo costituiscono, la lunghezza compresa fra i perni si può scrivere nella forma:  
 \begin{equation}
     \bar{l}_p = \left(n_m + 1\right) l_m - \frac{P_p}{2}
     \label{eq:lunghezza_provino}
 \end{equation}
-avendo indicato con $l_m$ la dimensione di maglia dichiarata, con $P_p = \pi d_p$ il perimetro del perno di vincolo e con $n_m$ il numero di maglie disposte in serie fra i perni; il termine $\left(n_m + 1\right)$ tiene conto delle due mezze maglie di estremità, ottenute appoggiando i tratti orizzontali sui perni. La \cite{ENISO1806-2002} impone $d_p = 2{,}0\,\text{cm}$. 
+avendo indicato con $l_m$ la dimensione di maglia dichiarata, con $P_p = \pi d_p$ il perimetro del perno di vincolo e con $n_m$ il numero di maglie disposte in serie fra i perni; il termine $\left(n_m + 1\right)$ tiene conto delle due mezze maglie di estremità, ottenute appoggiando i tratti orizzontali sui perni. La norma EN 1806 \cite{ENISO1806-2002} impone $d_p = 2,0\,\text{cm}$. 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.18\textwidth]{143_capitoli/capitolo4/immagini_capitolo_4/Prova_EN_1806.png}
@@ -391,7 +391,7 @@ avendo indicato con $l_m$ la dimensione di maglia dichiarata, con $P_p = \pi d_p
 
 La configurazione di prova merita un'osservazione: i perni sono appoggiati ai tratti di fune e non ai giunti; il carico entra ed esce dal provino in mezzeria di un lato di maglia, e la norma stessa colloca la rottura attesa in un nodo o in un giunto d'angolo, non nella fune. Nella rete sottoposta alla prova quasi statica il percorso di carico è opposto, poichè ciascun elemento è teso fra due giunti, che costituiscono i punti di trasferimento dello sforzo da una fune all'altra. 
 
-La curva registrata non descrive dunque il comportamento di un tratto di fune, bensì quello di un sistema: i rami di fune compresi fra i perni, i giunti che essi attraversano e il contatto don i perni concorrono insieme all'allungamento misurato, senza che l'apparato consenta di distinguere i contributi. Estendere le proprietà all'elemento della rete non è immediato e richiede ipotesi esplicite, che vengono formulate nelle sezioni seguenti e di cui si discute la portata nella \cref{sec:identificazione_lunghezza_provino}.
+La curva registrata non descrive dunque il comportamento di un tratto di fune, bensì quello di un sistema: i rami di fune compresi fra i perni, i giunti che essi attraversano e il contatto con i perni concorrono insieme all'allungamento misurato, senza che l'apparato consenta di distinguere i contributi. Estendere le proprietà all'elemento della rete non è immediato e richiede ipotesi esplicite, che vengono formulate nelle sezioni seguenti e di cui si discute la portata nella \cref{sec:identificazione_lunghezza_provino}.
 \subsection{Linearizzazione a tratti del legame}
 \label{sec:linearizzazione}
 
@@ -409,7 +409,7 @@ La curva registrata non descrive dunque il comportamento di un tratto di fune, b
     \label{fig:legame_60}
 \end{figure}
 
-Le curve fornite dai rapporti di prova vengono sostituite da una spezzata. La scelta risponde in primo luogo a un'esigenza di interpretazione: la linearizzazione riconduce il legame costitutivo della fune ad un numero ridotto di rigidezze $K_{t}$ e di soglie $\Delta l_{p,t}$, grandezze dotate di significato diretto e confrontabili fra caratterizzazioni diverse. \MakeUppercase{è} questo che consente, nel seguito, di mettere a confronto le due maglie esaminate e di attribuire le differenze osservate nella risposta globale della rete a parametri facilmente quantificabili, anziché a una differenza complessiva fra due curve. Una descrizione punto per punto della curva sperimentale, più aderente ai risultati forniti dall'azienda, non offrirebbe alcuna possibilità di questo tipo. 
+Le curve fornite dai rapporti di prova sono state, per prima cosa, approssimate da una spezzata. La scelta risponde in primo luogo a un'esigenza di interpretazione: la linearizzazione riconduce il legame costitutivo della fune ad un numero ridotto di rigidezze $K_{t}$ e di soglie $\Delta l_{p,t}$, grandezze dotate di significato diretto e confrontabili fra caratterizzazioni diverse. \`E questo che consente, nel seguito, di mettere a confronto le due maglie esaminate e di attribuire le differenze osservate nella risposta globale della rete a parametri facilmente quantificabili, anziché a una differenza complessiva fra due curve. Una descrizione punto per punto della curva sperimentale, più aderente ai risultati forniti dall'azienda, non offrirebbe alcuna possibilità di questo tipo. 
 
 Alla stessa forma del legame corrisponde inoltre un vantaggio formale: essendo la rigidezza costante su ciascun tratto, la matrice secante e la matrice tangente dell'elemento di cavo assumono l'espressione analitica che vedremo in seguito nella \cref{sec:elemento_cavo_formulazione_alternativa}. 
 
@@ -439,7 +439,7 @@ I parametri così ottenuti sono riportati nella \cref{tab:linearizzazione}:
     \end{tabularx}
 \end{table}
 
-L'energia associata alla spezzata vale $466,2 \, \text{J}$ contro i $457,4 \, \text{J}$ della curva misurata per la maglia $100\times100$ ($ +1,9\%$), e $131,2 \, \text{J}$ contro $127,2\,\text{J}$ per la maglia $60\times60$ ($ +3,1\%$); i valori si riferiscono, come le rigidezze $K_t$, alla forza applicata al provino provino. In entrambi i casi la spezzata sovrastima lievemente l'energia assorbita, per effetto delle concavità locali della curva sperimentale che l'interpolazione a tratti non riproduce. Lo scarto è tuttavia dell'ordine dell'incertezza che grava sulla misura stessa - deformabilità della macchina di prova, risoluzione del sistema di acquisizione, dispersione fra provini nominalmente identici - e rientra pertanto nelle tolleranze che il modello si propone di rispettare. L'energia si considera in tal senso conservata. 
+L'energia associata alla spezzata vale $466,2 \, \text{J}$ contro i $457,4 \, \text{J}$ della curva misurata per la maglia $100\times100$ ($ +1,9\%$), e $131,2 \, \text{J}$ contro $127,2\,\text{J}$ per la maglia $60\times60$ ($ +3,1\%$); i valori si riferiscono, come le rigidezze $K_t$, alla forza applicata al provino. In entrambi i casi la spezzata sovrastima lievemente l'energia assorbita, per effetto delle concavità locali della curva sperimentale che l'interpolazione a tratti non riproduce. Lo scarto è tuttavia dell'ordine dell'incertezza che grava sulla misura stessa - deformabilità della macchina di prova, risoluzione del sistema di acquisizione, dispersione fra provini nominalmente identici - e rientra pertanto nelle tolleranze che il modello si propone di rispettare. L'energia si considera in tal senso conservata. 
 
 Conservando l'estremo del campo di allungamento esplorato e l'energia assorbita, ci si attende che la risposta calcolata non risulti alterata dalla linearizzazione. L'equivalenza riguarda tuttavia le grandezze complessive e non la successione in cui i singoli elementi attraversano le soglie del legame: quest'ultima dipende dalla posizione dei punti di cambio di pendenza, e di ciò si terrà conto nell'interpretazione dei risultati. 
 
@@ -457,7 +457,7 @@ La prova di trazione restituisce la forza $F$ applicata dalla macchina in funzio
     N_p(\Delta l_p) = \frac{F(\Delta l_p)}{2}
     \label{eq:N_provino}
 \end{equation}
-Nel seguito $\overline{l}_p$ e $\bar{a}_p$ indicano la lunghezza di riferimento e l'area della sezione del ramo, e $k_p = dN_p/d(\Delta l_p)$ la corrispondente rigidezza tangente; alle pendenze $K_t$ della spezzata riportate in \cref{tab:linearizzazione} corrispondono pertanto le rigidezze del ramo del provino $k_{p,t} = K_t/2$. Il ramo del provino costituisce pertanto esso stesso un elemento di fune, del quale la prova fornisce il legame costitutivo; la scalatura che segue riconduce tale legame all'elemento generico della rete, di lunghezza $\overline{l}_e$ e area della sezione $\overline{a}_e$.
+Nel seguito $\overline{l}_p$ e $\bar{a}_p$ indicano la lunghezza di riferimento e l'area della sezione del ramo, e $k_p = dN_p/d(\Delta l_p)$ la corrispondente rigidezza tangente; alle pendenze $K_t$ della spezzata, riportate in \cref{tab:linearizzazione}, corrispondono pertanto le rigidezze del ramo del provino $k_{p,t} = K_t/2$. Il ramo del provino costituisce pertanto esso stesso un elemento di fune, del quale la prova fornisce il legame costitutivo; la scalatura che segue riconduce tale legame all'elemento generico della rete, di lunghezza $\overline{l}_e$ e area della sezione $\overline{a}_e$.
 
 Lo \textit{stretch} $\lambda$ di un elemento sottoposto a solo sforzo normale monoassiale è adimensionale e definito come:
 \begin{equation}
@@ -469,7 +469,7 @@ Assumendo che il provino e l'elemento della rete siano portati al medesimo \text
     \lambda = \lambda_p = \lambda_e
     \label{eq:generalizzazione_stretch}
 \end{equation}
-Essendo la componente del tensore delle deformazioni di Green-Lagrange in direzione assiale dell'elemento è esprimibile in funzione dello \textit{stretch}:
+Essendo la componente del tensore delle deformazioni di Green-Lagrange in direzione assiale dell'elemento, esprimibile in funzione dello \textit{stretch}:
 \begin{equation}
     e_{11} = \frac{1}{2} \frac{l^2 - \bar{l}^2}{\bar{l}^2} = \frac{1}{2} (\lambda^2 - 1)
 \end{equation}
@@ -521,7 +521,7 @@ La riscrittura della legge in funzione di $\lambda$ consente inoltre di ottenere
 \begin{equation}
      \kappa = \frac{dN}{d\lambda} = \frac{dN}{d(\Delta l)} \frac{d(\Delta l)}{d\lambda} = k \, \bar{l}
 \end{equation}
-Che per l'elemento $e$-esimo della rete di funi si ha: 
+cosicché per l'elemento $e$-esimo della rete di funi si ha: 
 \begin{equation}
     \kappa_e = k_e \, \bar{l}_e
     \label{eq:k_lambda}
@@ -649,7 +649,12 @@ e avendo posto $\kappa_{e}\lambda = k_{e,t}\bar{l}_e\lambda = k_{e,t}\,l_e$, ott
    T_e\left(\underline{x}_e\right) = \frac{N}{l_e} \left[ \Delta \right] + \frac{k_{e,t} l_e - N}{l_e} \underline{n}_e \underline{n}_e^T
    \label{eq:matrice_tangente_gd_5}
 \end{equation}
-
+cosicché raccogliendo i termini con $N/l_e$, può essere riscritta nella forma: 
+\begin{equation}
+   T_e\left(\underline{x}_e\right) = \frac{N}{l_e} \left(\left[ \Delta \right] - \underline{n}_e \underline{n}_e^T\right)  + k_{e,t} \, \underline{n}_e \underline{n}_e^T
+   \label{eq:matrice_tangente_gd_6}
+\end{equation}
+La \cref{eq:matrice_tangente_gd_6} esplicita la natura della matrice di rigidezza elastica tangente dell'elemento isolando il contributo di natura geometrica, proporzionale allo sforzo normale $N$ e attivo sul piano ortogonale all'elemento, da quello di natura elastica, legato alle proprietà costitutive del materiale e attivo lungo la direzione assiale. 
 
 \subsection{Identificazione della lunghezza di riferimento del provino}
 \label{sec:identificazione_lunghezza_provino}
@@ -798,20 +803,20 @@ Si assume pertanto che la discrepanza indotta dalla diversa modellazione del vin
 \subsubsection{Configurazione iniziale}
 \label{sec:configurazione_iniziale}
 
-La norma EN 1263-1 \cite{EN1263-1} prescrive che la prova abbia inizio da una configurazione in cui la freccia della rete sotto il solo peso proprio sia pari a $5\pm1\,\text{cm}$. La norma non impone invece alcun valore della laschezza né del tiro di montaggio, che restano le grandezze a disposizione dell'installatore per conseguire la freccia richiesta.
+La norma EN 1263-1 \cite{EN1263-1} prescrive che la prova abbia inizio da una configurazione in cui la freccia della rete sotto il solo peso proprio sia pari a $5\pm1\,\text{cm}$. La norma non impone invece alcun valore della lassità né del tiro di montaggio, che restano le grandezze a disposizione dell'installatore per conseguire la freccia richiesta.
 
-Coerentemente, in tutte le simulazioni la configurazione iniziale è stata ricondotta entro tale intervallo agendo sul rapporto di laschezza $\xi$ definito dalla \eqref{eq:rapporto_laschezza}. L'operazione si appoggia ai diagrammi freccia-rapporto di laschezza (\textit{sag}-\textit{slackness ratio}) ricavati nella \cref{sec:laschezza}, determinati proprio su una rete di dimensioni $3\times3\,\text{m}$ e con il medesimo scopo: fornire in forma monotona la relazione fra le due grandezze e consentire, così, di individuare direttamente il valore di $\xi$ corrispondente alla freccia prescritta.
+Coerentemente, in tutte le simulazioni la configurazione iniziale è stata ricondotta entro tale intervallo agendo sul rapporto di lassità $\xi$ definito dalla \eqref{eq:rapporto_lassità}. L'operazione si appoggia ai diagrammi freccia-rapporto di lassità (\textit{sag}-\textit{slackness ratio}) ricavati nella \cref{sec:lassità}, determinati proprio su una rete di dimensioni $3\times3\,\text{m}$ e con il medesimo scopo: fornire in forma monotona la relazione fra le due grandezze e consentire, così, di individuare direttamente il valore di $\xi$ corrispondente alla freccia prescritta.
 
 Si sottolinea che tale operazione non consiste nel variare arbitrariamente le dimensioni della rete. La lunghezza di riferimento di una rete di funi non costituisce infatti un dato geometrico univoco: la dimensione di maglia dichiarata dal produttore è, come osservato nella \cref{sec:caratterizzazione_funi}, una misura eseguita sotto un tiro di $1\,\text{kg}$ secondo il punto 7.2 della norma EN 1263-1 \cite{EN1263-1}, e la medesima maglia in condizioni di tensione nulla risulta più corta. A ciò si aggiunge che il campione, per essere sottoposto a prova, deve essere disteso e fissato al telaio: la configurazione di partenza non è quella della rete libera, bensì quella che il montaggio le impone.
 
 Quanto si assegna per mezzo di $\xi$ non è dunque una lunghezza, bensì l'estensione imposta alla rete in fase di montaggio. È precisamente la grandezza che la norma regola - non direttamente, ma attraverso la freccia che ne consegue - e i valori negativi riportati nella \cref{tab:casi} non indicano una rete accorciata, ma una rete distesa fino a rientrare nella freccia prescritta.
 
-Ne segue che i casi confrontati nel seguito condividono la configurazione iniziale, non la lunghezza di riferimento delle funi: la grandezza mantenuta costante fra i casi è quella che la norma prescrive. Si osservi in particolare che ad un maggior numero di maglie attribuito al provino corrisponde una maggiore lunghezza di riferimento e dunque, per la \eqref{eq:k_lambda}, un legame $N(\lambda)$ più rigido: a parità di laschezza la rete si inflette di meno, e per conseguire la freccia prescritta è richiesta una laschezza minore.
+Ne segue che i casi confrontati nel seguito condividono la configurazione iniziale, non la lunghezza di riferimento delle funi: la grandezza mantenuta costante fra i casi è quella che la norma prescrive. Si osservi in particolare che ad un maggior numero di maglie attribuito al provino corrisponde una maggiore lunghezza di riferimento e dunque, per la \eqref{eq:k_lambda}, un legame $N(\lambda)$ più rigido: a parità di lassità la rete si inflette di meno, e per conseguire la freccia prescritta è richiesta una lassità minore.
 
 Alla configurazione iniziale si lega infine la scelta dei due parametri numerici introdotti nella \eqref{eq:tension_only2_gd}. All'avvio della simulazione gli elementi sono privi di tiro, e in tali condizioni la rigidezza trasversale dell'elemento, affidata al solo termine $N/l_e$ della \eqref{eq:matrice_secante_gd2}, si annulla: la matrice tangente perde la componente geometrica e risulta singolare rispetto agli spostamenti ortogonali all'asse delle funi. Per evitarlo si attribuisce al tratto compresso una rigidezza $\kappa_{e,0}$ non nulla e si assume in $\lambda = 1$ uno sforzo normale residuo $N_c$. Si sono adottati $K_0 = 1,0\cdot10^{-5}\,\text{N/m}$ e $N_c = 1,0\cdot10^{-3}\,\text{N}$, inferiori rispettivamente di nove ordini di grandezza alla rigidezza del primo tratto e di sei agli sforzi normali in gioco, cosicché la loro influenza sulla risposta calcolata possa dirsi trascurabile.
 \begin{table}[htbp]
     \centering
-    \caption{Configurazione iniziale dei casi simulati}
+    \caption{Parametri della configurazione iniziale per i casi simulati}
     \vspace{5pt}
     \label{tab:casi}
     \begin{tabularx}{\textwidth}{*{6}{Y}}
@@ -877,7 +882,7 @@ Per ciascuno dei casi elencati nella \cref{tab:casi} si è simulata la prova qua
     \end{tabularx}
 \end{table}
 
-entrambi gli scarti crescono monotonamente con $n_m$ e cambiano segno, cosicché il criterio individua per ciascuna rete un intervallo entro cui il valore cercato è compreso. Per la maglia $100\times100$ l'annullamento dello scarto energetico cade fra $n_m = 11$ e $n_m = 13$, e il valore intero che minimizza lo scarto in modulo è $n_m = 11$, con $-2,1\%$. Le due grandezze non indicano qui il medesimo valore, giacché $n_m = 13$ riproduce meglio la forza a fine corsa ($+3,9\%$ contro $-7,1\%$) ma assai peggio l'energia ($+11,5\%$ contro $-2,1\%$). Si è mantenuto il criterio energetico dichiarato, sia perché è la grandezza con cui la norma qualifica le reti di sicurezza, sia perché a $n_m = 11$ lo scarto in forza resta entra l'intervallo di tolleranza assunto, mentre il contrario non vale.
+Entrambi gli scarti crescono monotonamente con $n_m$ e cambiano segno, cosicché il criterio individua per ciascuna rete un intervallo entro cui il valore cercato è compreso. Per la maglia $100\times100$ l'annullamento dello scarto energetico cade fra $n_m = 11$ e $n_m = 13$, e il valore intero che minimizza lo scarto in modulo è $n_m = 11$, con $-2,1\%$. Le due grandezze non indicano qui il medesimo valore, giacché $n_m = 13$ riproduce meglio la forza a fine corsa ($+3,9\%$ contro $-7,1\%$) ma assai peggio l'energia ($+11,5\%$ contro $-2,1\%$). Si è mantenuto il criterio energetico dichiarato, sia perché è la grandezza con cui la norma qualifica le reti di sicurezza, sia perché a $n_m = 11$ lo scarto in forza resta entra l'intervallo di tolleranza assunto, mentre il contrario non vale.
 
 Per la maglia $60\times60$ l'annullamento cade fra $n_m = 6$ e $n_m = 7$, e i due valori risultano sostanzialmente equivalenti in modulo, con $-13,0\%$ e $+13,2\%$. La forza a fine corsa distingue però nettamente i due casi, con $-4,6\%$ e $+19,5\%$, e indica il primo. A ciò si aggiunge una ragione di cautela: a $n_m = 6$ corrisponde un energia assorbita inferiore a quella certificata, cosicchè il modello attribuisce alla rete una capacità minore di quella misurata e la verifica energetica condotta risulta così a favore di sicurezza. Si è assunto $n_m = 6$ su entrambe le basi. 
 
@@ -945,7 +950,7 @@ L'entità di tale prolungamento è riportata nella \cref{tab:stretch}, che accos
     \end{tabularx}
 \end{table}
 
-Il confronto mostra che il superamento non riguarda l'intera famiglia. I casi ai quali compete un legame più cedevole — $n_m = 3$ per la maglia $100\times100$, $n_m = 3$ e $4$ per la $60\times60$ — restano interamente entro il campo misurato, in quanto le forze che vi si sviluppano non sono sufficienti a portare gli elementi allo \textit{stretch} ultimo: nelle figura il simbolo che identifica l'allugamento massimo raggiunto cade sul tratto continuo, prima del suo termine. Nei casi identificati il superamento è invece netto. Misurato sull'allungamento, l'unica base confrontabile con i dati della prova di grazione, ricordando che lo \textit{stretch} ne differisce di un unità, esso corrisponde a richiedere al ramo un allungamento di $608\,\text{mm}$ contro i $341\,\text{mm}$ che delimitano il campo misurato per la maglia $100\times100$, e di $176\,\text{mm}$ contro i $126\,\text{mm}$ per la $60\times60$: rispettivamente il $78\%$ e il $40\%$ oltre l'estremo della caratterizzazione.
+Il confronto mostra che il superamento non riguarda l'intera famiglia. I casi ai quali compete un legame più cedevole — $n_m = 3$ per la maglia $100\times100$, $n_m = 3$ e $4$ per la $60\times60$ — restano interamente entro il campo misurato, in quanto le forze che vi si sviluppano non sono sufficienti a portare gli elementi allo \textit{stretch} ultimo: nelle figura il simbolo che identifica l'allugamento massimo raggiunto cade sul tratto continuo, prima del suo termine. Nei casi identificati il superamento è invece netto. Misurato sull'allungamento, l'unica base confrontabile con i dati della prova di trazione, ricordando che lo \textit{stretch} ne differisce di un unità, esso corrisponde a richiedere al ramo un allungamento di $608\,\text{mm}$ contro i $341\,\text{mm}$ che delimitano il campo misurato per la maglia $100\times100$, e di $176\,\text{mm}$ contro i $126\,\text{mm}$ per la $60\times60$: rispettivamente il $78\%$ e il $40\%$ oltre l'estremo della caratterizzazione.
 
 Si osservi in fine che le due reti presentano un andamento opposto dello \textit{stretch} massimo al variare del parametro: esso cresce al diminuire di $n_m$ nella maglia $100\times100$ e al crescere di $n_m$ nella $60\times60$. Poiché la corsa imposta è la medesima in tutti i casi, la differenza non riguarda l'entità complessiva della deformazione bensì il modo con cui essa si ripartisce fra gli elementi, e riflette la diversa successione di rigidezza dei due legami. Una lettura quantitativa del fenomeno richiederebbe un'analisi della distribuzione degli \textit{stretch} che esula dagli scopi del presente lavoro.    
 
@@ -984,9 +989,9 @@ Le \cref{fig:3d_100,fig:3d_60} riportano la distribuzione dello sforzo normale n
 
 Alla fune di bordo è attribuito il medesimo legame costitutivo delle funi di maglia, scalato in ragione della sola area resistente. L'assunzione comporta di attribuirle anche il materiale delle funi di maglia: per la rete $100\times100$ ciò è conforme ai rapporti, che dichiarano il PE tanto per la maglia quanto per il bordo, mentre per la $60\times60$, le cui funi di maglia sono in PP e la cui fune di bordo è dichiarata in PE, costituisce una semplificazione. Essa è cautelativa in resistenza, visto che il carico di rottura che ne discende è inferiore ai $32500\,\text{N}$ certificati, e non incide sui risultati, poiché in nessuno dei casi esaminati gli elementi di bordo risultano determinanti. Dovrà invece essere riconsiderata in configurazioni nelle quali la fune di bordo assuma un ruolo portante, dove la rigidezza attribuita governa la risposta dell'intero sistema.  
 
-Le funi perimetrali risultano invece praticamente scariche. La circostanza discende dal vincolo adottato, che blocca ciascun nodo di bordo singolarmente in coerenza con i moschettoni prescritti dalla norma: il carico è trasmesso direttamente al telaio anziché raccolto dalla fune di bordo. Ne segue che l'ipotesi formulata nella \cref{sec:modellazione_prova}, di attribuire alle funi di bordo il legame delle funi di maglia scalato sulla sola area, non incide sui risultati qui discussi. Nel sistema S impiegato in opera, dove la rete è collegata ai vincoli estrni per il tramite della sola fune di bordo, tale elemento assume al contrario un ruolo determinante, e l'ipotesi dovrà essere riconsiderata.
+Le funi perimetrali risultano praticamente scariche. La circostanza discende dal vincolo adottato, che blocca ciascun nodo di bordo singolarmente in coerenza con i moschettoni prescritti dalla norma: il carico è trasmesso direttamente al telaio anziché raccolto dalla fune di bordo. Ne segue che l'ipotesi formulata nella \cref{sec:modellazione_prova}, di attribuire alle funi di bordo il legame delle funi di maglia scalato sulla sola area, non incide sui risultati qui discussi. Nel sistema S impiegato in opera, dove la rete è collegata ai vincoli esterni per il tramite della sola fune di bordo, tale elemento assume al contrario un ruolo determinante, e l'ipotesi dovrà essere riconsiderata.
 
-Lo sforzo massimo raggiunto può essere confrontato con la resistenza della fune, per verificare che la risposta calcolata non richieda all'elemento più di quanto esso non possa sostenere. Il dato non è disponibile per le funi impiegate, che i rapporti di prova non caratterizzano; si è fatto pertanto riferimento ai valori dichiarati per cordami commerciali di pari diametro e materiale, assunti come ordini di grandezza e riportati come intervalli. Per il PE di diametro $5\,\text{mm}$ il carico di rottura si colloca fra $3,1$ e $3,8\,\text{kN}$, per il PP ad alta tenacità di diametro $6\,\text{mm}$ fra $5,5$ e $7,0\,\text{kN}$. Gli sforzi massimi calcolati ne rappresentano rispettivamente il $61\div74\%$ e il $29\div37\%$.
+Lo sforzo massimo raggiunto può essere confrontato con la resistenza della fune, per verificare che la risposta calcolata non richieda all'elemento più di quanto esso non possa sostenere. Il dato non è disponibile per le funi impiegate, che i rapporti di prova non caratterizzano; si è fatto pertanto riferimento ai valori dichiarati per cordami commerciali di pari diametro e materiale, assunti come ordini di grandezza e riportati come intervalli. Per il PE di diametro $5\,\text{mm}$ il carico di rottura si colloca fra $3,1$ e $3,8\,\text{kN}$, per il PP ad alta tenacità di diametro $6\,\text{mm}$ fra $5,5$ e $7,0\,\text{kN}$. Gli sforzi massimi calcolati rappresentano rispettivamente circa il $61\div74\%$ e il $29\div37\%$ dei valori tipici.
 
 Il confronto costituisce un riscontro di plausibilità e non una verifica: le funi reali non sono note, il margine rilevato sulla maglia $100\times100$ non è tale da escludere la rottura con certezza. Esso mostra tuttavia che la risposta calcolata non richiede alla fune sforzi incompatibili con quelli che una fune di quel diametro e di quel materiale è in grado si sostenere, e che la rete più sollecitata è la $100\times100$ e non la $60\times60$ malgrado quest'ultima raggiunga in prova un carico maggiore. 
 
@@ -1007,6 +1012,51 @@ Tali valori sono nell'ordine, e alquanto superiori, agli allungamenti a rottura 
     \caption{Maglia $60\times60$, caso identificato: distribuzione dello sforzo normale nella configurazione finale della prova quasi statica}
     \label{fig:3d_60}
 \end{figure}
+
+\section{Simulazione della prova sulla rete in Sistema S}
+\label{sec_rete_5x7}
+
+La prova esaminata nella \cref{sec:modellazione_prova} caratterizza la rete per mezzo di un provino di dimensioni standard e non riguarda la rete nella condizioni in cui essa è effettivamente impiegata. Come osservato nella \cref{sec:prova_quasi_statica}, una volta accertata la capacità del solutore di riprodurre la prova di norma, il passo successivo consiste nel condurre la medesima prova sulla rete nella configurazione che le compete all'interno del sistema di protezione, così da valutarne direttamente l'energia potenziale elastica accumulabile. 
+
+Per le reti di sicurezza in Sistema S tale configurazione è definita dalla norma stessa. Il punto 7.9 della EN 1263-1 \cite{EN1263-1} prescrive infatti la prova d'impatto dinamico su una rete di dimensioni $5\times7\, \text{m}$, sospesa ai soli quattro angoli per mezzo della fune di bordo, descritta nella \cref{sec:prova_dinamica} e illustrata nelle \cref{fig:prova_dinamica1,fig:prova_dinamica2}. \`E su quella geometria e su quel vincolo che la presente sezione conduce la simulazione. 
+
+%%% VERSO DA RIVEDERE, è UN Pò RIDONDANTE RISPETTO A QUANTO ABBIAMO DETTO NEL CAPITOLO 3 %%%
+Il limite dell'operazione è facilmente intuibile: la prova di norma è dinamica, mentre quella qui simulata è quasi statica; ciò significa che non intervengono né l'inerzia della rete, che come visto al \cref{chap:capitolo3} è fondamentale per il raggiungimento di elevati valori di forza negli impatti, né la dipendenza dalla risposta dalla velocità di deformazione, né la propagazione del carico dal punto d'impatto verso i vincoli. Quanto si ottiene non è dunque la riproduzione della prova, bensì la determinazione della capacità della rete nella configurazione di prova, da confrontare con la domanda secondo il bilancio energetico stabilito nel \cref{chap:capitolo3}. \`E precisamente la via che quel capitolo indica quando osserva che la prova dinamica, avendo esito del tipo passa/non passa, non fornisce termini di confronto quantitativi, mentre la via quasi statica li fornisce.
+
+\subsection{Modellazione della prova}
+\label{sec:modellazione_5x7}
+
+\subsubsection{Geometria, discretizzazione e vincoli}
+\label{sec:geometria_5x7}
+
+La rete su cui è stata effettuata la prova è quella con maglia $100\times100$, discretizzata secondo la topologia introdotta nella \cref{sec:connettività} con un elemento per lato di maglia: $50\times70$ elementi, $3621$ nodi e $7120$ elementi, per complessivi $10863$ gradi di libertà, contro i $961$ nodi e $1860$ elementi del provino $3\times3$. A ciascun elemento è attribuito il legame identificato nella \cref{sec:identificazione_lunghezza_provino}, con $n_m = 11$, scalato secondo la \eqref{eq:scalatura_tratti} in ragione della proprio area e della propria lunghezza di riferimento. 
+
+La scelta della maglia $100\times100$ non è indifferente. Nella prova su provino la fune di bordo risulta scarica, e ciò ha consentito nella \cref{sec:sforzi_elementi} di attribuirle il legame delle funi di maglia scalato sulla sola area resistente, dichiarando che per la rete $60\times60$ ciò comporta di estenderle anche il materiale della maglia. Nella configurazione in esame la fune di bordo raccoglie invece l'intero carico e lo trasmette ai quattro ancoraggi: quella semplificazione non è più sostenibile, e la coerenza di materiale va ristabilita. La rete $100\times100$ la possiede, i rapporti di prova dichiarando il polietilene tanto per la maglia quanto per il bordo, mentre la $60\times60$ no. A ciò si aggiunge una ragione di onere computazionale, sulla quale si tornerà nel \cref{chap:capitolo5}. OSS: LA COSA DI METTERE PIù MATERIALI ALL'INTERNO DELL'ELEMENTO è FATTIBILE E LO ERA, PER FACILITà NON LO METTIAMO. ALLA FINE, LA PROVA CI SERVE PER VEDERE SE IL MODELLO RIPRENDE IL COMPORTAMENTO DELLE RETI GRANDI E QUINDI LO ESEGUIAMO SOLAMENTE SULLA 100X100.
+
+Il vincolo esterno è costituito dal solo blocco dei quattro nodi d'angolo, ai quali sono impedite tutte le traslazioni. Esso riproduce quanto il punto 7.9.3 della norma prescrive, ossia che il campione sia sospeso per mezzo dei quattro angoli attraverso la fune di bordo. Resta però una semplificazione: nel sistema reale gli angoli sono collegati alla struttura esterna per mezzo delle funi di attacco (\textit{tie ropes}), dotate di una propria cedevolezza assiale che il modello non rappresenta. Vincoli più rigidi di quelli reali riducono la freccia calcolata, cosicché l'assunzione non è cautelativa rispetto al criterio cinematico di norma, ed è necessario tenerne conto nella lettura dei risultati.  
+
+\subsubsection{Montaggio e configurazione iniziale}
+\label{sec:montaggio_5x7}
+
+Rispetto a quanto stabilito per la configurazione iniziale nel caso della prova quasi statica su provino da $3\times3\,\text{m}$ i ruoli delle grandezze si invertono. Per la prova su provino la norma prescrive la freccia iniziale, lasciando libero il tiro di montaggio; per la prova sul Sistema S invece prescrive il tiro — una forza di pretensionamento di $500\,\text{N}$ con accuratezza del $10\%$ a ciascun punto di ancoraggio — e domanda che la freccia iniziale sia misurata. La freccia cessa dunque di essere un dato da conseguire e diventa un risultato da riportare. 
+
+Il montaggio è imposto, come in precedenza, assegnando alla rete dimensioni di riferimento inferiori alla distanza fra gli ancoraggi, cosicché essa debba essere distesa per raggiungerli. Poiché il modello impone la posizione dei nodi vincolati e non la forza che vi si applica, la calibrazione è condotta in senso invere: si assegnano $L_x$ ed $L_y$, si risolve l'equilibrio sotto il peso proprio e si legge la risultante delle azioni che la rete trasmette a ciascun angolo, ripetendo finché essa non rientra nell'intervallo prescritto. I valori $L_x = 4,97\,\text{m}$ ed $L_y = 6,96\,\text{m}$ conducono a una forza di ancoraggio di $544,9\,\text{N}$, entro il $10\%$ richiesto, e una freccia iniziale $f_0 = 0,82\,\text{m}$.
+
+Ne consegue che la rete giunge alla prova avendo già immagazzinato una quota di energia elastica. Il lavoro $W_s$ è misurato a partire dalla configurazione di montaggio, e l'energia $E_0$ che se ne ricava è pertanto l'incremento rispetto a tale stato: è la medesima grandezza che la prova reale misura, dove la rete viene montata e successivamente caricata. Per i parametri numerici $K_0$ ed $N_c$ si sono mantenuti i valori adottati in precedenza. 
+
+\subsubsection{Storia di carico}
+\label{sec:storia_carico_5x7}
+
+Il corpo di prova è modellato come fatto in precedenza per la prova quasi statica sui provini da $3\times3\,\text{m}$ , come una sfera rigida di raggio $r_s$ e priva di massa, con il contatto trattato secondo la formulazione vista nel \cref{chap:capitolo3}. Il punto 7.9.2 della norma prescrive che per la prova dinamica la medesima sfera impiegata nella prova statica, con massa di $100\,\text{kg}$ invece dei $50\,\text{kg}$: la geometria non cambia e il raggio rimane così lo stesso di quello già adottato. La massa non interviene nel problema quasi statico ma avrà invece un ruolo importante nel bilancio energetico. 
+
+Il verso del carico è invece opposto a quello della prova simulata precedentemente. La prova quasi statica di norma solleva il corpo di prova dal basso, mentre la prova sul Sistema S lo lascia cadere dall'alto; poiché quanto si vuole determinare è la capacità della rete nella configurazione di quest'ultima, il carico è applicato nel medesimo verso e la sfera discende lungo la verticale per la mezzeria. Ne segue che il peso proprio dell rete asseconda la deformazione invece di opporvisi: il termine $W_g$ definito dalla \eqref{eq:energia_posizionale} cambia di segno, mentre la \eqref{eq:energia_elastica_E0} resta valida nella forma in cui è stata scritta.
+
+%%%% DA QUI 
+
+\subsubsection{Criteri di lettura}
+\label{sec:criteri_5x7}
+
+
 
 %%PEZZO DA RICOLLOCARE SUCCESSIVAMENTE 
 % - Che le due reti non condividano alcuna proprietà del materiale è del resto documentato: le funi di maglia sono in polietilene nella prima e in polipropilene nella seconda, come indicato nei certificati.

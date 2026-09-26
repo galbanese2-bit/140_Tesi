@@ -295,7 +295,7 @@ La diffusione del sistema nell'architettura contemporanea è legata a precisi va
     \item \textbf{Incombustibilità:} la natura metallica dei componenti garantisce una reazione al fuoco minima, aspetto cruciale per l'impiego su facciate ed edifici pubblici soggetti a severe normative antincendio. 
 \end{itemize}
 
-Il ruolo svolto da questo sistema nei confronti del rischio di caduta dall'alto rende necessaria la sua capacità nel resistere ad azioni ortogonali. In merito a questa capacità nell'EAD230006-00-0302 \cite{EAD-XTEND} è definito un test di impatto dinamico mediante un corpo con massa e velocità di impatto predefinite. \'E importante notare come il test di impatto debba essere eseguito prendendo in considerazione quanto previsto in merito nella norma EN 1263-1 \cite{EN1263-1}. Difatti il sistema \textit{X-TEND} svolge gli stessi compiti delle reti di sicurezza, differendo nel materiale costituente e nei nodi che caratterizzano la giunzione tra i vari cavi. 
+Il ruolo svolto da questo sistema nei confronti del rischio di caduta dall'alto rende necessaria la sua capacità nel resistere ad azioni ortogonali. In merito a questa capacità nell'EAD230006-00-0302 \cite{EAD-XTEND} è definito un test di impatto dinamico mediante un corpo con massa e velocità di impatto predefinite. \`E importante notare come il test di impatto debba essere eseguito prendendo in considerazione quanto previsto in merito nella norma EN 1263-1 \cite{EN1263-1}. Difatti il sistema \textit{X-TEND} svolge gli stessi compiti delle reti di sicurezza, differendo nel materiale costituente e nei nodi che caratterizzano la giunzione tra i vari cavi. 
 
 A fronte di quanto detto, il software sviluppato sarà in grado di fornirci, anche per questo sistema, la capacità di assorbimento di energia potenziale elastica del sistema, necessaria per stabilire la possibilità di superamento del test di impatto. 
 
@@ -318,6 +318,26 @@ Sebbene la meccanica dei sistemi resistenti a sola trazione ricopra un ruolo di 
 
 \section{Altre applicazioni}
 Oltre al consolidato impiego nell'ingegneria edile e civile, le reti in cavi d'acciaio ed in materiali sintetici ad alte prestazioni trovano ampia diffusione in contesti industriali, scientifici e ricreativi, dove la flessibilità, la trasparenza e la capacità di dissipazione dell'energia rappresentano requisiti fondamentali. 
+
+\subsection{Rimozione attiva dei detriti spaziali}
+Una delle applicazioni più complesse e di maggiore interesse teorico e applicativo delle reti di funi riguarda il settore spaziale ed in particolare, la rimozione attiva dei detriti spaziali (\textit{Active Debris Removal} - ADR). 
+
+L'incremento delle attività spaziali avvenuto negli ultimi decenni ha portato ad un drastico aumento della quantità di detriti spaziali nelle orbite terrestri. Satelliti inattivi, stadi superiori di razzi e frammenti derivanti da collisioni, sono tra gli oggetti più presenti nelle orbite vicine alla terra.
+
+In questo contesto l'attuazione di interventi di ADR diventa fondamentale al fine di stabilizzare l'ambiente spaziale e preservare la fruibilità delle orbite strategiche. 
+
+Tra le differenti tecnologie proposte per la cattura di detriti spaziali (bracci robotici, arpioni con cavo), i sistemi a rete flessibile vincolati a cavi (\textit{tethered nets}) presentano notevoli vantaggi operativi e di sicurezza: cattura a distanza di sicurezza, adattabilità a bersagli non cooperativi ed efficienza di massa ed ingombro. 
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height=0.35\textheight, keepaspectratio]{143_capitoli/capitolo1/immagini_capitolo_1/net capture device_fig_3-v1.png}
+    \caption{\textit{Tehtered net} per la rimozione attiva dei detriti spaziali, schema concettuale. Fonte: Tratto da Fisicaro \cite{Fisicaro}}
+    \label{fig:figura_fisicaro}
+\end{figure}
+
+Il lancio della rete avviene mediante l'espulsione di proiettili collegati ai vertici della rete. Sparando tali masse con opportuni angoli di divergenza rispetto alla direzione di avanzamento della rete, la forza d'inerzia trascina i cavi provocando l'apertura della rete nello spazio. La rete avanza mantenendo lo stato di massima apertura fino al contatto con il detrito. All'impatto, la flessibilità consente alla rete di conformarsi attorno alla geometria del bersaglio. 
+
+L'analisi e la simulazione della complessa dinamica che caratterizza tali fasi sono state ampiamente trattate in letteratura. In particolare, nel lavoro di Fisicaro \cite{Fisicaro}, queste problematiche vengono affrontate mediante un modello agli elementi finiti basato sulla formulazione PFEF, approccio metodologico che costituisce la base teorica per il presente lavoro di tesi.  
 
 \subsection{Settore ittico: pesca commerciale e acquacoltura}
 Nel settore marittimo e della pesca, la progettazione delle reti di funi rappresenta una branca dell'ingegneria navale, in cui l'evoluzione dei materiali ha consentito il passaggio da fibre tradizionali a soluzioni con prestazioni meccaniche ottimizzate. 
